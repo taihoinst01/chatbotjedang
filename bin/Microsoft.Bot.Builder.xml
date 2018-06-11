@@ -83,7 +83,7 @@
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Internals.InMemoryDataStore">
             <summary>
-            Volitile in-memory implementation of <see cref="T:Microsoft.Bot.Builder.Dialogs.Internals.IBotDataStore`1"/>
+            Volatile in-memory implementation of <see cref="T:Microsoft.Bot.Builder.Dialogs.Internals.IBotDataStore`1"/>
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Internals.ConnectorStore">
@@ -212,12 +212,25 @@
             </summary>
             <returns>The <see cref="T:Microsoft.Bot.Connector.IStateClient"/> implementation.</returns>
         </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Internals.IConnectorClientFactory.MakeOAuthClient">
+            <summary>
+            Make the <see cref="T:Microsoft.Bot.Connector.IOAuthClient"/> implementation.
+            </summary>
+            <returns>The <see cref="T:Microsoft.Bot.Connector.IOAuthClient"/> implementation.</returns>
+        </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.Internals.ConnectorClientFactory.GetSettingsStateApiUrl(System.String)">
             <summary>
             Get the state api endpoint from settings. 
             </summary>
             <param name="key">The key.</param>
             <returns>The state api endpoint from settings.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Internals.ConnectorClientFactory.GetOAuthApiFromSettingsUrl(System.String)">
+            <summary>
+            Get the OAuth API endpoint from settings. 
+            </summary>
+            <param name="key">The key.</param>
+            <returns>The OAuth API endpoint from settings.</returns>
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Internals.IDialogStack">
             <summary>
@@ -379,6 +392,35 @@
             <param name="handler"> Handler to call if no match. </param>
             <param name="resultHandler"> Optional result handler to be called if handler is creating a chaild dialog. </param>
             <returns> A CommandDialog. </returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.GetTokenDialog">
+            <summary>
+            A Dialog to rerieve a user token for a configured OAuth connection
+            This Dialog will first attempt to rerieve the user token from the Azure Bot Service
+            If the Azure Bot Service does not already have a token, the GetTokenDialog will send
+            the user an OAuthCard.
+            The GetTokenDialog will then wait for either the user to come back, or for the user to send
+            a validation code. The Dialog will attempt to exchange whatever response is sent for the 
+            user token. If successful, the dialog will return the token and otherwise will retry the
+            specified number of times.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.GetTokenResponse">
+            <summary>
+            Result object from the GetTokenDialog
+            If the GetToken action is successful in retrieving a user token, the GetTokenDialog will be populated with the Token property
+            If the GetToken action is unsuccessful in retrieving a user token, the GetTokenDialog will be populated with the NonTokenResponse property
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.GetTokenResponse.Token">
+            <summary>
+            The user token
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.GetTokenResponse.NonTokenResponse">
+            <summary>
+            The text that the user typed when the GetTokenDialog is unable to retrieve a user token
+            </summary>
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.EndConversationEvent">
             <summary>
@@ -1069,6 +1111,26 @@
             </summary>
             <param name="str"> The Base64 encoded string.</param>
             <returns> An instance of <see cref="T:Microsoft.Bot.Builder.Dialogs.ResumptionCookie"/></returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.LuisTraceInfo">
+            <summary>
+            The schema for the LUIS trace info
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.LuisTraceInfo.LuisResult">
+            <summary>
+            The raw response coming back from the LUIS service
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.LuisTraceInfo.LuisOptions">
+            <summary>
+            The options passed to the LUIS service
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.LuisTraceInfo.LuisModel">
+            <summary>
+            The metadata about the LUIS app
+            </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Dialogs.IPromptRecognizeNumbersOptions.MinValue">
             <summary>
@@ -2082,12 +2144,28 @@
             </summary>
             <typeparam name="T"> The type of the item.</typeparam>
         </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.AwaitableFromSource`2">
+            <summary>
+            Creates a <see cref="T:Microsoft.Bot.Builder.Dialogs.IAwaitable`1"/> from source passed to constructor.
+            </summary>
+            <typeparam name="TSource"> The type of the source for build the item.</typeparam>
+            <typeparam name="TItem">The type if the item.</typeparam>
+        </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.Awaitable.FromItem``1(``0)">
             <summary>
             Wraps item in a <see cref="T:Microsoft.Bot.Builder.Dialogs.IAwaitable`1"/>.
             </summary>
             <typeparam name="T">Type of the item.</typeparam>
             <param name="item">The item that will be wrapped.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Awaitable.FromSource``2(``0,System.Func{``0,System.Threading.Tasks.Task{``1}})">
+            <summary>
+            Wraps source to build item as a <see cref="T:Microsoft.Bot.Builder.Dialogs.IAwaitable`1"/>.
+            </summary>
+            <typeparam name="TSource"> The type of the source for build the item.</typeparam>
+            <typeparam name="TItem">The type if the item.</typeparam>
+            <param name="source">The source item that will be wrapped.</param>
+            <param name="resolver">The resolution function from source to item.</param>
         </member>
         <member name="M:Microsoft.Bot.Builder.Internals.Fibers.Extensions.Wait``2(Microsoft.Bot.Builder.Internals.Fibers.IFiber{``0},Microsoft.Bot.Builder.Internals.Fibers.Rest{``0,``1})">
             <summary>
@@ -3617,6 +3695,12 @@
             </summary>
             <param name="field">DateTime field.</param>
         </member>
+        <member name="T:Microsoft.Bot.Builder.FormFlow.Advanced.RecognizeAttachment`1">
+            <summary>
+            Recognize an attachment within the activity instance.
+            </summary>
+            <typeparam name="T">Form state.</typeparam>
+        </member>
         <member name="T:Microsoft.Bot.Builder.FormFlow.Advanced.TemplateBaseAttribute">
             <summary>
             Abstract base class used by all attributes that use \ref patterns.
@@ -3714,6 +3798,16 @@
             </summary>
             <param name="other">The template to copy from.</param>
         </member>
+        <member name="T:Microsoft.Bot.Builder.FormFlow.Advanced.AttachmentValidatorAttribute">
+            <summary>
+            Abstract base class used for attachment validation.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.FormFlow.Advanced.AttachmentContentTypeValidatorAttribute">
+            <summary>
+            Attachment content-type validator attribute.
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Builder.FormFlow.Advanced.Extensions.IsICollection(System.Type)">
             <summary>
             Type implements ICollection.
@@ -3776,6 +3870,20 @@
             </summary>
             <param name="type">Type to check.</param>
             <returns>True if nullable.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.FormFlow.Advanced.Extensions.IsAttachmentCollection(System.Type)">
+            <summary>
+            Type is enumerable of awaitable attachments.
+            </summary>
+            <param name="type">Type to check.</param>
+            <returns>True if enumerable of awaitable attachments.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.FormFlow.Advanced.Extensions.IsAttachmentType(System.Type)">
+            <summary>
+            Type is AwaitableAttachment or descendant.
+            </summary>
+            <param name="type">Type to check.</param>
+            <returns>True if awaitable attachment or descendant.</returns>
         </member>
         <member name="M:Microsoft.Bot.Builder.FormFlow.Advanced.Extensions.GetGenericElementType(System.Type)">
             <summary>
@@ -4683,6 +4791,46 @@
         <member name="F:Microsoft.Bot.Builder.FormFlow.TemplateUsage.None">
             <summary>   An enum constant representing the none option. </summary>
         </member>
+        <member name="F:Microsoft.Bot.Builder.FormFlow.TemplateUsage.AttachmentCollection">
+            <summary>
+            How to ask for an attachment collection. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.FormFlow.TemplateUsage.AttachmentCollectionDescription">
+            <summary>
+            How to display attachment collection status.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.FormFlow.TemplateUsage.AttachmentCollectionHelp">
+            <summary>
+            What you can enter when entering an attachment collection.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.FormFlow.TemplateUsage.AttachmentContentTypeValidatorError">
+            <summary>
+            How to display attachment content-type validator errors.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.FormFlow.TemplateUsage.AttachmentContentTypeValidatorHelp">
+            <summary>
+            How to display attachment content-type validator help.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.FormFlow.TemplateUsage.AttachmentField">
+            <summary>
+            How to ask for an attachment collection. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.FormFlow.TemplateUsage.AttachmentFieldDescription">
+            <summary>
+            How to display an attachment status.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.FormFlow.TemplateUsage.AttachmentFieldHelp">
+            <summary>
+            What you can enter when entering an attachment collection.
+            </summary>
+        </member>
         <member name="F:Microsoft.Bot.Builder.FormFlow.TemplateUsage.Bool">
             <summary>
             How to ask for a boolean.
@@ -4994,6 +5142,19 @@
             Regular expression for validating the content of a string field.
             </summary>
             <param name="pattern">Regular expression for validation.</param>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.FormFlow.IgnoreFieldAttribute">
+            <summary>
+            Define a field or property as excluded.
+            </summary>
+            <remarks>
+            The ignored field is a field that is excluded from the list of fields.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.FormFlow.IgnoreFieldAttribute.#ctor">
+            <summary>
+            Mark a field or property as excluded.
+            </summary>
         </member>
         <member name="T:Microsoft.Bot.Builder.FormFlow.ActiveDelegate`1">
             <summary>
@@ -5312,6 +5473,11 @@
             Luis Api Version.
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Builder.Luis.ILuisModel.Threshold">
+            <summary>
+            Threshold for top scoring intent
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Builder.Luis.ILuisModel.ModifyRequest(Microsoft.Bot.Builder.Luis.LuisRequest)">
             <summary>
             Modify a Luis request to specify query parameters like spelling or logging.
@@ -5350,6 +5516,11 @@
             Version of query API to call.
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Builder.Luis.LuisModelAttribute.Threshold">
+            <summary>
+            Threshold for top scoring intent
+            </summary>
+        </member>
         <member name="P:Microsoft.Bot.Builder.Luis.LuisModelAttribute.Log">
             <summary>
             Indicates if logging of queries to LUIS is allowed.
@@ -5375,7 +5546,12 @@
             The verbose flag.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Luis.LuisModelAttribute.#ctor(System.String,System.String,Microsoft.Bot.Builder.Luis.LuisApiVersion,System.String)">
+        <member name="P:Microsoft.Bot.Builder.Luis.LuisModelAttribute.BingSpellCheckSubscriptionKey">
+            <summary>
+            The Bing Spell Check subscription key.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Luis.LuisModelAttribute.#ctor(System.String,System.String,Microsoft.Bot.Builder.Luis.LuisApiVersion,System.String,System.Double)">
             <summary>
             Construct the LUIS model information.
             </summary>
@@ -5383,6 +5559,7 @@
             <param name="subscriptionKey">The LUIS subscription key.</param>
             <param name="apiVersion">The LUIS API version.</param>
             <param name="domain">Domain where LUIS model is located.</param>
+            <param name="threshold">Threshold for the top scoring intent.</param>
         </member>
         <member name="T:Microsoft.Bot.Builder.Luis.ILuisOptions">
             <summary>
@@ -5412,6 +5589,11 @@
         <member name="P:Microsoft.Bot.Builder.Luis.ILuisOptions.Verbose">
             <summary>
             The verbose flag.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Luis.ILuisOptions.BingSpellCheckSubscriptionKey">
+            <summary>
+            The Bing Spell Check subscription key.
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Builder.Luis.Models.CompositeChild">
@@ -5759,6 +5941,11 @@
             The verbose flag.
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Builder.Luis.LuisRequest.BingSpellCheckSubscriptionKey">
+            <summary>
+            The Bing Spell Check subscription key.
+            </summary>
+        </member>
         <member name="P:Microsoft.Bot.Builder.Luis.LuisRequest.ExtraParameters">
             <summary>
             Any extra query parameters for the URL.
@@ -5867,6 +6054,16 @@
             <summary>
               Overrides the current thread's CurrentUICulture property for all
               resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Resource.Resources.AttachmentContentTypeValidatorError">
+            <summary>
+              Looks up a localized string similar to Attachment &apos;{0}&apos; is invalid! The content-type should contain &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Resource.Resources.AttachmentContentTypeValidatorHelp">
+            <summary>
+              Looks up a localized string similar to You should provide an attachment where content-type has &apos;{0}&apos;..
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Resource.Resources.BooleanChoices">
@@ -6042,6 +6239,36 @@
         <member name="P:Microsoft.Bot.Builder.Resource.Resources.PromptRetry">
             <summary>
               Looks up a localized string similar to I didn&apos;t understand. Say something in reply..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Resource.Resources.TemplateAttachment">
+            <summary>
+              Looks up a localized string similar to Please submit an attachment for {&amp;}.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Resource.Resources.TemplateAttachmentCollection">
+            <summary>
+              Looks up a localized string similar to Please submit a collection of attachments for {&amp;}.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Resource.Resources.TemplateAttachmentCollectionDescription">
+            <summary>
+              Looks up a localized string similar to {0} attachment/s linked..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Resource.Resources.TemplateAttachmentCollectionHelp">
+            <summary>
+              Looks up a localized string similar to You can submit one or more attachments.{0}.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Resource.Resources.TemplateAttachmentDescription">
+            <summary>
+              Looks up a localized string similar to Attachment named &apos;{0}&apos; with content-type &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Resource.Resources.TemplateAttachmentHelp">
+            <summary>
+              Looks up a localized string similar to You can submit one attachment.{0}.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Builder.Resource.Resources.TemplateBool">

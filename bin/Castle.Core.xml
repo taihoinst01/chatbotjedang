@@ -535,7 +535,7 @@
         </member>
         <member name="T:Castle.Components.DictionaryAdapter.IDictionaryAdapterVisitor">
             <summary>
-            Conract for traversing a <see cref="T:Castle.Components.DictionaryAdapter.IDictionaryAdapter"/>.
+            Contract for traversing a <see cref="T:Castle.Components.DictionaryAdapter.IDictionaryAdapter"/>.
             </summary>
         </member>
         <member name="T:Castle.Components.DictionaryAdapter.IDictionaryBehavior">
@@ -778,7 +778,7 @@
         </member>
         <member name="M:Castle.Components.DictionaryAdapter.PropertyDescriptor.#ctor(Castle.Components.DictionaryAdapter.PropertyDescriptor,System.Boolean)">
             <summary>
-             Copies an existinginstance of the <see cref="T:Castle.Components.DictionaryAdapter.PropertyDescriptor"/> class.
+             Copies an existing instance of the <see cref="T:Castle.Components.DictionaryAdapter.PropertyDescriptor"/> class.
             </summary>
             <param name="source"></param>
             <param name="copyBehaviors"></param>
@@ -1194,7 +1194,7 @@
         </member>
         <member name="M:Castle.Core.Internal.CollectionExtensions.IsNullOrEmpty(System.Collections.IEnumerable)">
             <summary>
-              Checks whether or not collection is null or empty. Assumes colleciton can be safely enumerated multiple times.
+              Checks whether or not collection is null or empty. Assumes collection can be safely enumerated multiple times.
             </summary>
             <param name = "this"></param>
             <returns></returns>
@@ -1813,7 +1813,7 @@
         </member>
         <member name="T:Castle.Core.Logging.LevelFilteredLogger">
             <summary>
-            The Level Filtered Logger class.  This is a base clase which
+            The Level Filtered Logger class.  This is a base class which
             provides a LogLevel attribute and reroutes all functions into
             one Log method.
             </summary>
@@ -2516,7 +2516,7 @@
         </member>
         <member name="T:Castle.Core.Logging.StreamLoggerFactory">
             <summary>
-              Creates <see cref = "T:Castle.Core.Logging.StreamLogger" /> outputing 
+              Creates <see cref = "T:Castle.Core.Logging.StreamLogger" /> outputting
               to files. The name of the file is derived from the log name
               plus the 'log' extension.
             </summary>
@@ -3155,7 +3155,7 @@
         </member>
         <member name="T:Castle.DynamicProxy.Generators.INamingScope">
             <summary>
-              Represents the scope of uniquenes of names for types and their members
+              Represents the scope of uniqueness of names for types and their members
             </summary>
         </member>
         <member name="M:Castle.DynamicProxy.Generators.INamingScope.GetUniqueName(System.String)">
@@ -3174,7 +3174,7 @@
         </member>
         <member name="M:Castle.DynamicProxy.Generators.INamingScope.SafeSubScope">
             <summary>
-              Returns new, disposable naming scope. It is responsibilty of the caller to make sure that no naming collision
+              Returns new, disposable naming scope. It is responsibility of the caller to make sure that no naming collision
               with enclosing scope, or other subscopes is possible.
             </summary>
             <returns>New naming scope.</returns>
@@ -3193,7 +3193,7 @@
               Initializes a new instance of the <see cref = "T:Castle.DynamicProxy.Generators.MetaEvent" /> class.
             </summary>
             <param name = "name">The name.</param>
-            <param name = "declaringType">Type declaring the original event being overriten, or null.</param>
+            <param name = "declaringType">Type declaring the original event being overridden, or null.</param>
             <param name = "eventDelegateType"></param>
             <param name = "adder">The add method.</param>
             <param name = "remover">The remove method.</param>
@@ -3259,7 +3259,7 @@
             <summary>
               Selects the interceptors that should intercept calls to the given <paramref name = "method" />.
             </summary>
-            <param name = "type">The type declaring the method to intercept.</param>
+            <param name = "type">The type of the target object.</param>
             <param name = "method">The method that will be intercepted.</param>
             <param name = "interceptors">All interceptors registered with the proxy.</param>
             <returns>An array of interceptors to invoke upon calling the <paramref name = "method" />.</returns>
@@ -3380,7 +3380,7 @@
             <param name = "index">The index of the argument to override.</param>
             <param name = "value">The new value for the argument.</param>
         </member>
-        <member name="M:Castle.DynamicProxy.Internal.AttributeUtil.ShouldSkipAttributeReplication(System.Type)">
+        <member name="M:Castle.DynamicProxy.Internal.AttributeUtil.ShouldSkipAttributeReplication(System.Type,System.Boolean)">
             <summary>
               Attributes should be replicated if they are non-inheritable,
               but there are some special cases where the attributes means
@@ -4758,7 +4758,7 @@
                cref = "M:Castle.DynamicProxy.ModuleScope.SaveAssembly(System.Boolean)" /> or
               <see cref = "M:Castle.DynamicProxy.ModuleScope.SaveAssembly" />, or it must have the <see cref = "T:Castle.DynamicProxy.Serialization.CacheMappingsAttribute" /> manually applied.</param>
             <remarks>
-              This method can be used to load previously generated and persisted proxy types from disk into this scope's type cache, eg. in order
+              This method can be used to load previously generated and persisted proxy types from disk into this scope's type cache, e.g. in order
               to avoid the performance hit associated with proxy generation.
             </remarks>
         </member>
