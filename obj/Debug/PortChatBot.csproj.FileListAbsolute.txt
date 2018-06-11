@@ -231,3 +231,4 @@ C:\Users\user\Source\Repos\chatbotjedang\obj\Debug\PortChatBot.csproj.CoreCompil
 C:\Users\user\Source\Repos\chatbotjedang\obj\Debug\PortChatBot.csproj.CopyComplete
 C:\Users\user\Source\Repos\chatbotjedang\obj\Debug\Bot Application.dll
 C:\Users\user\Source\Repos\chatbotjedang\obj\Debug\Bot Application.pdb
+C:\Users\user\Source\Repos\chatbotjedang\obj\Debug\PortChatBot.csprojAssemblyReference.cache

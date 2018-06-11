@@ -1352,7 +1352,7 @@ namespace PortChatBot
                         await connector.Conversations.SendToConversationAsync(reply4);
                     }
 
-                    //페이스북에서 남은 카드가 있는경우1
+                    //페이스북에서 남은 카드가 있는경우
                     if (activity.ChannelId.Equals("facebook") && fbLeftCardCnt > 0)
                     {
                         Activity replyToFBConversation = activity.CreateReply();
