@@ -56,7 +56,7 @@ namespace PortChatBot
         public static int pagePerCardCnt = 10;
         public static int pageRotationCnt = 0;
         public static int fbLeftCardCnt = 0;
-        public static int facebookpagecount = 0;
+        public static int facebookpagecount = 1;
         public static string FB_BEFORE_MENT = "";
 
         public static List<AnalysisList> analysisList = new List<AnalysisList>();
