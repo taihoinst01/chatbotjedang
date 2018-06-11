@@ -173,3 +173,61 @@ C:\Users\user\Source\Repos\portChatBot\obj\Debug\PortChatBot.csproj.CoreCompileI
 C:\Users\user\Source\Repos\portChatBot\obj\Debug\PortChatBot.csproj.CopyComplete
 C:\Users\user\Source\Repos\portChatBot\obj\Debug\Bot Application.dll
 C:\Users\user\Source\Repos\portChatBot\obj\Debug\Bot Application.pdb
+C:\Users\user\Source\Repos\chatbotjedang\bin\Bot Application.dll.config
+C:\Users\user\Source\Repos\chatbotjedang\bin\Bot Application.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Bot Application.pdb
+C:\Users\user\Source\Repos\chatbotjedang\bin\Autofac.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Castle.Core.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Chronic.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.Bot.Builder.Autofac.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.Bot.Builder.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.Bot.Connector.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.IdentityModel.Logging.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.IdentityModel.Protocol.Extensions.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.IdentityModel.Protocols.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.IdentityModel.Tokens.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.Rest.ClientRuntime.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.WindowsAzure.Configuration.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Moq.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Newtonsoft.Json.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\System.Net.Http.Formatting.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\System.Web.Http.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\System.Web.Http.WebHost.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\Autofac.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\Castle.Core.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.Bot.Builder.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.Bot.Builder.Autofac.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.Bot.Connector.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.IdentityModel.Logging.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.IdentityModel.Protocol.Extensions.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.IdentityModel.Protocols.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.IdentityModel.Protocols.OpenIdConnect.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.IdentityModel.Tokens.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.Rest.ClientRuntime.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\Microsoft.WindowsAzure.Configuration.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\Moq.pdb
+C:\Users\user\Source\Repos\chatbotjedang\bin\Moq.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\Newtonsoft.Json.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\System.IdentityModel.Tokens.Jwt.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\System.Net.Http.Formatting.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\System.Web.Http.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\System.Web.Http.WebHost.xml
+C:\Users\user\Source\Repos\chatbotjedang\bin\ar\Microsoft.Bot.Builder.resources.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\cs\Microsoft.Bot.Builder.resources.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\de-dE\Microsoft.Bot.Builder.resources.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\en\Microsoft.Bot.Builder.resources.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\es\Microsoft.Bot.Builder.resources.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\fa\Microsoft.Bot.Builder.resources.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\fr\Microsoft.Bot.Builder.resources.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\it\Microsoft.Bot.Builder.resources.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\ja\Microsoft.Bot.Builder.resources.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\nl\Microsoft.Bot.Builder.resources.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\pt-BR\Microsoft.Bot.Builder.resources.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\ru\Microsoft.Bot.Builder.resources.dll
+C:\Users\user\Source\Repos\chatbotjedang\bin\zh-hans\Microsoft.Bot.Builder.resources.dll
+C:\Users\user\Source\Repos\chatbotjedang\obj\Debug\PortChatBot.csproj.CoreCompileInputs.cache
+C:\Users\user\Source\Repos\chatbotjedang\obj\Debug\PortChatBot.csproj.CopyComplete
+C:\Users\user\Source\Repos\chatbotjedang\obj\Debug\Bot Application.dll
+C:\Users\user\Source\Repos\chatbotjedang\obj\Debug\Bot Application.pdb
