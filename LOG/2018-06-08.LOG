@@ -1,0 +1,17 @@
+06-08-2018 11:07:27.759: db connect !! 
+06-08-2018 11:07:27.948: db connect !! 
+06-08-2018 11:07:29.498: db SelectConfig start !! 
+06-08-2018 11:07:29.763: db conn SelectConfig !!
+06-08-2018 11:07:29.773: * cnfNm : 루이스제한 || cnfValue : 3000
+06-08-2018 11:07:29.775: * cnfNm : 루이스구독 || cnfValue : a265ac9483254bcbac9ef777e11d36a4
+06-08-2018 11:07:29.776: * cnfNm : 루이스스코어 || cnfValue : 0.1
+06-08-2018 11:07:29.777: * cnfNm : port_luis_02 || cnfValue : 8774e3d9-5e72-481f-9e2f-7c373439383d
+06-08-2018 11:07:29.778: db SelectConfig end!! 
+06-08-2018 11:07:29.819: * DB conn : conversationUpdate
+06-08-2018 11:07:29.827:  db SelectInitDialog !! 
+06-08-2018 11:07:29.951: * ConversationUpdate : dlgType is not CARDDLG 
+06-08-2018 11:07:29.951: * ConversationUpdate : dlgType is not CARDDLG | NOT facebook
+06-08-2018 11:07:30.599: * activity.Type : 
+06-08-2018 11:07:30.599: * activity.Recipient.Id : 3e0c78f0-6ac0-11e8-a8aa-af98947e4219
+06-08-2018 11:07:30.600: * activity.ServiceUrl : http://localhost:56566
+06-08-2018 11:07:30.600: * activity.attachments.content.title : System.Collections.Generic.List`1[Microsoft.Bot.Connector.Attachment]
