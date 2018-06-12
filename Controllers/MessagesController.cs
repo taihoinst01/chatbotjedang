@@ -159,16 +159,11 @@ namespace PortChatBot
 
                 //
                 userData.SetProperty<string>("loginStatus", "N");
-                userData.SetProperty<string>("tmn_cod", "");
-                userData.SetProperty<string>("workerid", "");
-                userData.SetProperty<string>("name", "");
-                userData.SetProperty<string>("eqp_typ", "");
-                userData.SetProperty<string>("eqp_typ_name", "");
-                userData.SetProperty<string>("equipment_no", "");
-                userData.SetProperty<string>("accident_record", "");
-                userData.SetProperty<string>("training_record", "");
-                userData.SetProperty<string>("age", "");
-                userData.SetProperty<string>("vacation", "");
+                userData.SetProperty<string>("emp_no", "");
+                userData.SetProperty<string>("user_nm", "");
+                userData.SetProperty<string>("dept_cd", "");
+                userData.SetProperty<string>("dept_nm", "");
+                userData.SetProperty<string>("user_id", "");
 
                 await stateClient.BotState.SetUserDataAsync(activity.ChannelId, activity.From.Id, userData);
                 //
@@ -397,21 +392,16 @@ namespace PortChatBot
                                 if (hrList != null)
                                 {
                                     //DButil.HistoryLog("*** SelectHrInfo - tmn_cod : " + hrList[0].tmn_cod);
-                                    if (hrList.Count > 0 && hrList[0].name != null)
+                                    if (hrList.Count > 0 && hrList[0].user_nm != null)
                                     {
-                                        DButil.HistoryLog("*** SELECT hrList : Exist | name : " + hrList[0].name);
+                                        DButil.HistoryLog("*** SELECT hrList : Exist | name : " + hrList[0].user_nm);
 
                                         userData.SetProperty<string>("loginStatus", "Y");
-                                        userData.SetProperty<string>("tmn_cod", hrList[0].tmn_cod);
-                                        userData.SetProperty<string>("workerid", hrList[0].workerid);
-                                        userData.SetProperty<string>("name", hrList[0].name);
-                                        userData.SetProperty<string>("eqp_typ", hrList[0].eqp_typ);
-                                        userData.SetProperty<string>("eqp_typ_name", hrList[0].eqp_typ_name);                                        
-                                        userData.SetProperty<string>("equipment_no", hrList[0].equipment_no);
-                                        userData.SetProperty<string>("accident_record", hrList[0].accident_record);
-                                        userData.SetProperty<string>("training_record", hrList[0].training_record);
-                                        userData.SetProperty<string>("age", hrList[0].age);
-                                        userData.SetProperty<string>("vacation", hrList[0].vacation);
+                                        userData.SetProperty<string>("emp_no", hrList[0].emp_no);
+                                        userData.SetProperty<string>("user_nm", hrList[0].user_nm);
+                                        userData.SetProperty<string>("dept_cd", hrList[0].dept_cd);
+                                        userData.SetProperty<string>("dept_nm", hrList[0].dept_nm);
+                                        userData.SetProperty<string>("user_id", hrList[0].user_id);
 
                                         await stateClient.BotState.SetUserDataAsync(activity.ChannelId, activity.From.Id, userData);
 
@@ -422,16 +412,11 @@ namespace PortChatBot
                                     {
                                         DButil.HistoryLog("*** SELECT hrList : NOT Exist");
                                         userData.SetProperty<string>("loginStatus", "N");
-                                        userData.SetProperty<string>("tmn_cod", "");
-                                        userData.SetProperty<string>("workerid", "");
-                                        userData.SetProperty<string>("name", "");
-                                        userData.SetProperty<string>("eqp_typ", "");
-                                        userData.SetProperty<string>("eqp_typ_name", "");
-                                        userData.SetProperty<string>("equipment_no", "");
-                                        userData.SetProperty<string>("accident_record", "");
-                                        userData.SetProperty<string>("training_record", "");
-                                        userData.SetProperty<string>("age", "");
-                                        userData.SetProperty<string>("vacation", "");
+                                        userData.SetProperty<string>("emp_no", "");
+                                        userData.SetProperty<string>("user_nm", "");
+                                        userData.SetProperty<string>("dept_cd", "");
+                                        userData.SetProperty<string>("dept_nm", "");
+                                        userData.SetProperty<string>("user_id", "");
 
                                         await stateClient.BotState.SetUserDataAsync(activity.ChannelId, activity.From.Id, userData);
 
@@ -444,16 +429,11 @@ namespace PortChatBot
                                     DButil.HistoryLog("*** SelectHrInfo : NULL");
                                     //  조회후 사원 번호 존재하지 않을 경우..  
                                     userData.SetProperty<string>("loginStatus", "N");
-                                    userData.SetProperty<string>("tmn_cod", "");
-                                    userData.SetProperty<string>("workerid", "");
-                                    userData.SetProperty<string>("name", "");
-                                    userData.SetProperty<string>("eqp_typ", "");
-                                    userData.SetProperty<string>("eqp_typ_name", "");
-                                    userData.SetProperty<string>("equipment_no", "");
-                                    userData.SetProperty<string>("accident_record", "");
-                                    userData.SetProperty<string>("training_record", "");
-                                    userData.SetProperty<string>("age", "");
-                                    userData.SetProperty<string>("vacation", "");
+                                    userData.SetProperty<string>("emp_no", "");
+                                    userData.SetProperty<string>("user_nm", "");
+                                    userData.SetProperty<string>("dept_cd", "");
+                                    userData.SetProperty<string>("dept_nm", "");
+                                    userData.SetProperty<string>("user_id", "");
 
                                     await stateClient.BotState.SetUserDataAsync(activity.ChannelId, activity.From.Id, userData);
 
@@ -489,8 +469,8 @@ namespace PortChatBot
                             else
                             {
                                 DButil.HistoryLog("fullentity : " + fullentity + " | luisEntities : " + luisEntities + "| luisIntent : N " + luisIntent);
-                                //relationList = db.DefineTypeChkSpare(fullentity);
-                                relationList = db.DefineTypeChkSpare(luisIntent);
+                                relationList = db.DefineTypeChkSpare(fullentity);
+                                //relationList = db.DefineTypeChkSpare(luisIntent);
                             }
                             
                             //DButil.HistoryLog("luisid : " + luisId + " | luisintent : " + luisIntent + "| luisEntities : " + luisEntities);
@@ -639,21 +619,23 @@ namespace PortChatBot
                                     DButil.HistoryLog("* dlg.dlgId : "+ dlg.dlgId + " | dlg.cardTitle : " + dlg.cardTitle + " | dlg.cardText : " + dlg.cardText);
 
                                     //  userLoginOk
-                                    if (dlg.cardTitle.Equals("Login OK")) //  주문내역 dialog 일시..
+                                    if (dlg.cardTitle.Equals("LoginSuccess")) //  주문내역 dialog 일시..
                                     {
 
                                         DButil.HistoryLog("*** activity.Conversation.Id : " + activity.Conversation.Id + " | dlg.cardText : " + dlg.cardText + " | fullentity : " + fullentity); 
 
                                         string[] strComment = new string[4];
-                                        string optionComment = "";
+                                        string optionComment = dlg.cardText;
 
-                                        strComment[1] = userData.GetProperty<string>("name");
-                                        strComment[2] = userData.GetProperty<string>("workerid");
-                                        strComment[3] = userData.GetProperty<string>("equipment_no");
+                                        strComment[1] = userData.GetProperty<string>("dept_nm");
+                                        strComment[2] = userData.GetProperty<string>("user_nm");
+                                        strComment[3] = userData.GetProperty<string>("emp_no");                                        
                                         DButil.HistoryLog("*** strComment[0] : " + strComment[0] + " | strComment[1] : " + strComment[1] + " | strComment[2] : " + strComment[2]);
-
-                                        optionComment = strComment[0] + "," + strComment[1] + "님(" + strComment[2] + "), " + strComment[3];
-                                        dlg.cardText = dlg.cardText.Replace("#OPTIONS", optionComment);
+                                        //B2B영업1팀 SA(11112222) 님.어떤 업무를 도와드릴까요 ?;
+                                        optionComment = optionComment.Replace("#Dept_nm", strComment[1]);
+                                        optionComment = optionComment.Replace("#User_nm", strComment[2]);
+                                        optionComment = optionComment.Replace("#Emp_no", strComment[3]);
+                                        dlg.cardText = optionComment;
 
                                     }
 
@@ -698,261 +680,261 @@ namespace PortChatBot
                                     }
 
                                     //  Accident History
-                                    if (dlg.cardTitle.Equals("Accident History"))
-                                    {
-                                        string strWorkerId = "";
-                                        string strAccidentRecord = "";
-                                        string[] strComment = orgMent.Split('\'');
-                                        strWorkerId = strComment[1];
-                                        DButil.HistoryLog("*** Accident History - strWorkerId : " + strWorkerId);
-                                        if (strWorkerId == "")
-                                        {
-                                            strAccidentRecord = userData.GetProperty<string>("accident_record");
-                                            DButil.HistoryLog("*** Accident History - strAccidentRecord : " + strAccidentRecord);
-                                            if (strAccidentRecord == "N/A")
-                                            {
-                                                strAccidentRecord = "No searched history of accidents.";
-                                            }
-                                            dlg.cardText = dlg.cardText.Replace("#accidentHistory", strAccidentRecord);
-                                        }
-                                        else
-                                        {
-                                            hrList = db.SelectHrInfo(strWorkerId);
-                                            if (hrList != null)
-                                            {
-                                                DButil.HistoryLog("*** SELECT hrList : Exist | name : " + hrList[0].name + "| accident_record : " + hrList[0].accident_record);
-                                                if (hrList.Count > 0 && hrList[0].accident_record != "" && hrList[0].accident_record != null) 
-                                                {
-                                                    DButil.HistoryLog("*** Accident History - SelectHrInfo : YES " + hrList[0].accident_record);
-                                                    dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#accidentHistory", hrList[0].accident_record);
-                                                }
-                                                else
-                                                {
-                                                    DButil.HistoryLog("*** Accident History - SelectHrInfo : NO " + hrList[0].accident_record);
-                                                    dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#accidentHistory", "No searched history of accidents.");
-                                                }
-                                            }
-                                            else
-                                            {
-                                                dlg.cardText = dlg.cardText.Replace("#accidentHistory", "No searched history of accidents.");
-                                            }
-                                        }
-                                    }
+                                    //if (dlg.cardTitle.Equals("Accident History"))
+                                    //{
+                                    //    string strWorkerId = "";
+                                    //    string strAccidentRecord = "";
+                                    //    string[] strComment = orgMent.Split('\'');
+                                    //    strWorkerId = strComment[1];
+                                    //    DButil.HistoryLog("*** Accident History - strWorkerId : " + strWorkerId);
+                                    //    if (strWorkerId == "")
+                                    //    {
+                                    //        strAccidentRecord = userData.GetProperty<string>("accident_record");
+                                    //        DButil.HistoryLog("*** Accident History - strAccidentRecord : " + strAccidentRecord);
+                                    //        if (strAccidentRecord == "N/A")
+                                    //        {
+                                    //            strAccidentRecord = "No searched history of accidents.";
+                                    //        }
+                                    //        dlg.cardText = dlg.cardText.Replace("#accidentHistory", strAccidentRecord);
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        hrList = db.SelectHrInfo(strWorkerId);
+                                    //        if (hrList != null)
+                                    //        {
+                                    //            DButil.HistoryLog("*** SELECT hrList : Exist | name : " + hrList[0].name + "| accident_record : " + hrList[0].accident_record);
+                                    //            if (hrList.Count > 0 && hrList[0].accident_record != "" && hrList[0].accident_record != null) 
+                                    //            {
+                                    //                DButil.HistoryLog("*** Accident History - SelectHrInfo : YES " + hrList[0].accident_record);
+                                    //                dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#accidentHistory", hrList[0].accident_record);
+                                    //            }
+                                    //            else
+                                    //            {
+                                    //                DButil.HistoryLog("*** Accident History - SelectHrInfo : NO " + hrList[0].accident_record);
+                                    //                dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#accidentHistory", "No searched history of accidents.");
+                                    //            }
+                                    //        }
+                                    //        else
+                                    //        {
+                                    //            dlg.cardText = dlg.cardText.Replace("#accidentHistory", "No searched history of accidents.");
+                                    //        }
+                                    //    }
+                                    //}
 
                                     //  User Age
-                                    if (dlg.cardTitle.Equals("User Age"))
-                                    {
-                                        DButil.HistoryLog("*** User Age");
-                                        string strWorkerId = "";
-                                        string strAge = "";
-                                        string[] strComment = orgMent.Split('\'');
-                                        strWorkerId = strComment[1];
-                                        DButil.HistoryLog("*** Accident History - strWorkerId : " + strWorkerId);
-                                        if (strWorkerId == "")
-                                        {
-                                            strAge = userData.GetProperty<string>("age");
-                                            DButil.HistoryLog("*** User Age - strAge : " + strAge);
-                                            if (strAge == "N/A")
-                                            {
-                                                strAge = "No searched history of accidents.";
-                                            }
-                                            dlg.cardText = dlg.cardText.Replace("#accidentHistory", strAge);
-                                        }
-                                        else
-                                        {
-                                            hrList = db.SelectHrInfo(strWorkerId);
-                                            if (hrList != null)
-                                            {
-                                                DButil.HistoryLog("*** SELECT hrList : Exist | name : " + hrList[0].name + "| age : " + hrList[0].age);
-                                                if (hrList.Count > 0 && hrList[0].age != "" && hrList[0].age != null)
-                                                {
-                                                    dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#userAge", hrList[0].age) + " yesars old.";
-                                                }
-                                                else
-                                                {
-                                                    dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#userAge", "No searched history of accidents.");
-                                                }
-                                            }
-                                            else
-                                            {
-                                                dlg.cardText = dlg.cardText.Replace("#userAge", "No searched history of accidents.");
-                                            }
-                                        }
-                                    }
+                                    //if (dlg.cardTitle.Equals("User Age"))
+                                    //{
+                                    //    DButil.HistoryLog("*** User Age");
+                                    //    string strWorkerId = "";
+                                    //    string strAge = "";
+                                    //    string[] strComment = orgMent.Split('\'');
+                                    //    strWorkerId = strComment[1];
+                                    //    DButil.HistoryLog("*** Accident History - strWorkerId : " + strWorkerId);
+                                    //    if (strWorkerId == "")
+                                    //    {
+                                    //        strAge = userData.GetProperty<string>("age");
+                                    //        DButil.HistoryLog("*** User Age - strAge : " + strAge);
+                                    //        if (strAge == "N/A")
+                                    //        {
+                                    //            strAge = "No searched history of accidents.";
+                                    //        }
+                                    //        dlg.cardText = dlg.cardText.Replace("#accidentHistory", strAge);
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        hrList = db.SelectHrInfo(strWorkerId);
+                                    //        if (hrList != null)
+                                    //        {
+                                    //            DButil.HistoryLog("*** SELECT hrList : Exist | name : " + hrList[0].name + "| age : " + hrList[0].age);
+                                    //            if (hrList.Count > 0 && hrList[0].age != "" && hrList[0].age != null)
+                                    //            {
+                                    //                dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#userAge", hrList[0].age) + " yesars old.";
+                                    //            }
+                                    //            else
+                                    //            {
+                                    //                dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#userAge", "No searched history of accidents.");
+                                    //            }
+                                    //        }
+                                    //        else
+                                    //        {
+                                    //            dlg.cardText = dlg.cardText.Replace("#userAge", "No searched history of accidents.");
+                                    //        }
+                                    //    }
+                                    //}
 
                                     //  Vacation
-                                    if (dlg.cardTitle.Equals("Vacation"))
-                                    {
-                                        DButil.HistoryLog("*** Vacation");
-                                        string strWorkerId = "";
-                                        string strVacation = "";
-                                        string[] strComment = orgMent.Split('\'');
-                                        strWorkerId = strComment[1];
-                                        DButil.HistoryLog("*** Vacation - strWorkerId : " + strWorkerId);
-                                        if (strWorkerId == "")
-                                        {
-                                            strVacation = userData.GetProperty<string>("vacation");
-                                            DButil.HistoryLog("*** Vacation - strVacation : " + strVacation);
-                                            if (strVacation == "N/A")
-                                            {
-                                                strVacation = "No vacation history found.";
-                                            }
-                                            dlg.cardText = dlg.cardText.Replace("#vacation", strVacation);
-                                        }
-                                        else
-                                        {
-                                            hrList = db.SelectHrInfo(strWorkerId);
-                                            if (hrList != null)
-                                            {
-                                                DButil.HistoryLog("*** SELECT hrList : Exist | name : " + hrList[0].name + "| vacation : " + hrList[0].vacation);
-                                                if (hrList.Count > 0 && hrList[0].vacation != "" && hrList[0].vacation != null)
-                                                {
-                                                    dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#vacation", hrList[0].vacation);
-                                                }
-                                                else
-                                                {
-                                                    dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#vacation", "No vacation history found.");
-                                                }
-                                            }
-                                            else
-                                            {
-                                                dlg.cardText = dlg.cardText.Replace("#vacation", "No vacation history found.");
-                                            }
-                                        }
+                                    //if (dlg.cardTitle.Equals("Vacation"))
+                                    //{
+                                    //    DButil.HistoryLog("*** Vacation");
+                                    //    string strWorkerId = "";
+                                    //    string strVacation = "";
+                                    //    string[] strComment = orgMent.Split('\'');
+                                    //    strWorkerId = strComment[1];
+                                    //    DButil.HistoryLog("*** Vacation - strWorkerId : " + strWorkerId);
+                                    //    if (strWorkerId == "")
+                                    //    {
+                                    //        strVacation = userData.GetProperty<string>("vacation");
+                                    //        DButil.HistoryLog("*** Vacation - strVacation : " + strVacation);
+                                    //        if (strVacation == "N/A")
+                                    //        {
+                                    //            strVacation = "No vacation history found.";
+                                    //        }
+                                    //        dlg.cardText = dlg.cardText.Replace("#vacation", strVacation);
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        hrList = db.SelectHrInfo(strWorkerId);
+                                    //        if (hrList != null)
+                                    //        {
+                                    //            DButil.HistoryLog("*** SELECT hrList : Exist | name : " + hrList[0].name + "| vacation : " + hrList[0].vacation);
+                                    //            if (hrList.Count > 0 && hrList[0].vacation != "" && hrList[0].vacation != null)
+                                    //            {
+                                    //                dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#vacation", hrList[0].vacation);
+                                    //            }
+                                    //            else
+                                    //            {
+                                    //                dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#vacation", "No vacation history found.");
+                                    //            }
+                                    //        }
+                                    //        else
+                                    //        {
+                                    //            dlg.cardText = dlg.cardText.Replace("#vacation", "No vacation history found.");
+                                    //        }
+                                    //    }
 
-                                    }
+                                    //}
 
                                     //  Training History
-                                    if (dlg.cardTitle.Equals("Training History"))
-                                    {
-                                        DButil.HistoryLog("*** Training History");
-                                        string strWorkerId = "";
-                                        string strTraining = "";
-                                        string[] strComment = orgMent.Split('\'');
-                                        strWorkerId = strComment[1];
-                                        DButil.HistoryLog("*** Training History - strWorkerId : " + strWorkerId);
-                                        if (strWorkerId == "")
-                                        {
-                                            strTraining = userData.GetProperty<string>("training_record");
-                                            DButil.HistoryLog("*** Training HIstory - strTraining : " + strTraining);
-                                            if (strTraining == "N/A")
-                                            {
-                                                strTraining = "No training history found.";
-                                            }
-                                            dlg.cardText = dlg.cardText.Replace("#trainingHistory", strTraining);
-                                        }
-                                        else
-                                        {
-                                            hrList = db.SelectHrInfo(strWorkerId);
-                                            if (hrList != null)
-                                            {
-                                                DButil.HistoryLog("*** SELECT hrList : Exist | name : " + hrList[0].name + "| vacation : " + hrList[0].training_record);
-                                                if (hrList.Count > 0 && hrList[0].training_record != "" && hrList[0].training_record != null)
-                                                {
-                                                    dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#trainingHistory", hrList[0].training_record);
-                                                }
-                                                else
-                                                {
-                                                    dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#trainingHistory", "No training history found.");
-                                                }
-                                            }
-                                            else
-                                            {
-                                                dlg.cardText = dlg.cardText.Replace("#trainingHistory", "No training history found.");
-                                            }
-                                        }
+                                    //if (dlg.cardTitle.Equals("Training History"))
+                                    //{
+                                    //    DButil.HistoryLog("*** Training History");
+                                    //    string strWorkerId = "";
+                                    //    string strTraining = "";
+                                    //    string[] strComment = orgMent.Split('\'');
+                                    //    strWorkerId = strComment[1];
+                                    //    DButil.HistoryLog("*** Training History - strWorkerId : " + strWorkerId);
+                                    //    if (strWorkerId == "")
+                                    //    {
+                                    //        strTraining = userData.GetProperty<string>("training_record");
+                                    //        DButil.HistoryLog("*** Training HIstory - strTraining : " + strTraining);
+                                    //        if (strTraining == "N/A")
+                                    //        {
+                                    //            strTraining = "No training history found.";
+                                    //        }
+                                    //        dlg.cardText = dlg.cardText.Replace("#trainingHistory", strTraining);
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        hrList = db.SelectHrInfo(strWorkerId);
+                                    //        if (hrList != null)
+                                    //        {
+                                    //            DButil.HistoryLog("*** SELECT hrList : Exist | name : " + hrList[0].name + "| vacation : " + hrList[0].training_record);
+                                    //            if (hrList.Count > 0 && hrList[0].training_record != "" && hrList[0].training_record != null)
+                                    //            {
+                                    //                dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#trainingHistory", hrList[0].training_record);
+                                    //            }
+                                    //            else
+                                    //            {
+                                    //                dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#trainingHistory", "No training history found.");
+                                    //            }
+                                    //        }
+                                    //        else
+                                    //        {
+                                    //            dlg.cardText = dlg.cardText.Replace("#trainingHistory", "No training history found.");
+                                    //        }
+                                    //    }
 
-                                    }
+                                    //}
 
                                     //  Eye Sight
-                                    if (dlg.cardTitle.Equals("Eye Sight"))
-                                    {
-                                        DButil.HistoryLog("*** Eye Sight");
-                                        string strWorkerId = "";
-                                        string strEyeSight = "";
-                                        string[] strComment = orgMent.Split('\'');
-                                        strWorkerId = strComment[1];
-                                        DButil.HistoryLog("*** Eye Sight - strWorkerId : " + strWorkerId);
-                                        if (strWorkerId == "")
-                                        {
-                                            strEyeSight = "Left(" + userData.GetProperty<string>("eye_sight_left") + "), Right(" + userData.GetProperty<string>("eye_sight_right") + ")";
-                                            DButil.HistoryLog("*** Training HIstory - strEyeSight : " + strEyeSight);
-                                            if (userData.GetProperty<string>("eye_sight_left") == "N/A")
-                                            {
-                                                strEyeSight = "No sight information.";
-                                            }
-                                            dlg.cardText = dlg.cardText.Replace("#eyeSight", strEyeSight);
-                                        }
-                                        else
-                                        {
-                                            hrList = db.SelectHrInfo(strWorkerId);
-                                            if (hrList != null)
-                                            {
-                                                DButil.HistoryLog("*** SELECT hrList : Exist | name : " + hrList[0].name + "| eye_sight_left : " + hrList[0].eye_sight_left);
-                                                if (hrList.Count > 0 && hrList[0].eye_sight_left != "" && hrList[0].eye_sight_left != null)
-                                                {
-                                                    strEyeSight = "Left(" + hrList[0].eye_sight_left + "), Right(" + hrList[0].eye_sight_right + ")";
-                                                    dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#eyeSight", strEyeSight);
-                                                }
-                                                else
-                                                {
-                                                    dlg.cardText = dlg.cardText.Replace("#eyeSight", "No sight information.");
-                                                }
-                                            }
-                                            else
-                                            {
-                                                dlg.cardText = dlg.cardText.Replace("#eyeSight", "No sight information.");
-                                            }
-                                        }
+                                    //if (dlg.cardTitle.Equals("Eye Sight"))
+                                    //{
+                                    //    DButil.HistoryLog("*** Eye Sight");
+                                    //    string strWorkerId = "";
+                                    //    string strEyeSight = "";
+                                    //    string[] strComment = orgMent.Split('\'');
+                                    //    strWorkerId = strComment[1];
+                                    //    DButil.HistoryLog("*** Eye Sight - strWorkerId : " + strWorkerId);
+                                    //    if (strWorkerId == "")
+                                    //    {
+                                    //        strEyeSight = "Left(" + userData.GetProperty<string>("eye_sight_left") + "), Right(" + userData.GetProperty<string>("eye_sight_right") + ")";
+                                    //        DButil.HistoryLog("*** Training HIstory - strEyeSight : " + strEyeSight);
+                                    //        if (userData.GetProperty<string>("eye_sight_left") == "N/A")
+                                    //        {
+                                    //            strEyeSight = "No sight information.";
+                                    //        }
+                                    //        dlg.cardText = dlg.cardText.Replace("#eyeSight", strEyeSight);
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        hrList = db.SelectHrInfo(strWorkerId);
+                                    //        if (hrList != null)
+                                    //        {
+                                    //            DButil.HistoryLog("*** SELECT hrList : Exist | name : " + hrList[0].name + "| eye_sight_left : " + hrList[0].eye_sight_left);
+                                    //            if (hrList.Count > 0 && hrList[0].eye_sight_left != "" && hrList[0].eye_sight_left != null)
+                                    //            {
+                                    //                strEyeSight = "Left(" + hrList[0].eye_sight_left + "), Right(" + hrList[0].eye_sight_right + ")";
+                                    //                dlg.cardText = hrList[0].name + "(" + hrList[0].workerid + ") : " + dlg.cardText.Replace("#eyeSight", strEyeSight);
+                                    //            }
+                                    //            else
+                                    //            {
+                                    //                dlg.cardText = dlg.cardText.Replace("#eyeSight", "No sight information.");
+                                    //            }
+                                    //        }
+                                    //        else
+                                    //        {
+                                    //            dlg.cardText = dlg.cardText.Replace("#eyeSight", "No sight information.");
+                                    //        }
+                                    //    }
 
-                                    }
+                                    //}
 
                                     //  Accident Analysis
-                                    if (dlg.cardTitle.Equals("Accident Analysis"))
-                                    {
-                                        DButil.HistoryLog("*** Accident Analysis - tmn_cod:" + userData.GetProperty<string>("tmn_cod")+ " | eqp_typ_name:" + userData.GetProperty<string>("eqp_typ_name"));
-                                        //  PNIT, YT, Crash are related to humidity, proficiency, age. Threr is a risk of accident. (humidty 50 % ~, proficiency 5year, age 55~)
-                                        string[] strAnalysis = new string[4];
-                                        strAnalysis[0] = userData.GetProperty<string>("tmn_cod") + ", " + userData.GetProperty<string>("eqp_typ_name") + ", ";
-                                        analysisList = db.SelectAnalysisInfo(userData.GetProperty<string>("tmn_cod"), userData.GetProperty<string>("eqp_typ_name"));
+                                    //if (dlg.cardTitle.Equals("Accident Analysis"))
+                                    //{
+                                    //    DButil.HistoryLog("*** Accident Analysis - tmn_cod:" + userData.GetProperty<string>("tmn_cod")+ " | eqp_typ_name:" + userData.GetProperty<string>("eqp_typ_name"));
+                                    //    //  PNIT, YT, Crash are related to humidity, proficiency, age. Threr is a risk of accident. (humidty 50 % ~, proficiency 5year, age 55~)
+                                    //    string[] strAnalysis = new string[4];
+                                    //    strAnalysis[0] = userData.GetProperty<string>("tmn_cod") + ", " + userData.GetProperty<string>("eqp_typ_name") + ", ";
+                                    //    analysisList = db.SelectAnalysisInfo(userData.GetProperty<string>("tmn_cod"), userData.GetProperty<string>("eqp_typ_name"));
 
-                                        if (analysisList != null)
-                                        {
-                                            if (analysisList.Count > 0 && analysisList[0].tmn_cod != null)
-                                            {
-                                                strAnalysis[0] = strAnalysis[0] + analysisList[0].accidenttype;
-                                                strAnalysis[1] = analysisList[0].factor1 + ", " + analysisList[0].factor2 + "," + analysisList[0].factor3 + ". " + analysisList[0].analysis;
-                                            }
-                                        }
-                                        dlg.cardText = dlg.cardText.Replace("#analysis1", strAnalysis[0]);
-                                        dlg.cardText = dlg.cardText.Replace("#analysis2", strAnalysis[1]);
+                                    //    if (analysisList != null)
+                                    //    {
+                                    //        if (analysisList.Count > 0 && analysisList[0].tmn_cod != null)
+                                    //        {
+                                    //            strAnalysis[0] = strAnalysis[0] + analysisList[0].accidenttype;
+                                    //            strAnalysis[1] = analysisList[0].factor1 + ", " + analysisList[0].factor2 + "," + analysisList[0].factor3 + ". " + analysisList[0].analysis;
+                                    //        }
+                                    //    }
+                                    //    dlg.cardText = dlg.cardText.Replace("#analysis1", strAnalysis[0]);
+                                    //    dlg.cardText = dlg.cardText.Replace("#analysis2", strAnalysis[1]);
 
-                                    }
+                                    //}
 
                                     //  Accident Trend
-                                    if (dlg.cardTitle.Equals("Accident Trend"))
-                                    {
-                                        DButil.HistoryLog("*** Accident Trend - tmn_cod:" + userData.GetProperty<string>("tmn_cod") + " | eqp_typ:" + userData.GetProperty<string>("eqp_typ"));
-                                        //
-                                        string[] strTrend = new string[3];
-                                        string[] strCnt = { "1st", "2nd", "3rd" };
-                                        string trendText = " \n\n";
-                                        trendList = db.SelectTrendInfo(userData.GetProperty<string>("eqp_typ"));
+                                    //if (dlg.cardTitle.Equals("Accident Trend"))
+                                    //{
+                                    //    DButil.HistoryLog("*** Accident Trend - tmn_cod:" + userData.GetProperty<string>("tmn_cod") + " | eqp_typ:" + userData.GetProperty<string>("eqp_typ"));
+                                    //    //
+                                    //    string[] strTrend = new string[3];
+                                    //    string[] strCnt = { "1st", "2nd", "3rd" };
+                                    //    string trendText = " \n\n";
+                                    //    trendList = db.SelectTrendInfo(userData.GetProperty<string>("eqp_typ"));
                                         
-                                        if (trendList != null)
-                                        {
-                                            if (trendList.Count > 0 && trendList[0].accidenttype != null)
-                                            {
-                                                for (int i = 0; i < 3; i++)
-                                                {
-                                                    strTrend[i] = strCnt[i] + ". Accident type:" + trendList[i].accidenttype + ", Accident count:" + trendList[i].count + " \n\n";
-                                                    trendText = trendText + strTrend[i];    
-                                                }
-                                            }
-                                        }
-                                        dlg.cardText = dlg.cardText.Replace("#accidentTrendList", trendText);
+                                    //    if (trendList != null)
+                                    //    {
+                                    //        if (trendList.Count > 0 && trendList[0].accidenttype != null)
+                                    //        {
+                                    //            for (int i = 0; i < 3; i++)
+                                    //            {
+                                    //                strTrend[i] = strCnt[i] + ". Accident type:" + trendList[i].accidenttype + ", Accident count:" + trendList[i].count + " \n\n";
+                                    //                trendText = trendText + strTrend[i];    
+                                    //            }
+                                    //        }
+                                    //    }
+                                    //    dlg.cardText = dlg.cardText.Replace("#accidentTrendList", trendText);
 
-                                    }
+                                    //}
 
                                     if (activity.ChannelId.Equals("facebook") && string.IsNullOrEmpty(dlg.cardTitle) && dlg.dlgType.Equals(TEXTDLG))
                                     {

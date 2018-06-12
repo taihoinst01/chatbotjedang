@@ -680,7 +680,7 @@ namespace PortChatBot.DB
                 cmd.CommandText += "SELECT  LUIS_ID, LUIS_INTENT, LUIS_ENTITIES, ISNULL(DLG_ID,0) AS DLG_ID, DLG_API_DEFINE, API_ID ";
                 cmd.CommandText += "  FROM  TBL_DLG_RELATION_LUIS                                                    ";
                 //cmd.CommandText += " WHERE  LUIS_ENTITIES = @entities                                                ";
-                cmd.CommandText += " WHERE  LUIS_INTENT = @intentId                                                ";
+                cmd.CommandText += " WHERE  LUIS_ENTITIES = @intentId                                                ";
                 
 
                 Debug.WriteLine("query : " + cmd.CommandText);
@@ -1230,9 +1230,9 @@ namespace PortChatBot.DB
                 cmd.Connection = conn;
                 DButil.HistoryLog("* SelectHrInfo commandText start: ");
                 cmd.CommandText += "	SELECT ";
-                cmd.CommandText += "        TMN_COD, WORKERID, NAME, EQP_TYP, EQP_TYP_NAME, EQUIPMENT_NO, ACCIDENT_RECORD, TRAINING_RECORD, AGE, VACATION, EYE_SIGHT_LEFT, EYE_SIGHT_RIGHT";
-                cmd.CommandText += "        FROM PORT_HR";
-                cmd.CommandText += " 	WHERE WORKERID = '" + workerId + "' OR NAME = '"+ workerId + "' ";
+                cmd.CommandText += "        EMP_NO, USER_NM, DEPT_CD, DEPT_NM, USER_ID ";
+                cmd.CommandText += "        FROM ADM_USER";
+                cmd.CommandText += " 	WHERE EMP_NO = '" + workerId + "' ";
                 cmd.Parameters.AddWithValue("@workerId", workerId);
 
                 Debug.WriteLine("* SelectHrInfo() CommandText : " + cmd.CommandText);
@@ -1242,20 +1242,11 @@ namespace PortChatBot.DB
                 while (rdr.Read())
                 {
                     HrList hrList = new HrList();
-                    hrList.tmn_cod = rdr["TMN_COD"] as string;
-                    //hrList.comp = rdr["COMP"] as string;
-                    //hrList.part = rdr["PART"] as string;
-                    hrList.workerid = rdr["WORKERID"] as string;
-                    hrList.name = rdr["NAME"] as string;
-                    hrList.eqp_typ = rdr["EQP_TYP"] as string;
-                    hrList.eqp_typ_name = rdr["EQP_TYP_NAME"] as string;
-                    hrList.equipment_no = rdr["EQUIPMENT_NO"] as string;
-                    hrList.accident_record = rdr["ACCIDENT_RECORD"] as string;
-                    hrList.training_record = rdr["TRAINING_RECORD"] as string;
-                    hrList.age = rdr["AGE"] as string;
-                    hrList.vacation = rdr["VACATION"] as string;
-                    hrList.eye_sight_left = rdr["EYE_SIGHT_LEFT"] as string;
-                    hrList.eye_sight_right = rdr["EYE_SIGHT_RIGHT"] as string;
+                    hrList.emp_no = rdr["EMP_NO"] as string;
+                    hrList.user_nm = rdr["USER_NM"] as string;
+                    hrList.dept_cd = rdr["DEPT_CD"] as string;
+                    hrList.dept_nm = rdr["DEPT_NM"] as string;
+                    hrList.user_id = rdr["USER_ID"] as string;
                     result.Add(hrList);
                 }
 

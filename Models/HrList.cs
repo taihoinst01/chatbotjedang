@@ -8,20 +8,10 @@ namespace PortChatBot.Models
     [Serializable]
     public class HrList
     {
-        public string tmn_cod;
-        public string workerid;
-        public string name;
-        public string eqp_typ;
-        public string eqp_typ_name;
-        public string equipment_no;
-        public string accident_record;
-        public string training_record;
-        public string age;
-        public string eye_sight_left;
-        public string eye_sight_right;
-        public string vacation;
-        public string ernam;
-        public string erdat;
-        public string erzet;
+        public string emp_no;
+        public string user_nm;
+        public string dept_cd;
+        public string dept_nm;
+        public string user_id;
     }
 }
