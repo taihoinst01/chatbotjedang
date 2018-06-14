@@ -492,7 +492,7 @@ namespace PortChatBot.DB
                 conn.Open();
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText += "SELECT LUIS_ID, LUIS_INTENT, LUIS_ENTITIES, ISNULL(LUIS_INTENT_SCORE,'') AS LUIS_INTENT_SCORE FROM TBL_QUERY_ANALYSIS_RESULT WHERE LOWER(QUERY) = LOWER(@msg) AND RESULT ='H'";
+                cmd.CommandText += "SELECT LUIS_ID, LUIS_INTENT, LUIS_ENTITIES, LUIS_ENTITIES_VALUE, ISNULL(LUIS_INTENT_SCORE,'') AS LUIS_INTENT_SCORE FROM TBL_QUERY_ANALYSIS_RESULT WHERE LOWER(QUERY) = LOWER(@msg) AND RESULT ='H'";
 
                 cmd.Parameters.AddWithValue("@msg", orgMent);
                 rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
@@ -513,21 +513,23 @@ namespace PortChatBot.DB
                     string luisId = rdr["LUIS_ID"] as String;
                     string intentId = rdr["LUIS_INTENT"] as String;
                     string entitiesId = rdr["LUIS_ENTITIES"] as String;
+                    string entitiesValue= rdr["LUIS_ENTITIES_VALUE"] as String;
                     string luisScore = rdr["LUIS_INTENT_SCORE"] as String;
                     
                     result.luisId = luisId;
                     result.luisIntent = intentId;
                     result.luisEntities = entitiesId;
+                    result.luisEntitiesValue = entitiesValue;
                     result.luisScore = luisScore;
 
-                    Debug.WriteLine("Yes rdr | intentId : " + intentId + " | entitiesId : "+ entitiesId + " | luisScore : " + luisScore);
+                    Debug.WriteLine("Yes rdr | intentId : " + intentId + " | entitiesId : "+ entitiesId + " | entitiesValue : " + entitiesValue + " | luisScore : " + luisScore);
                 }
 
             }
             return result;
         }
 
-        public CacheList CacheDataFromIntent(string intent)
+        public CacheList CacheDataFromIntent(string intent, String luisEntitiesValue)
         {
             SqlDataReader rdr = null;
             CacheList result = new CacheList();
@@ -559,11 +561,14 @@ namespace PortChatBot.DB
                     string intentId = rdr["LUIS_INTENT"] as String;
                     string entitiesId = rdr["LUIS_ENTITIES"] as String;
                     string luisScore = rdr["LUIS_INTENT_SCORE"] as String;
+                    //string luisEntitiesValue = "" as String;
 
                     result.luisId = luisId;
                     result.luisIntent = intentId;
                     result.luisEntities = entitiesId;
                     result.luisScore = luisScore;
+                    result.luisEntitiesValue = luisEntitiesValue;
+
 
                     Debug.WriteLine("Yes rdr | intentId : " + intentId + " | entitiesId : " + entitiesId + " | luisScore : " + luisScore);
                 }
@@ -623,7 +628,7 @@ namespace PortChatBot.DB
                 cmd.CommandText += "  FROM TBL_DLG_RELATION_LUIS                                                    ";
                 //cmd.CommandText += " WHERE 1=1                                               ";
                 cmd.CommandText += " WHERE LUIS_INTENT = @intentId                                                 ";
-                //cmd.CommandText += "   AND LUIS_ENTITIES = @entities                                                ";
+                cmd.CommandText += "   AND LUIS_ENTITIES = @entities                                                ";
                 //cmd.CommandText += "   AND LUIS_ID = @luisId                                                        ";
 
                 if(intentId != null){
@@ -810,7 +815,7 @@ namespace PortChatBot.DB
 			int dbResult = 0;
 			using (SqlConnection conn = new SqlConnection(connStr))
 			{
-                String luisID = "", intentName = "", entities = "", result = "", intentScore = "";
+                String luisID = "", intentName = "", entities = "", entitiesValue ="", result = "", intentScore = "";
 
                 int appID = 0,luisScore = 0;
 
@@ -822,6 +827,7 @@ namespace PortChatBot.DB
                     if (MessagesController.relationList == null)
                     {
                         entities = "None";
+                        entitiesValue = "None";
                         intentName = "None";
                         luisID = "None";
                         luisScore = 0;
@@ -854,6 +860,14 @@ namespace PortChatBot.DB
                             else
                             {
                                 entities = MessagesController.relationList[0].luisEntities;
+                            }
+                            if (String.IsNullOrEmpty(MessagesController.luisEntitiesValue))
+                            {
+                                entitiesValue = "None";
+                            }
+                            else
+                            {
+                                entitiesValue = MessagesController.luisEntitiesValue;
                             }
                             if (String.IsNullOrEmpty(MessagesController.relationList[0].luisScore.ToString()))
                             {
@@ -933,7 +947,9 @@ namespace PortChatBot.DB
                     cmd.Parameters.AddWithValue("@Query", Regex.Replace(MessagesController.queryStr, @"[^a-zA-Z0-9ㄱ-힣]", "", RegexOptions.Singleline).Trim().ToLower());
                     cmd.Parameters.AddWithValue("@intentID", intentName.Trim());
                     cmd.Parameters.AddWithValue("@entitiesIDS", entities.Trim().ToLower());
-                    if(result.Equals("D") || result.Equals("S"))
+                    cmd.Parameters.AddWithValue("@entitiesIDSV", entitiesValue.Trim().ToLower());
+                    
+                    if (result.Equals("D") || result.Equals("S"))
                     {
                         cmd.Parameters.AddWithValue("@intentScore", "0");
                     }
@@ -1377,52 +1393,65 @@ namespace PortChatBot.DB
 
         }
 
-        //public List<OrderHistory> SelectOrderHistory(String keywordGroup)
-        //{
-            //SqlDataReader rdr = null;
+        public List<OrderHistory> SelectOrderHistory(String cust, String fixarrival, String product, String kwmenge, String vadtu)
+        {
+            SqlDataReader rdr = null;
 
-            //List<OrderHistory> orderHistory = new List<OrderHistory>();
+            List<OrderHistory> orderHistory = new List<OrderHistory>();
 
-            //using (SqlConnection conn = new SqlConnection(connStr))
-            //{
-            //    conn.Open();
-            //    SqlCommand cmd = new SqlCommand();
-            //    cmd.Connection = conn;
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
 
-            //    cmd.CommandText += " SELECT  ";
-            //    cmd.CommandText += " 		A.KEYWORD_GROUP AS KEYWORD_GROUP ";
-            //    cmd.CommandText += " 	   ,B.PRICE_DLG_ID AS PRICE_DLG_ID ";
-            //    cmd.CommandText += " 	   ,CASE WHEN B.DLG_TYPE = '3' THEN 'CARD'  ";
-            //    cmd.CommandText += " 		WHEN B.DLG_TYPE = '4' THEN 'MEDIA' ";
-            //    cmd.CommandText += " 		ELSE 'TEXT' ";
-            //    cmd.CommandText += " 		END DLG_TYPE ";
-            //    cmd.CommandText += "  FROM TBL_PRICE_RELATION A, TBL_PRICE_DLG B ";
-            //    cmd.CommandText += " WHERE A.KEYWORD_GROUP = @keywordGroup  ";
-            //    cmd.CommandText += "   AND A.PRICE_DLG_ID = B.PRICE_DLG_ID ";
-            //    cmd.CommandText += " ORDER BY A.DLG_ORDER_NO ";
+                cmd.CommandText += " SELECT ";
+                cmd.CommandText += " 	( ";
+                cmd.CommandText += " 		SELECT KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(KNAME1,' ','') = @cust ";
+                cmd.CommandText += " 	) AS CUST, ";
+                cmd.CommandText += " 	( ";
+                cmd.CommandText += " 		SELECT KNAME1+'(' + KUNN2 + ')' FROM BAM_FIXARRIVAL WHERE  REPLACE(KNAME1,' ','') = @fixarrival ";
+                cmd.CommandText += " 	) AS FIXARRIVAL, ";
+                cmd.CommandText += " 	( ";
+                cmd.CommandText += " 		SELECT MAKTX+'('+MATNR+')'   FROM BAM_PRODUCT WHERE MAKTX LIKE '%@product%' ";
+                cmd.CommandText += " 	) AS PRODUCT, ";
+                cmd.CommandText += " 	@kwmenge AS KWMENGE, ";
+                cmd.CommandText += " 	( ";
+                cmd.CommandText += " 		SELECT  '2018.'+STUFF( ";
+                cmd.CommandText += "(SELECT '.', RIGHT('0' + REPLACE(REPLACE(VAL1, '월', ''), '일', ''), 2) FROM SPLIT2(@vadtu, ' ') FOR XML PATH('')) ";
+                cmd.CommandText += "		,1,1,'') ";
+                cmd.CommandText += " 	) AS VADTU ";
 
-            //    cmd.Parameters.AddWithValue("@keywordGroup", keywordGroup);
+                cmd.Parameters.AddWithValue("@cust", cust);
+                cmd.Parameters.AddWithValue("@fixarrival", fixarrival);
+                cmd.Parameters.AddWithValue("@product", product);
+                cmd.Parameters.AddWithValue("@kwmenge", kwmenge);
+                cmd.Parameters.AddWithValue("@vadtu", vadtu);
 
-            //    Debug.WriteLine("query : " + cmd.CommandText);
+                Debug.WriteLine("query : " + cmd.CommandText);
 
-            //    rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
-            //    while (rdr.Read())
-            //    {
-            //        string keywordGrp = rdr["KEYWORD_GROUP"] as string;
-            //        int priceDlgId = Convert.ToInt32(rdr["PRICE_DLG_ID"]);
-            //        string dlgType = rdr["DLG_TYPE"] as string;
+                while (rdr.Read())
+                {
+                    string custValue = rdr["CUST"] as string;
+                    string fixarrivalValue = rdr["FIXARRIVAL"] as string;
+                    string productValue = rdr["PRODUCT"] as string;
+                    string kwmengeValue = rdr["KWMENGE"] as string;
+                    string vadtuValue = rdr["VADTU"] as string;
 
-            //        Price_API_DLG dlg = new Price_API_DLG();
-            //        dlg.keywordGrp = keywordGrp;
-            //        dlg.priceDlgId = priceDlgId;
-            //        dlg.dlgType = dlgType;
+                    OrderHistory dlg = new OrderHistory();
+                    dlg.cust = custValue;
+                    dlg.fixarrival = fixarrivalValue;
+                    dlg.product = productValue;
+                    dlg.kwmenge = kwmengeValue;
+                    dlg.vdatu = vadtuValue;
 
-            //        priceList_api_dlg.Add(dlg);
-            //    }
-            //}
-            //return priceList_api_dlg;
-        //}
+                    orderHistory.Add(dlg);
+                }
+            }
+            return orderHistory;
+        }
 
 
     }

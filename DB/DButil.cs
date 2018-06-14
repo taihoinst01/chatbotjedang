@@ -90,6 +90,7 @@ namespace PortChatBot.DB
 
 
                 string luisEntities = "";
+                string luisEntitiesValue = "";
                 string luisType = "";
                 string luisIntent = "";
                 if(MAX > 0)
@@ -125,10 +126,16 @@ namespace PortChatBot.DB
                         {
                             for (int i = 0; i < luisEntityCount; i++)
                             {
+                                if((string)Luis["entities"][i]["type"]=="거래처내용" || (string)Luis["entities"][i]["type"] == "납품일자" || (string)Luis["entities"][i]["type"] == "수량내용" || (string)Luis["entities"][i]["type"] == "인도처내용" || (string)Luis["entities"][i]["type"] == "자재내용")
+                                {
+                                    
+                                    luisEntitiesValue = luisEntitiesValue + Luis["entities"][i]["type"] + "=" + Luis["entities"][i]["entity"] + ",";
+                                }
+                                luisEntities = luisEntities + Luis["entities"][i]["entity"] + ",";
                                 //luisEntities = luisEntities + Luis["entities"][i]["entity"] + ",";
-                                luisType = (string)Luis["entities"][i]["type"];
-                                luisType = Regex.Split(luisType, "::")[1];
-                                luisEntities = luisEntities + luisType + ",";
+                                //luisType = (string)Luis["entities"][i]["type"];
+                                //luisType = Regex.Split(luisType, ":")[1];
+                                //luisEntities = luisEntities + luisType + ",";
                             }
                         }
                     }
@@ -137,6 +144,9 @@ namespace PortChatBot.DB
                     {
                         luisEntities = luisEntities.Substring(0, luisEntities.LastIndexOf(","));
                         luisEntities = Regex.Replace(luisEntities, " ", "");
+
+                        luisEntitiesValue = luisEntitiesValue.Substring(0, luisEntitiesValue.LastIndexOf(","));
+                        luisEntitiesValue = Regex.Replace(luisEntitiesValue, " ", "");
 
 
                         luisEntities = MessagesController.db.SelectArray(luisEntities);
@@ -151,6 +161,7 @@ namespace PortChatBot.DB
                         }
 
                         MessagesController.cacheList.luisEntities = luisEntities;
+                        MessagesController.cacheList.luisEntitiesValue = luisEntitiesValue; 
                     }
 
                     //MessagesController.cacheList.luisEntities = LuisName;

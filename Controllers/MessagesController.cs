@@ -67,6 +67,7 @@ namespace PortChatBot
         public static string luisId = "";
         public static string luisIntent = "";
         public static string luisEntities = "";
+        public static string luisEntitiesValue = ""; 
         public static string queryStr = "";
         public static DateTime startTime;
 
@@ -331,7 +332,8 @@ namespace PortChatBot
 
                             cacheList.luisIntent = dbutil.GetMultiLUIS(orgMent);
                             Debug.WriteLine("cacheList.luisIntent : " + cacheList.luisIntent);
-                            cacheList = db.CacheDataFromIntent(cacheList.luisIntent);
+                            Debug.WriteLine("cacheList.luisEntitiesValue : " + cacheList.luisEntitiesValue);
+                            cacheList = db.CacheDataFromIntent(cacheList.luisIntent, cacheList.luisEntitiesValue);
 
 
                         }
@@ -361,6 +363,8 @@ namespace PortChatBot
                         luisId = cacheList.luisId;
                         luisIntent = cacheList.luisIntent;
                         luisEntities = cacheList.luisEntities;
+                        luisEntitiesValue = cacheList.luisEntitiesValue;
+
 
                         Debug.WriteLine("* cacheList luisId: " + luisId + " | luisIntent : "+ luisIntent+ " | luisEntities : "+ luisEntities);
 
@@ -457,8 +461,8 @@ namespace PortChatBot
                                 {
                                     //DButil.HistoryLog("fullentity : " + fullentity + " | luisEntities : " + luisEntities);
                                     //DefineTypeChkSpare에서는 인텐트나 루이스아이디조건 없이 엔티티만 일치하면 다이얼로그 리턴
-                                    //relationList = db.DefineTypeChkSpare(fullentity);
-                                    relationList = db.DefineTypeChkSpare(luisIntent);
+                                    relationList = db.DefineTypeChkSpare(fullentity);
+                                    //relationList = db.DefineTypeChkSpare(luisIntent);
                                 }
                                 else
                                 {
@@ -624,31 +628,6 @@ namespace PortChatBot
 
                                             }
 
-                                            //  주문접수
-                                            if (tempcard.cardTitle.Equals("주문확인")) //  주문내역 dialog 일시..
-                                            {
-                                                DButil.HistoryLog("*** activity.Conversation.Id : " + activity.Conversation.Id + " | dlg.cardText : " + dlg.cardText + " | fullentity : " + fullentity);
-
-                                                string[] strComment = new string[5];
-                                                string optionComment = tempcard.cardText;
-
-                                                //거래처는 해태제과, 인도처는 해태제과 아산공장으로 자재는  갈색설탕 15kg짜리, 수량은 7파레트, 납품일은 6월 1일로  주문넣어줘
-                                                //cust,kunnr,matnr,kwmenge,vdatu
-                                                List<OrderHistory> orderDlgList = new List<OrderHistory>();
-                                                //orderDlgList = db.SelectPriceList_API_DLG("OPTION");
-
-                                                strComment[1] = userData.GetProperty<string>("dept_nm");
-                                                strComment[2] = userData.GetProperty<string>("user_nm");
-                                                strComment[3] = userData.GetProperty<string>("emp_no");
-                                                DButil.HistoryLog("*** strComment[0] : " + strComment[0] + " | strComment[1] : " + strComment[1] + " | strComment[2] : " + strComment[2]);
-                                                //B2B영업1팀 SA(11112222) 님.어떤 업무를 도와드릴까요 ?;
-                                                optionComment = optionComment.Replace("#Dept_nm", strComment[1]);
-                                                optionComment = optionComment.Replace("#User_nm", strComment[2]);
-                                                optionComment = optionComment.Replace("#Emp_no", strComment[3]);
-                                                tempcard.cardText = optionComment;
-
-                                            }
-
                                             tempAttachment = dbutil.getAttachmentFromDialog(tempcard, activity);
                                         }
 
@@ -662,8 +641,65 @@ namespace PortChatBot
                                 {
                                     //DButil.HistoryLog("* facebook dlg.dlgId : " + dlg.dlgId);
                                     DButil.HistoryLog("* activity.ChannelId : " + activity.ChannelId);
-                                    DButil.HistoryLog("* dlg.dlgId : "+ dlg.dlgId + " | dlg.cardTitle : " + dlg.cardTitle + " | dlg.cardText : " + dlg.cardText);                                    
+                                    DButil.HistoryLog("* dlg.dlgId : "+ dlg.dlgId + " | dlg.cardTitle : " + dlg.cardTitle + " | dlg.cardText : " + dlg.cardText);
 
+                                    //  주문접수
+                                    if (dlg.cardTitle.Equals("주문확인")) //  주문내역 dialog 일시..
+                                    {
+                                        DButil.HistoryLog("*** activity.Conversation.Id : " + activity.Conversation.Id + " | dlg.cardText : " + dlg.cardText + " | fullentity : " + fullentity);
+
+                                        string[] strComment = new string[5];
+                                        string optionComment = dlg.cardText;
+
+                                        //거래처는 해태제과, 인도처는 해태제과 아산공장으로 자재는  갈색설탕 15kg짜리, 수량은 7파레트, 납품일은 6월 1일로  주문넣어줘
+                                        //cust,kunnr,matnr,kwmenge,vdatu
+                                        Debug.WriteLine("MessagesController.luisEntitiesVlaue : " + MessagesController.luisEntitiesValue);
+                                        string cust = "";
+                                        string kunnr = "";
+                                        string matnr = "";
+                                        string kwmenge = "";
+                                        string vdatu = "";
+
+                                        string[] luisEntitiesValueSplit = MessagesController.luisEntitiesValue.Split(',');
+                                        for (int i = 0; i < luisEntitiesValueSplit.Count(); i++)
+                                        {
+                                            if (luisEntitiesValueSplit[i].Contains("거래처내용="))
+                                            {
+                                                cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "");
+                                            }
+                                            else if (luisEntitiesValueSplit[i].Contains("납품일자="))
+                                            {
+                                                vdatu = luisEntitiesValueSplit[i].Replace("납품일자=", "");
+                                            }
+                                            else if (luisEntitiesValueSplit[i].Contains("수량내용="))
+                                            {
+                                                kwmenge = luisEntitiesValueSplit[i].Replace("수량내용=", "");
+                                            }
+                                            else if (luisEntitiesValueSplit[i].Contains("인도처내용="))
+                                            {
+                                                kunnr = luisEntitiesValueSplit[i].Replace("인도처내용=", "");
+                                            }
+                                            else if (luisEntitiesValueSplit[i].Contains("자재내용="))
+                                            {
+                                                matnr = luisEntitiesValueSplit[i].Replace("자재내용=", "");
+                                            }
+                                        }
+                                            
+                                        List <OrderHistory> orderDlgList = new List<OrderHistory>();
+                                        orderDlgList = db.SelectOrderHistory(cust, kunnr, matnr, kwmenge, vdatu);
+
+                                        //strComment[1] = userData.GetProperty<string>("dept_nm");
+                                        //strComment[2] = userData.GetProperty<string>("user_nm");
+                                        //strComment[3] = userData.GetProperty<string>("emp_no");
+                                        //DButil.HistoryLog("*** strComment[0] : " + strComment[0] + " | strComment[1] : " + strComment[1] + " | strComment[2] : " + strComment[2]);
+                                        //B2B영업1팀 SA(11112222) 님.어떤 업무를 도와드릴까요 ?;
+                                        //optionComment = optionComment.Replace("#Dept_nm", strComment[1]);
+                                        //optionComment = optionComment.Replace("#User_nm", strComment[2]);
+                                        //optionComment = optionComment.Replace("#Emp_no", strComment[3]);
+                                        optionComment = "거래처 : " + orderDlgList[0].cust + "인도처 : " + orderDlgList[0].fixarrival + "자재 : " + orderDlgList[0].product + "수량 : " + orderDlgList[0].kwmenge + "납품일 : " + orderDlgList[0].vdatu;
+                                        dlg.cardText = optionComment;
+
+                                    }
                                     //  Weather Info
                                     if (dlg.cardTitle.Equals("Weather Info")) //  주문내역 dialog 일시..
                                     {

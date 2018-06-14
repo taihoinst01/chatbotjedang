@@ -8,8 +8,8 @@ namespace PortChatBot.Models
     public class OrderHistory
     {
         public string cust;
-        public string kunnr;
-        public string matnr;
+        public string fixarrival;
+        public string product;
         public string kwmenge;
         public string vdatu;
     }

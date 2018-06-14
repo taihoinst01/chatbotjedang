@@ -10,6 +10,7 @@ namespace PortChatBot.Models
         public string luisId;
         public string luisIntent;
         public string luisEntities;
+        public string luisEntitiesValue;
         public string luisScore;
         public int dlgId;
         public int dlgOrderNo;
