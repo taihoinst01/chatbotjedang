@@ -632,7 +632,7 @@ namespace PortChatBot
                                         strComment[3] = userData.GetProperty<string>("emp_no");                                        
                                         DButil.HistoryLog("*** strComment[0] : " + strComment[0] + " | strComment[1] : " + strComment[1] + " | strComment[2] : " + strComment[2]);
                                         //B2B영업1팀 SA(11112222) 님.어떤 업무를 도와드릴까요 ?;
-                                        optionComment = optionComment.Replace("#Dept_nm", "$"+ strComment[1] + "\n\n");
+                                        optionComment = optionComment.Replace("#Dept_nm", strComment[1]);
                                         optionComment = optionComment.Replace("#User_nm", strComment[2]);
                                         optionComment = optionComment.Replace("#Emp_no", strComment[3]);
                                         dlg.cardText = optionComment;
