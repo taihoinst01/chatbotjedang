@@ -1377,6 +1377,53 @@ namespace PortChatBot.DB
 
         }
 
+        //public List<OrderHistory> SelectOrderHistory(String keywordGroup)
+        //{
+            //SqlDataReader rdr = null;
+
+            //List<OrderHistory> orderHistory = new List<OrderHistory>();
+
+            //using (SqlConnection conn = new SqlConnection(connStr))
+            //{
+            //    conn.Open();
+            //    SqlCommand cmd = new SqlCommand();
+            //    cmd.Connection = conn;
+
+            //    cmd.CommandText += " SELECT  ";
+            //    cmd.CommandText += " 		A.KEYWORD_GROUP AS KEYWORD_GROUP ";
+            //    cmd.CommandText += " 	   ,B.PRICE_DLG_ID AS PRICE_DLG_ID ";
+            //    cmd.CommandText += " 	   ,CASE WHEN B.DLG_TYPE = '3' THEN 'CARD'  ";
+            //    cmd.CommandText += " 		WHEN B.DLG_TYPE = '4' THEN 'MEDIA' ";
+            //    cmd.CommandText += " 		ELSE 'TEXT' ";
+            //    cmd.CommandText += " 		END DLG_TYPE ";
+            //    cmd.CommandText += "  FROM TBL_PRICE_RELATION A, TBL_PRICE_DLG B ";
+            //    cmd.CommandText += " WHERE A.KEYWORD_GROUP = @keywordGroup  ";
+            //    cmd.CommandText += "   AND A.PRICE_DLG_ID = B.PRICE_DLG_ID ";
+            //    cmd.CommandText += " ORDER BY A.DLG_ORDER_NO ";
+
+            //    cmd.Parameters.AddWithValue("@keywordGroup", keywordGroup);
+
+            //    Debug.WriteLine("query : " + cmd.CommandText);
+
+            //    rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            //    while (rdr.Read())
+            //    {
+            //        string keywordGrp = rdr["KEYWORD_GROUP"] as string;
+            //        int priceDlgId = Convert.ToInt32(rdr["PRICE_DLG_ID"]);
+            //        string dlgType = rdr["DLG_TYPE"] as string;
+
+            //        Price_API_DLG dlg = new Price_API_DLG();
+            //        dlg.keywordGrp = keywordGrp;
+            //        dlg.priceDlgId = priceDlgId;
+            //        dlg.dlgType = dlgType;
+
+            //        priceList_api_dlg.Add(dlg);
+            //    }
+            //}
+            //return priceList_api_dlg;
+        //}
+
 
     }
 }

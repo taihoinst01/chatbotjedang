@@ -606,12 +606,36 @@ namespace PortChatBot
                                             //  userLoginOk
                                             if (tempcard.cardTitle.Equals("LoginSuccess")) //  주문내역 dialog 일시..
                                             {
-
                                                 DButil.HistoryLog("*** activity.Conversation.Id : " + activity.Conversation.Id + " | dlg.cardText : " + dlg.cardText + " | fullentity : " + fullentity);
 
                                                 string[] strComment = new string[4];
                                                 string optionComment = tempcard.cardText;
                                                 
+
+                                                strComment[1] = userData.GetProperty<string>("dept_nm");
+                                                strComment[2] = userData.GetProperty<string>("user_nm");
+                                                strComment[3] = userData.GetProperty<string>("emp_no");
+                                                DButil.HistoryLog("*** strComment[0] : " + strComment[0] + " | strComment[1] : " + strComment[1] + " | strComment[2] : " + strComment[2]);
+                                                //B2B영업1팀 SA(11112222) 님.어떤 업무를 도와드릴까요 ?;
+                                                optionComment = optionComment.Replace("#Dept_nm", strComment[1]);
+                                                optionComment = optionComment.Replace("#User_nm", strComment[2]);
+                                                optionComment = optionComment.Replace("#Emp_no", strComment[3]);
+                                                tempcard.cardText = optionComment;
+
+                                            }
+
+                                            //  주문접수
+                                            if (tempcard.cardTitle.Equals("주문확인")) //  주문내역 dialog 일시..
+                                            {
+                                                DButil.HistoryLog("*** activity.Conversation.Id : " + activity.Conversation.Id + " | dlg.cardText : " + dlg.cardText + " | fullentity : " + fullentity);
+
+                                                string[] strComment = new string[5];
+                                                string optionComment = tempcard.cardText;
+
+                                                //거래처는 해태제과, 인도처는 해태제과 아산공장으로 자재는  갈색설탕 15kg짜리, 수량은 7파레트, 납품일은 6월 1일로  주문넣어줘
+                                                //cust,kunnr,matnr,kwmenge,vdatu
+                                                List<OrderHistory> orderDlgList = new List<OrderHistory>();
+                                                //orderDlgList = db.SelectPriceList_API_DLG("OPTION");
 
                                                 strComment[1] = userData.GetProperty<string>("dept_nm");
                                                 strComment[2] = userData.GetProperty<string>("user_nm");

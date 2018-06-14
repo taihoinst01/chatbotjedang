@@ -163,6 +163,7 @@
     <Compile Include="Models\DialogList.cs" />
     <Compile Include="Models\LuisList.cs" />
     <Compile Include="Models\MediaList.cs" />
+    <Compile Include="Models\OrderHistory.cs" />
     <Compile Include="Models\TextList.cs" />
     <Compile Include="Models\TrendList.cs" />
     <Compile Include="Models\UserHeroCard.cs" />
