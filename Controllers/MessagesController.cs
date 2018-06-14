@@ -603,6 +603,28 @@ namespace PortChatBot
                                         }
                                         else
                                         {
+                                            //  userLoginOk
+                                            if (tempcard.cardTitle.Equals("LoginSuccess")) //  주문내역 dialog 일시..
+                                            {
+
+                                                DButil.HistoryLog("*** activity.Conversation.Id : " + activity.Conversation.Id + " | dlg.cardText : " + dlg.cardText + " | fullentity : " + fullentity);
+
+                                                string[] strComment = new string[4];
+                                                string optionComment = tempcard.cardText;
+                                                
+
+                                                strComment[1] = userData.GetProperty<string>("dept_nm");
+                                                strComment[2] = userData.GetProperty<string>("user_nm");
+                                                strComment[3] = userData.GetProperty<string>("emp_no");
+                                                DButil.HistoryLog("*** strComment[0] : " + strComment[0] + " | strComment[1] : " + strComment[1] + " | strComment[2] : " + strComment[2]);
+                                                //B2B영업1팀 SA(11112222) 님.어떤 업무를 도와드릴까요 ?;
+                                                optionComment = optionComment.Replace("#Dept_nm", strComment[1]);
+                                                optionComment = optionComment.Replace("#User_nm", strComment[2]);
+                                                optionComment = optionComment.Replace("#Emp_no", strComment[3]);
+                                                tempcard.cardText = optionComment;
+
+                                            }
+
                                             tempAttachment = dbutil.getAttachmentFromDialog(tempcard, activity);
                                         }
 
@@ -616,28 +638,7 @@ namespace PortChatBot
                                 {
                                     //DButil.HistoryLog("* facebook dlg.dlgId : " + dlg.dlgId);
                                     DButil.HistoryLog("* activity.ChannelId : " + activity.ChannelId);
-                                    DButil.HistoryLog("* dlg.dlgId : "+ dlg.dlgId + " | dlg.cardTitle : " + dlg.cardTitle + " | dlg.cardText : " + dlg.cardText);
-
-                                    //  userLoginOk
-                                    if (dlg.cardTitle.Equals("LoginSuccess")) //  주문내역 dialog 일시..
-                                    {
-
-                                        DButil.HistoryLog("*** activity.Conversation.Id : " + activity.Conversation.Id + " | dlg.cardText : " + dlg.cardText + " | fullentity : " + fullentity); 
-
-                                        string[] strComment = new string[4];
-                                        string optionComment = dlg.cardText;
-
-                                        strComment[1] = userData.GetProperty<string>("dept_nm");
-                                        strComment[2] = userData.GetProperty<string>("user_nm");
-                                        strComment[3] = userData.GetProperty<string>("emp_no");                                        
-                                        DButil.HistoryLog("*** strComment[0] : " + strComment[0] + " | strComment[1] : " + strComment[1] + " | strComment[2] : " + strComment[2]);
-                                        //B2B영업1팀 SA(11112222) 님.어떤 업무를 도와드릴까요 ?;
-                                        optionComment = optionComment.Replace("#Dept_nm", strComment[1]);
-                                        optionComment = optionComment.Replace("#User_nm", strComment[2]);
-                                        optionComment = optionComment.Replace("#Emp_no", strComment[3]);
-                                        dlg.cardText = optionComment;
-
-                                    }
+                                    DButil.HistoryLog("* dlg.dlgId : "+ dlg.dlgId + " | dlg.cardTitle : " + dlg.cardTitle + " | dlg.cardText : " + dlg.cardText);                                    
 
                                     //  Weather Info
                                     if (dlg.cardTitle.Equals("Weather Info")) //  주문내역 dialog 일시..
