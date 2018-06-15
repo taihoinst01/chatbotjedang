@@ -244,4 +244,3 @@ C:\Users\user\Source\Repos\chatbotjedang\bin\System.IdentityModel.Tokens.Jwt.pdb
 C:\Users\user\Source\Repos\chatbotjedang\bin\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\user\Source\Repos\chatbotjedang\bin\System.Threading.Tasks.Extensions.xml
 C:\Users\user\Source\Repos\chatbotjedang\bin\System.ValueTuple.xml
-C:\Users\user\Source\Repos\chatbotjedang\obj\Debug\PortChatBot.csprojAssemblyReference.cache

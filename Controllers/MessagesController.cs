@@ -71,6 +71,14 @@ namespace PortChatBot
         public static string queryStr = "";
         public static DateTime startTime;
 
+        //주문내역
+        public static string cust = "";
+        public static string kunnr = "";
+        public static string matnr = "";
+        public static string kwmenge = "";
+        public static string vdatu = "";
+        public static string inform = "";
+
         public static CacheList cacheList = new CacheList();
         public static QueryIntentList queryIntentList = new QueryIntentList();
         //페이스북 페이지용
@@ -165,6 +173,15 @@ namespace PortChatBot
                 userData.SetProperty<string>("dept_cd", "");
                 userData.SetProperty<string>("dept_nm", "");
                 userData.SetProperty<string>("user_id", "");
+
+                userData.SetProperty<string>("cust", "");
+                userData.SetProperty<string>("kunnr", "");
+                userData.SetProperty<string>("matnr", "");
+                userData.SetProperty<string>("kwmenge", "");
+                userData.SetProperty<string>("vdatu", "");
+                userData.SetProperty<string>("inform", "");
+
+
 
                 await stateClient.BotState.SetUserDataAsync(activity.ChannelId, activity.From.Id, userData);
                 //
@@ -567,6 +584,7 @@ namespace PortChatBot
                             for (int m = 0; m < MessagesController.relationList.Count; m++)
                             {
                                 DialogList dlg = db.SelectDialog(MessagesController.relationList[m].dlgId);
+                                Debug.WriteLine("MessagesController.relationList[m].dlgId ==== " + MessagesController.relationList[m].dlgId);
                                 Activity commonReply = activity.CreateReply();
                                 Attachment tempAttachment = new Attachment();
                                 DButil.HistoryLog("dlg.dlgType : " + dlg.dlgType);
@@ -654,13 +672,10 @@ namespace PortChatBot
                                         //거래처는 해태제과, 인도처는 해태제과 아산공장으로 자재는  갈색설탕 15kg짜리, 수량은 7파레트, 납품일은 6월 1일로  주문넣어줘
                                         //cust,kunnr,matnr,kwmenge,vdatu
                                         Debug.WriteLine("MessagesController.luisEntitiesVlaue : " + MessagesController.luisEntitiesValue);
-                                        string cust = "";
-                                        string kunnr = "";
-                                        string matnr = "";
-                                        string kwmenge = "";
-                                        string vdatu = "";
+
 
                                         string[] luisEntitiesValueSplit = MessagesController.luisEntitiesValue.Split(',');
+
                                         for (int i = 0; i < luisEntitiesValueSplit.Count(); i++)
                                         {
                                             if (luisEntitiesValueSplit[i].Contains("거래처내용="))
@@ -683,8 +698,37 @@ namespace PortChatBot
                                             {
                                                 matnr = luisEntitiesValueSplit[i].Replace("자재내용=", "");
                                             }
+                                            else if (luisEntitiesValueSplit[i].Contains("전달사항내용="))
+                                            {
+                                                inform = luisEntitiesValueSplit[i].Replace("전달사항내용=", "");
+                                            }
                                         }
-                                            
+
+                                        if (string.IsNullOrEmpty(cust))
+                                        {
+                                            cust = userData.GetProperty<string>("cust");
+                                        }
+
+                                        if (string.IsNullOrEmpty(vdatu))
+                                        {
+                                            vdatu = userData.GetProperty<string>("vdatu");
+                                        }
+
+                                        if (string.IsNullOrEmpty(kwmenge))
+                                        {
+                                            kwmenge = userData.GetProperty<string>("kwmenge");
+                                        }
+
+                                        if (string.IsNullOrEmpty(kunnr))
+                                        {
+                                            kunnr = userData.GetProperty<string>("kunnr");
+                                        }
+
+                                        if (string.IsNullOrEmpty(matnr))
+                                        {
+                                            matnr = userData.GetProperty<string>("matnr");
+                                        }
+
                                         List <OrderHistory> orderDlgList = new List<OrderHistory>();
                                         orderDlgList = db.SelectOrderHistory(cust, kunnr, matnr, kwmenge, vdatu);
 
@@ -696,8 +740,67 @@ namespace PortChatBot
                                         //optionComment = optionComment.Replace("#Dept_nm", strComment[1]);
                                         //optionComment = optionComment.Replace("#User_nm", strComment[2]);
                                         //optionComment = optionComment.Replace("#Emp_no", strComment[3]);
+                                        userData.SetProperty<string>("cust", orderDlgList[0].cust);
+                                        userData.SetProperty<string>("kunnr", orderDlgList[0].fixarrival);
+                                        userData.SetProperty<string>("matnr", orderDlgList[0].product);
+                                        userData.SetProperty<string>("kwmenge", orderDlgList[0].kwmenge);
+                                        userData.SetProperty<string>("vdatu", orderDlgList[0].vdatu);
+
                                         optionComment = "거래처 : " + orderDlgList[0].cust + "인도처 : " + orderDlgList[0].fixarrival + "자재 : " + orderDlgList[0].product + "수량 : " + orderDlgList[0].kwmenge + "납품일 : " + orderDlgList[0].vdatu;
+
+                                        if (!string.IsNullOrEmpty(inform))
+                                        {
+                                            optionComment = optionComment + "전달내용 : " + inform;
+                                            userData.SetProperty<string>("inform", inform);
+                                        }
+
                                         dlg.cardText = optionComment;
+
+                                    }
+
+                                    //주문수정수량
+                                    if (dlg.cardTitle.Equals("주문수정수량") || dlg.cardTitle.Equals("주문수정납품일") || dlg.cardTitle.Equals("전달사항입력")) //  주문내역 dialog 일시..
+                                    {
+                                        DButil.HistoryLog("*** activity.Conversation.Id : " + activity.Conversation.Id + " | dlg.cardText : " + dlg.cardText + " | fullentity : " + fullentity);
+
+                                        string optionComment = dlg.cardText;
+
+                                        optionComment = "거래처 : " + userData.GetProperty<string>("cust") + "인도처 : " + userData.GetProperty<string>("kunnr") + "자재 : " + userData.GetProperty<string>("matnr") + "수량 : " + userData.GetProperty<string>("kwmenge") + "납품일 : " + userData.GetProperty<string>("vdatu");
+                                        dlg.cardText = optionComment;
+
+                                    }
+                                    
+                                    //주문완료
+                                    if (dlg.cardTitle.Equals("주문완료")) //  주문내역 dialog 일시..
+                                    {
+                                        DButil.HistoryLog("주문완료");
+                                        string optionComment = "";
+
+                                        userData.GetProperty<string>("cust");
+                                        userData.GetProperty<string>("kunnr");
+                                        userData.GetProperty<string>("matnr");
+                                        userData.GetProperty<string>("kwmenge");
+                                        userData.GetProperty<string>("vdatu");
+                                        userData.GetProperty<string>("inform");
+
+                                        db.insertOrder(userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), userData.GetProperty<string>("inform"));
+
+                                        //optionComment = "거래처 : " + userData.GetProperty<string>("cust") + "인도처 : " + userData.GetProperty<string>("kunnr") + "자재 : " + userData.GetProperty<string>("matnr") + "수량 : " + userData.GetProperty<string>("kwmenge") + "납품일 : " + userData.GetProperty<string>("vdatu");
+
+                                        //if (!string.IsNullOrEmpty(userData.GetProperty<string>("inform")))
+                                        //{
+                                        //    optionComment = optionComment + "전달내용 : " + inform;
+                                        //}
+
+                                        //dlg.cardText = optionComment;
+
+                                        userData.SetProperty<string>("cust", "");
+                                        userData.SetProperty<string>("kunnr", "");
+                                        userData.SetProperty<string>("matnr", "");
+                                        userData.SetProperty<string>("kwmenge", "");
+                                        userData.SetProperty<string>("vdatu", "");
+                                        userData.SetProperty<string>("inform", "");
+                                        inform = "";
 
                                     }
                                     //  Weather Info
@@ -1021,6 +1124,7 @@ namespace PortChatBot
                                     replyresult = "H";
 
                                 }
+                                dlg.cardText = "";
                             }
                         }
                         

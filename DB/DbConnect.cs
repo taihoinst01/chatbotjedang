@@ -1410,21 +1410,21 @@ namespace PortChatBot.DB
                 cmd.CommandText += " 		SELECT KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(KNAME1,' ','') = @cust ";
                 cmd.CommandText += " 	) AS CUST, ";
                 cmd.CommandText += " 	( ";
-                cmd.CommandText += " 		SELECT KNAME1+'(' + KUNN2 + ')' FROM BAM_FIXARRIVAL WHERE  REPLACE(KNAME1,' ','') = @fixarrival ";
+                cmd.CommandText += " 		SELECT KNAME1+'(' + KUNN2 + ')' FROM BAM_FIXARRIVAL WHERE  REPLACE(KNAME1,' ','') LIKE '%" + fixarrival + "%' ";
                 cmd.CommandText += " 	) AS FIXARRIVAL, ";
                 cmd.CommandText += " 	( ";
-                cmd.CommandText += " 		SELECT MAKTX+'('+MATNR+')'   FROM BAM_PRODUCT WHERE MAKTX LIKE '%@product%' ";
+                cmd.CommandText += " 		SELECT MAKTX+'('+MATNR+')'   FROM BAM_PRODUCT WHERE REPLACE(MAKTX,' ','') LIKE '%" + product + "%' ";
                 cmd.CommandText += " 	) AS PRODUCT, ";
                 cmd.CommandText += " 	@kwmenge AS KWMENGE, ";
                 cmd.CommandText += " 	( ";
                 cmd.CommandText += " 		SELECT  '2018.'+STUFF( ";
-                cmd.CommandText += "(SELECT '.', RIGHT('0' + REPLACE(REPLACE(VAL1, '월', ''), '일', ''), 2) FROM SPLIT2(@vadtu, ' ') FOR XML PATH('')) ";
+                cmd.CommandText += "(SELECT '.', RIGHT('0' + REPLACE(REPLACE(VAL1, '월', ''), '일', ''), 2) FROM SPLIT2(REPLACE(@vadtu,'월',' '), ' ') FOR XML PATH('')) ";
                 cmd.CommandText += "		,1,1,'') ";
                 cmd.CommandText += " 	) AS VADTU ";
 
                 cmd.Parameters.AddWithValue("@cust", cust);
-                cmd.Parameters.AddWithValue("@fixarrival", fixarrival);
-                cmd.Parameters.AddWithValue("@product", product);
+                //cmd.Parameters.AddWithValue("@fixarrival", fixarrival);
+                //cmd.Parameters.AddWithValue("@product", product);
                 cmd.Parameters.AddWithValue("@kwmenge", kwmenge);
                 cmd.Parameters.AddWithValue("@vadtu", vadtu);
 
@@ -1451,6 +1451,47 @@ namespace PortChatBot.DB
                 }
             }
             return orderHistory;
+        }
+
+        public int insertOrder(String cust, String fixarrival, String product, String kwmenge, String vadtu, String inform)
+        {
+            int result;
+            string strTarget = kwmenge;
+            string strTmp = Regex.Replace(strTarget, @"\D", "");
+            int nTmp = int.Parse(strTmp);
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText += " INSERT INTO VOS_ORDER ";
+                cmd.CommandText += " (VBELN_SEQ, KUNNR, KNAME1, KUNN2, KNAME2, VDATU, INFORM, MATNR, MAKTX, KWMENGE, VRKME) ";
+                cmd.CommandText += " VALUES ";
+                cmd.CommandText += " (1 ";
+                cmd.CommandText += "    , REPLACE(RIGHT(@cust, CHARINDEX('(', REVERSE(@cust))-1),')','') ";
+                cmd.CommandText += "    , REPLACE(@cust,'('+RIGHT(@cust, CHARINDEX('(', REVERSE(@cust))-1),'') ";
+                cmd.CommandText += "    , REPLACE(RIGHT(@fixarrival, CHARINDEX('(', REVERSE(@fixarrival))-1),')','') ";
+                cmd.CommandText += "    , REPLACE(@fixarrival,'('+RIGHT(@fixarrival, CHARINDEX('(', REVERSE(@fixarrival))-1),'') ";
+                cmd.CommandText += "    , REPLACE(@vadtu,'.','') ";
+                cmd.CommandText += "    , @inform ";
+                cmd.CommandText += "    , REPLACE(RIGHT(@product, CHARINDEX('(', REVERSE(@product))-1),')','') ";
+                cmd.CommandText += "    , REPLACE(@product,'('+RIGHT(@product, CHARINDEX('(', REVERSE(@product))-1),'') ";
+                cmd.CommandText += "    , @kwmenge ";
+                cmd.CommandText += "    , 'EA') ";
+
+                cmd.Parameters.AddWithValue("@cust", cust);
+                cmd.Parameters.AddWithValue("@fixarrival", fixarrival);
+                cmd.Parameters.AddWithValue("@product", product);
+                cmd.Parameters.AddWithValue("@kwmenge", nTmp);
+                cmd.Parameters.AddWithValue("@vadtu", vadtu);
+                cmd.Parameters.AddWithValue("@inform", inform);
+
+                result = cmd.ExecuteNonQuery();
+                Debug.WriteLine("result : " + result);
+            }
+            return result;
         }
 
 

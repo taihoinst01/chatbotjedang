@@ -126,9 +126,8 @@ namespace PortChatBot.DB
                         {
                             for (int i = 0; i < luisEntityCount; i++)
                             {
-                                if((string)Luis["entities"][i]["type"]=="거래처내용" || (string)Luis["entities"][i]["type"] == "납품일자" || (string)Luis["entities"][i]["type"] == "수량내용" || (string)Luis["entities"][i]["type"] == "인도처내용" || (string)Luis["entities"][i]["type"] == "자재내용")
-                                {
-                                    
+                                if((string)Luis["entities"][i]["type"]=="거래처내용" || (string)Luis["entities"][i]["type"] == "납품일자" || (string)Luis["entities"][i]["type"] == "수량내용" || (string)Luis["entities"][i]["type"] == "인도처내용" || (string)Luis["entities"][i]["type"] == "자재내용" || (string)Luis["entities"][i]["type"] == "전달사항내용" || (string)Luis["entities"][i]["type"] == "주문수정납품일")
+                                {                                    
                                     luisEntitiesValue = luisEntitiesValue + Luis["entities"][i]["type"] + "=" + Luis["entities"][i]["entity"] + ",";
                                 }
                                 luisEntities = luisEntities + Luis["entities"][i]["entity"] + ",";
@@ -145,9 +144,11 @@ namespace PortChatBot.DB
                         luisEntities = luisEntities.Substring(0, luisEntities.LastIndexOf(","));
                         luisEntities = Regex.Replace(luisEntities, " ", "");
 
-                        luisEntitiesValue = luisEntitiesValue.Substring(0, luisEntitiesValue.LastIndexOf(","));
-                        luisEntitiesValue = Regex.Replace(luisEntitiesValue, " ", "");
-
+                        if(!string.IsNullOrEmpty(luisEntitiesValue))
+                        { 
+                            luisEntitiesValue = luisEntitiesValue.Substring(0, luisEntitiesValue.LastIndexOf(","));
+                            luisEntitiesValue = Regex.Replace(luisEntitiesValue, " ", "");
+                        }
 
                         luisEntities = MessagesController.db.SelectArray(luisEntities);
 
