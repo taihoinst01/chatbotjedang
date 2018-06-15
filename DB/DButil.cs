@@ -571,6 +571,7 @@ namespace PortChatBot.DB
             else
             {
                 HistoryLog("!!!!!FB CARD BTN1 START channelID.Equals(facebook) && cardButtons.Count < 1 && cardImages.Count < 1");
+                HistoryLog("activity.ChannelId ===== " + activity.ChannelId);
                 HeroCard plCard = new UserHeroCard();
                 if (activity.ChannelId == "facebook" && string.IsNullOrEmpty(card.cardValue))
                 {
