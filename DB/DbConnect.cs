@@ -1460,6 +1460,7 @@ namespace PortChatBot.DB
             string strTmp = Regex.Replace(strTarget, @"\D", "");
             int nTmp = int.Parse(strTmp);
 
+            Debug.WriteLine("1111111111111");
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -1487,10 +1488,12 @@ namespace PortChatBot.DB
                 cmd.Parameters.AddWithValue("@kwmenge", nTmp);
                 cmd.Parameters.AddWithValue("@vadtu", vadtu);
                 cmd.Parameters.AddWithValue("@inform", inform);
-
+                Debug.WriteLine("222222222");
                 result = cmd.ExecuteNonQuery();
                 Debug.WriteLine("result : " + result);
             }
+
+            Debug.WriteLine("33333333");
             return result;
         }
 
