@@ -773,33 +773,9 @@ namespace PortChatBot
                                     //주문완료
                                     if (dlg.cardTitle.Equals("주문완료")) //  주문내역 dialog 일시..
                                     {
-                                        DButil.HistoryLog("주문완료12345");
-                                        string optionComment = "";
-                                        DButil.HistoryLog("주문완료123456");
-                                        userData.GetProperty<string>("cust");
-                                        userData.GetProperty<string>("kunnr");
-                                        userData.GetProperty<string>("matnr");
-                                        userData.GetProperty<string>("kwmenge");
-                                        userData.GetProperty<string>("vdatu");
-                                        userData.GetProperty<string>("inform");
-                                        DButil.HistoryLog("주문완료123457");
 
+                                        //int dbResult1 = db.insertOrder(userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), userData.GetProperty<string>("inform"));
 
-
-                                        int dbResult1 = db.insertOrder(userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), userData.GetProperty<string>("inform"));
-
-
-
-
-                                        DButil.HistoryLog("주문완료123458");
-                                        //optionComment = "거래처 : " + userData.GetProperty<string>("cust") + "인도처 : " + userData.GetProperty<string>("kunnr") + "자재 : " + userData.GetProperty<string>("matnr") + "수량 : " + userData.GetProperty<string>("kwmenge") + "납품일 : " + userData.GetProperty<string>("vdatu");
-
-                                        //if (!string.IsNullOrEmpty(userData.GetProperty<string>("inform")))
-                                        //{
-                                        //    optionComment = optionComment + "전달내용 : " + inform;
-                                        //}
-
-                                        //dlg.cardText = optionComment;
                                         DButil.HistoryLog("주문완료123459");
                                         userData.SetProperty<string>("cust", "");
                                         userData.SetProperty<string>("kunnr", "");
@@ -808,7 +784,6 @@ namespace PortChatBot
                                         userData.SetProperty<string>("vdatu", "");
                                         userData.SetProperty<string>("inform", "");
                                         inform = "";
-                                        DButil.HistoryLog("주문완료123450");
                                     }
                                     DButil.HistoryLog("주문완료1");
                                     if (activity.ChannelId.Equals("facebook") && string.IsNullOrEmpty(dlg.cardTitle) && dlg.dlgType.Equals(TEXTDLG))
