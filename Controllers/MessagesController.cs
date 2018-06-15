@@ -781,7 +781,7 @@ namespace PortChatBot
                                         DButil.HistoryLog("userData.GetProperty<string>('vdatu')==" + userData.GetProperty<string>("vdatu"));
                                         DButil.HistoryLog("userData.GetProperty<string>('inform')==" + userData.GetProperty<string>("inform"));
 
-                                        int dbResult1 = db.insertOrder(userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), userData.GetProperty<string>("inform"));
+                                        int dbResult1 = db.insertOrder(userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), "");
 
                                         DButil.HistoryLog("주문완료123459");
                                         userData.SetProperty<string>("cust", "");
