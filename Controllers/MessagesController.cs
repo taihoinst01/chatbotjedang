@@ -774,7 +774,14 @@ namespace PortChatBot
                                     if (dlg.cardTitle.Equals("주문완료")) //  주문내역 dialog 일시..
                                     {
 
-                                        //int dbResult1 = db.insertOrder(userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), userData.GetProperty<string>("inform"));
+                                        DButil.HistoryLog("userData.GetProperty<string>('cust')==" + userData.GetProperty<string>("cust"));
+                                        DButil.HistoryLog("userData.GetProperty<string>('kunnr')==" + userData.GetProperty<string>("kunnr"));
+                                        DButil.HistoryLog("userData.GetProperty<string>('matnr')==" + userData.GetProperty<string>("matnr"));
+                                        DButil.HistoryLog("userData.GetProperty<string>('kwmenge')==" + userData.GetProperty<string>("kwmenge"));
+                                        DButil.HistoryLog("userData.GetProperty<string>('vdatu')==" + userData.GetProperty<string>("vdatu"));
+                                        DButil.HistoryLog("userData.GetProperty<string>('inform')==" + userData.GetProperty<string>("inform"));
+
+                                        int dbResult1 = db.insertOrder(userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), userData.GetProperty<string>("inform"));
 
                                         DButil.HistoryLog("주문완료123459");
                                         userData.SetProperty<string>("cust", "");
@@ -880,168 +887,7 @@ namespace PortChatBot
                             }
                             Debug.WriteLine("* sorryflag : " + sorryflag);
                             
-
-                            /*
-                            //네이버 기사 검색
-                            if ((message != null) && message.Trim().Length > 0)
-                            {
-                                //Naver Search API
-
-                                string url = "https://openapi.naver.com/v1/search/news.json?query=" + message + "&display=10&start=1&sort=sim"; //news JSON result 
-                                //string blogUrl = "https://openapi.naver.com/v1/search/blog.json?query=" + messgaeText + "&display=10&start=1&sort=sim"; //search JSON result 
-                                //string cafeUrl = "https://openapi.naver.com/v1/search/cafearticle.json?query=" + messgaeText + "&display=10&start=1&sort=sim"; //cafe JSON result 
-                                //string url = "https://openapi.naver.com/v1/search/blog.xml?query=" + query; //blog XML result
-                                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                                request.Headers.Add("X-Naver-Client-Id", "Y536Z1ZMNv93Oej6TrkF");
-                                request.Headers.Add("X-Naver-Client-Secret", "cPHOFK6JYY");
-                                HttpWebResponse httpwebresponse = (HttpWebResponse)request.GetResponse();
-                                string status = httpwebresponse.StatusCode.ToString();
-                                if (status == "OK")
-                                {
-                                    Stream stream = httpwebresponse.GetResponseStream();
-                                    StreamReader reader = new StreamReader(stream, Encoding.UTF8);
-                                    string text = reader.ReadToEnd();
-
-                                    RootObject serarchList = JsonConvert.DeserializeObject<RootObject>(text);
-
-                                    Debug.WriteLine("serarchList : " + serarchList + " || serarchList.display : " + serarchList.display);
-                                    //description
-
-                                    if (serarchList.display == 1)
-                                    {
-                                        //Debug.WriteLine("SERARCH : " + Regex.Replace(serarchList.items[0].title, @"[^<:-:>-<b>-</b>]", "", RegexOptions.Singleline));
-
-                                        if (serarchList.items[0].title.Contains("코나"))
-                                        {
-                                            //Only One item
-                                            List<CardImage> cardImages = new List<CardImage>();
-                                            CardImage img = new CardImage();
-                                            img.Url = "";
-                                            cardImages.Add(img);
-
-                                            string searchTitle = "";
-                                            string searchText = "";
-
-                                            searchTitle = serarchList.items[0].title;
-                                            searchText = serarchList.items[0].description;
-
-
-
-                                            if (activity.ChannelId == "facebook")
-                                            {
-                                                searchTitle = Regex.Replace(searchTitle, @"[<][a-z|A-Z|/](.|)*?[>]", "", RegexOptions.Singleline).Replace("\n", "").Replace("<:", "").Replace(":>", "");
-                                                searchText = Regex.Replace(searchText, @"[<][a-z|A-Z|/](.|)*?[>]", "", RegexOptions.Singleline).Replace("\n", "").Replace("<:", "").Replace(":>", "");
-                                            }
-
-
-                                            LinkHeroCard card = new LinkHeroCard()
-                                            {
-                                                Title = searchTitle,
-                                                Subtitle = null,
-                                                Text = searchText,
-                                                Images = cardImages,
-                                                Buttons = null,
-                                                Link = Regex.Replace(serarchList.items[0].link, "amp;", "")
-                                            };
-                                            var attachment = card.ToAttachment();
-
-                                            intentNoneReply.Attachments = new List<Attachment>();
-                                            intentNoneReply.Attachments.Add(attachment);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        //intentNoneReply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-                                        intentNoneReply.Attachments = new List<Attachment>();
-                                        for (int i = 0; i < serarchList.display; i++)
-                                        {
-                                            string searchTitle = "";
-                                            string searchText = "";
-
-                                            searchTitle = serarchList.items[i].title;
-                                            searchText = serarchList.items[i].description;
-
-                                            if (activity.ChannelId == "facebook")
-                                            {
-                                                searchTitle = Regex.Replace(searchTitle, @"[<][a-z|A-Z|/](.|)*?[>]", "", RegexOptions.Singleline).Replace("\n", "").Replace("<:", "").Replace(":>", "");
-                                                searchText = Regex.Replace(searchText, @"[<][a-z|A-Z|/](.|)*?[>]", "", RegexOptions.Singleline).Replace("\n", "").Replace("<:", "").Replace(":>", "");
-                                            }
-
-                                            if (serarchList.items[i].title.Contains("코나"))
-                                            {
-                                                List<CardImage> cardImages = new List<CardImage>();
-                                                CardImage img = new CardImage();
-                                                img.Url = "";
-                                                cardImages.Add(img);
-
-                                                List<CardAction> cardButtons = new List<CardAction>();
-                                                CardAction[] plButton = new CardAction[1];
-                                                plButton[0] = new CardAction()
-                                                {
-                                                    Value = Regex.Replace(serarchList.items[i].link, "amp;", ""),
-                                                    Type = "openUrl",
-                                                    Title = "기사 바로가기"
-                                                };
-                                                cardButtons = new List<CardAction>(plButton);
-
-                                                if (activity.ChannelId == "facebook")
-                                                {
-                                                    LinkHeroCard card = new LinkHeroCard()
-                                                    {
-                                                        Title = searchTitle,
-                                                        Subtitle = null,
-                                                        Text = searchText,
-                                                        Images = cardImages,
-                                                        Buttons = cardButtons,
-                                                        Link = null
-                                                    };
-                                                    var attachment = card.ToAttachment();
-                                                    intentNoneReply.Attachments.Add(attachment);
-                                                }
-                                                else
-                                                {
-                                                    LinkHeroCard card = new LinkHeroCard()
-                                                    {
-                                                        Title = searchTitle,
-                                                        Subtitle = null,
-                                                        Text = searchText,
-                                                        Images = cardImages,
-                                                        Buttons = null,
-                                                        Link = Regex.Replace(serarchList.items[i].link, "amp;", "")
-                                                    };
-                                                    var attachment = card.ToAttachment();
-                                                    intentNoneReply.Attachments.Add(attachment);
-                                                }
-                                            }
-                                        }
-                                    }
-                                    //await connector.Conversations.SendToConversationAsync(intentNoneReply);
-                                    //replyresult = "S";
-
-                                    if (intentNoneReply.Attachments.Count == 0)
-                                    {
-                                        sorryflag = true;
-                                    }
-                                    else
-                                    {
-                                        //await connector.Conversations.SendToConversationAsync(intentNoneReply);
-                                        SetActivity(intentNoneReply);
-                                        replyresult = "S";
-                                    }
-
-                                }
-                                else
-                                {
-                                    //System.Diagnostics.Debug.WriteLine("Error 발생=" + status);
-                                    sorryflag = true;
-                                }
-                            }
-                            else
-                            {
-                                sorryflag = true;
-                            }
-                            */
-
+                            
                             if (sorryflag)
                             {
                                 Debug.WriteLine("* SORRY Flag True");
