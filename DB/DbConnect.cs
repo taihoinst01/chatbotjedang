@@ -1457,7 +1457,9 @@ namespace PortChatBot.DB
         {
             int result;
             string strTarget = kwmenge;
+            Debug.WriteLine("/////////////////");
             string strTmp = Regex.Replace(strTarget, @"\D", "");
+            Debug.WriteLine("****************");
             int nTmp = int.Parse(strTmp);
 
             Debug.WriteLine("1111111111111");
