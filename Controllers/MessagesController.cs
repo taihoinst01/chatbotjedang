@@ -803,9 +803,10 @@ namespace PortChatBot
                                         inform = "";
 
                                     }
-
+                                    DButil.HistoryLog("주문완료1");
                                     if (activity.ChannelId.Equals("facebook") && string.IsNullOrEmpty(dlg.cardTitle) && dlg.dlgType.Equals(TEXTDLG))
                                     {
+                                        DButil.HistoryLog("주문완료2");
                                         commonReply.Recipient = activity.From;
                                         commonReply.Type = "message";
                                         DButil.HistoryLog("facebook card Text : " + dlg.cardText);
@@ -813,6 +814,7 @@ namespace PortChatBot
                                     }
                                     else
                                     {
+                                        DButil.HistoryLog("주문완료3");
                                         DButil.HistoryLog("* commonReply.Attachments.Count1 : " + commonReply.Attachments.Count);
                                         tempAttachment = dbutil.getAttachmentFromDialog(dlg, activity);
                                         commonReply.Attachments.Add(tempAttachment);
