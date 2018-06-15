@@ -773,7 +773,7 @@ namespace PortChatBot
                                     //주문완료
                                     if (dlg.cardTitle.Equals("주문완료")) //  주문내역 dialog 일시..
                                     {
-                                        DButil.HistoryLog("주문완료1234");
+                                        DButil.HistoryLog("주문완료12345");
                                         string optionComment = "";
 
                                         userData.GetProperty<string>("cust");
