@@ -813,15 +813,16 @@ namespace PortChatBot
                                     }
                                     else
                                     {
+                                        DButil.HistoryLog("* commonReply.Attachments.Count1 : " + commonReply.Attachments.Count);
                                         tempAttachment = dbutil.getAttachmentFromDialog(dlg, activity);
                                         commonReply.Attachments.Add(tempAttachment);
                                     }
 
                                 }
-                                DButil.HistoryLog("* commonReply.Attachments.Count : " + commonReply.Attachments.Count);
+                                DButil.HistoryLog("* commonReply.Attachments.Count2 : " + commonReply.Attachments.Count);
                                 if (commonReply.Attachments.Count > 0)
                                 {
-                                    DButil.HistoryLog("* commonReply.Attachments.Count : " + commonReply.Attachments.Count);
+                                    DButil.HistoryLog("* commonReply.Attachments.Count3 : " + commonReply.Attachments.Count);
 
                                     SetActivity(commonReply);
                                     conversationhistory.commonBeforeQustion = orgMent;
