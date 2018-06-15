@@ -775,16 +775,16 @@ namespace PortChatBot
                                     {
                                         DButil.HistoryLog("주문완료12345");
                                         string optionComment = "";
-
+                                        DButil.HistoryLog("주문완료123456");
                                         userData.GetProperty<string>("cust");
                                         userData.GetProperty<string>("kunnr");
                                         userData.GetProperty<string>("matnr");
                                         userData.GetProperty<string>("kwmenge");
                                         userData.GetProperty<string>("vdatu");
                                         userData.GetProperty<string>("inform");
-
+                                        DButil.HistoryLog("주문완료123457");
                                         db.insertOrder(userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), userData.GetProperty<string>("inform"));
-
+                                        DButil.HistoryLog("주문완료123458");
                                         //optionComment = "거래처 : " + userData.GetProperty<string>("cust") + "인도처 : " + userData.GetProperty<string>("kunnr") + "자재 : " + userData.GetProperty<string>("matnr") + "수량 : " + userData.GetProperty<string>("kwmenge") + "납품일 : " + userData.GetProperty<string>("vdatu");
 
                                         //if (!string.IsNullOrEmpty(userData.GetProperty<string>("inform")))
@@ -793,7 +793,7 @@ namespace PortChatBot
                                         //}
 
                                         //dlg.cardText = optionComment;
-
+                                        DButil.HistoryLog("주문완료123459");
                                         userData.SetProperty<string>("cust", "");
                                         userData.SetProperty<string>("kunnr", "");
                                         userData.SetProperty<string>("matnr", "");
@@ -801,7 +801,7 @@ namespace PortChatBot
                                         userData.SetProperty<string>("vdatu", "");
                                         userData.SetProperty<string>("inform", "");
                                         inform = "";
-
+                                        DButil.HistoryLog("주문완료123450");
                                     }
                                     DButil.HistoryLog("주문완료1");
                                     if (activity.ChannelId.Equals("facebook") && string.IsNullOrEmpty(dlg.cardTitle) && dlg.dlgType.Equals(TEXTDLG))
