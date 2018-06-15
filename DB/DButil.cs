@@ -408,6 +408,9 @@ namespace PortChatBot.DB
                     cardVal = dlg.cardValue;
                 }
                 HistoryLog("!!!!!FB CARD BTN1 START channelID.Equals(facebook) && cardButtons.Count < 1 && cardImages.Count < 1");
+                HistoryLog("activity.ChannelId ===== " + activity.ChannelId);
+
+
                 HeroCard plCard = new UserHeroCard();
                 if (activity.ChannelId == "facebook" && string.IsNullOrEmpty(dlg.cardTitle))
                 {
