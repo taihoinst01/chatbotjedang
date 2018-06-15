@@ -818,7 +818,7 @@ namespace PortChatBot
                                     }
 
                                 }
-
+                                DButil.HistoryLog("* commonReply.Attachments.Count : " + commonReply.Attachments.Count);
                                 if (commonReply.Attachments.Count > 0)
                                 {
                                     DButil.HistoryLog("* commonReply.Attachments.Count : " + commonReply.Attachments.Count);
