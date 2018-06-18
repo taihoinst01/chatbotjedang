@@ -1457,12 +1457,9 @@ namespace PortChatBot.DB
         {
             int result;
             string strTarget = kwmenge;
-            Debug.WriteLine("/////////////////1");
             string strTmp = Regex.Replace(strTarget, @"\D", "");
-            Debug.WriteLine("****************");
             int nTmp = int.Parse(strTmp);
 
-            Debug.WriteLine("1111111111111");
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -1490,14 +1487,55 @@ namespace PortChatBot.DB
                 cmd.Parameters.AddWithValue("@kwmenge", nTmp);
                 cmd.Parameters.AddWithValue("@vadtu", vadtu);
                 cmd.Parameters.AddWithValue("@inform", inform);
-                Debug.WriteLine("222222222");
+
                 result = cmd.ExecuteNonQuery();
                 Debug.WriteLine("result : " + result);
             }
-
-            Debug.WriteLine("33333333");
             return result;
         }
+
+        //public List<OrderList> SelectOrderList(string cust, String vadtu)
+        //{
+        //    SqlDataReader rdr = null;
+        //    List<OrderList> orderList = new List<OrderList>();
+
+        //    using (SqlConnection conn = new SqlConnection(connStr))
+        //    {
+        //        conn.Open();
+        //        SqlCommand cmd = new SqlCommand();
+        //        cmd.Connection = conn;
+        //        cmd.CommandText =   "   SELECT	A.KUNNR, A.KUNEWE, A.VDATU, A.VDATU AS ERDAT,  A.INFORM, A.VBELN, B.KWMENGE, B.VRKME AS LSMENG, B.VRKME ";
+        //        cmd.CommandText += "    FROM ORT_ORDER A, ORT_ORDERDETAIL B, VOS_ORDER C ";
+        //        cmd.CommandText += "    WHERE   A.VBELN = B.VBELN ";
+        //        cmd.CommandText += "    AND B.VBELN = C.VBELN ";
+        //        cmd.CommandText += "    AND A.KNAME1 = '' ";
+        //        cmd.CommandText += "    AND A.VDATU = '' ";
+
+
+        //        cmd.Parameters.AddWithValue("@dlgID", "");
+
+        //        rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+        //        while (rdr.Read())
+        //        {
+        //            string cardTitle = rdr["CARD_TITLE"] as string;
+        //            string cardSubTitle = rdr["CARD_SUBTITLE"] as string;
+        //            string cardText = rdr["CARD_TEXT"] as string;
+        //            string imgUrl = rdr["IMG_URL"] as string;
+        //            string btn1Type = rdr["BTN_1_TYPE"] as string;
+        //            string btn1Title = rdr["BTN_1_TITLE"] as string;
+        //            string btn1Context = rdr["BTN_1_CONTEXT"] as string;
+
+
+        //            OrderList order = new OrderList();
+        //            order.cust = cardDlgId;
+
+
+        //            orderList.Add(order);
+        //        }
+        //    }
+        //    return orderList;
+        //}
 
 
     }

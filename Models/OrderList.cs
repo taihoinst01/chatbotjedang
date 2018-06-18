@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PortChatBot.Models
 {
-    public class OrderHistory
+    public class OrderList
     {
         public string cust;
         public string fixarrival;

@@ -788,14 +788,6 @@ namespace PortChatBot
                                     //주문완료
                                     if (dlg.cardTitle.Equals("주문완료")) //  주문내역 dialog 일시..
                                     {
-
-                                        DButil.HistoryLog("userData.GetProperty<string>('cust')==" + userData.GetProperty<string>("cust"));
-                                        DButil.HistoryLog("userData.GetProperty<string>('kunnr')==" + userData.GetProperty<string>("kunnr"));
-                                        DButil.HistoryLog("userData.GetProperty<string>('matnr')==" + userData.GetProperty<string>("matnr"));
-                                        DButil.HistoryLog("userData.GetProperty<string>('kwmenge')==" + userData.GetProperty<string>("kwmenge"));
-                                        DButil.HistoryLog("userData.GetProperty<string>('vdatu')==" + userData.GetProperty<string>("vdatu"));
-                                        DButil.HistoryLog("userData.GetProperty<string>('inform')==" + userData.GetProperty<string>("inform"));
-
                                         string informV = userData.GetProperty<string>("inform");
 
                                         if(string.IsNullOrEmpty(inform))
@@ -805,7 +797,6 @@ namespace PortChatBot
 
                                         int dbResult1 = db.insertOrder(userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), informV);
 
-                                        DButil.HistoryLog("주문완료123459");
                                         userData.SetProperty<string>("cust", "");
                                         userData.SetProperty<string>("kunnr", "");
                                         userData.SetProperty<string>("matnr", "");
@@ -814,10 +805,30 @@ namespace PortChatBot
                                         userData.SetProperty<string>("inform", "");
                                         inform = "";
                                     }
-                                    DButil.HistoryLog("주문완료1");
+
+                                    //주문완료
+                                    if (dlg.cardTitle.Equals("주문조회거래처납품일")) //  주문내역 dialog 일시..
+                                    {
+                                        string informV = userData.GetProperty<string>("inform");
+
+                                        if (string.IsNullOrEmpty(inform))
+                                        {
+                                            informV = "";
+                                        }
+
+                                        int dbResult1 = db.insertOrder(userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), informV);
+
+                                        userData.SetProperty<string>("cust", "");
+                                        userData.SetProperty<string>("kunnr", "");
+                                        userData.SetProperty<string>("matnr", "");
+                                        userData.SetProperty<string>("kwmenge", "");
+                                        userData.SetProperty<string>("vdatu", "");
+                                        userData.SetProperty<string>("inform", "");
+                                        inform = "";
+                                    }
+
                                     if (activity.ChannelId.Equals("facebook") && string.IsNullOrEmpty(dlg.cardTitle) && dlg.dlgType.Equals(TEXTDLG))
                                     {
-                                        DButil.HistoryLog("주문완료2");
                                         commonReply.Recipient = activity.From;
                                         commonReply.Type = "message";
                                         DButil.HistoryLog("facebook card Text : " + dlg.cardText);
@@ -825,7 +836,6 @@ namespace PortChatBot
                                     }
                                     else
                                     {
-                                        DButil.HistoryLog("주문완료3");
                                         DButil.HistoryLog("* commonReply.Attachments.Count1 : " + commonReply.Attachments.Count);
                                         tempAttachment = dbutil.getAttachmentFromDialog(dlg, activity);
                                         commonReply.Attachments.Add(tempAttachment);
