@@ -167,7 +167,7 @@ namespace PortChatBot
                 DButil.HistoryLog("db SelectConfig end!! ");
 
                 //
-                userData.SetProperty<string>("loginStatus", "N");
+                userData.SetProperty<string>("loginStatus", "");
                 userData.SetProperty<string>("emp_no", "");
                 userData.SetProperty<string>("user_nm", "");
                 userData.SetProperty<string>("dept_cd", "");
@@ -306,7 +306,7 @@ namespace PortChatBot
 
                     //대화 시작 시간
                     startTime = DateTime.Now;
-                    long unixTime = ((DateTimeOffset)startTime).ToUnixTimeSeconds();
+                    long unixTime = ((DateTimeOffset)startTime).ToUnixTimeSeconds();                    
 
                     DButil.HistoryLog("*** orgMent : " + orgMent);
                     //금칙어 체크
@@ -408,6 +408,7 @@ namespace PortChatBot
                             {
                                 DButil.HistoryLog("*** loginStatus : "+loginStatus+" | activity.ChannelId : " + activity.ChannelId + " | activity.From.Id : " + activity.From.Id);
                                 DButil.HistoryLog("*** orgMent : " + orgMent);
+                                Debug.WriteLine("loginStatus===="+ loginStatus);
                                 hrList = db.SelectHrInfo(orgMent);
                                 //DButil.HistoryLog("*** SelectHrInfo - tmn_cod : " + hrList[0].tmn_cod);
                                 if (hrList != null)
@@ -464,7 +465,22 @@ namespace PortChatBot
                                 }
                             }
                         }
-                        
+
+
+                        //로그인 설정
+                        Debug.WriteLine("loginStatus=====" + userData.GetProperty<string>("loginStatus"));
+                        if (userData.GetProperty<string>("loginStatus") == "")
+                        {
+                            Activity reply_ment = activity.CreateReply();
+                            reply_ment.Recipient = activity.From;
+                            reply_ment.Type = "message";
+                            reply_ment.Text = "사번을 입력해주세요.";
+
+                            var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
+                            response = Request.CreateResponse(HttpStatusCode.OK);
+                            return response;
+                        }
+
                         DButil.HistoryLog("fullentity : " + fullentity);
                         if (!string.IsNullOrEmpty(fullentity) || !fullentity.Equals(""))
                         {
@@ -555,7 +571,6 @@ namespace PortChatBot
                             //DButil.HistoryLog("apiFlag : "+ apiFlag);
                         }
 
-                        
                         if (apiFlag.Equals("COMMON") && relationList.Count > 0)
                         {
                             DButil.HistoryLog("apiFlag : COMMON | relationList.Count : " + relationList.Count);
