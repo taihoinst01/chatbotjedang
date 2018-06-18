@@ -13,5 +13,6 @@ namespace PortChatBot.Models
         public string kwmenge;
         public string vdatu;
         public string inform;
+        public string rc;
     }
 }

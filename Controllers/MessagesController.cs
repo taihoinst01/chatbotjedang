@@ -180,6 +180,7 @@ namespace PortChatBot
                 userData.SetProperty<string>("kwmenge", "");
                 userData.SetProperty<string>("vdatu", "");
                 userData.SetProperty<string>("inform", "");
+                userData.SetProperty<string>("rc", "");
 
 
 
@@ -806,25 +807,55 @@ namespace PortChatBot
                                         inform = "";
                                     }
 
-                                    //주문완료
-                                    if (dlg.cardTitle.Equals("주문조회거래처납품일")) //  주문내역 dialog 일시..
+                                    //주문조회거래처납품일
+                                    if (dlg.cardTitle.Equals("주문조회거래처납품일"))
                                     {
-                                        string informV = userData.GetProperty<string>("inform");
+                                        string[] luisEntitiesValueSplit = MessagesController.luisEntitiesValue.Split(',');
 
-                                        if (string.IsNullOrEmpty(inform))
+                                        for (int i = 0; i < luisEntitiesValueSplit.Count(); i++)
                                         {
-                                            informV = "";
+                                            if (luisEntitiesValueSplit[i].Contains("거래처내용="))
+                                            {
+                                                cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "");
+                                            }
+                                            else if (luisEntitiesValueSplit[i].Contains("납품일자="))
+                                            {
+                                                vdatu = luisEntitiesValueSplit[i].Replace("납품일자=", "");
+                                            }
                                         }
 
-                                        int dbResult1 = db.insertOrder(userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), informV);
+                                        List<OrderList> orderList = db.SelectOrderList(cust, vdatu);
+                                        
+                                        //예외처리
+                                        if (orderList.Count != 0)
+                                        {
+                                            userData.SetProperty<string>("cust", orderList[0].cust);
+                                            userData.SetProperty<string>("kunnr", orderList[0].fixarrival);
+                                            userData.SetProperty<string>("matnr", orderList[0].product);
+                                            userData.SetProperty<string>("kwmenge", orderList[0].kwmenge);
+                                            userData.SetProperty<string>("vdatu", orderList[0].vdatu);
+                                            userData.SetProperty<string>("rc", orderList[0].rc);
+                                            userData.SetProperty<string>("inform", orderList[0].inform);
 
-                                        userData.SetProperty<string>("cust", "");
-                                        userData.SetProperty<string>("kunnr", "");
-                                        userData.SetProperty<string>("matnr", "");
-                                        userData.SetProperty<string>("kwmenge", "");
-                                        userData.SetProperty<string>("vdatu", "");
-                                        userData.SetProperty<string>("inform", "");
-                                        inform = "";
+
+                                            string optionComment = dlg.cardText;
+
+                                            optionComment = "거래처 : " + userData.GetProperty<string>("cust") + "인도처 : " + userData.GetProperty<string>("kunnr") + "자재 : " + userData.GetProperty<string>("matnr") + "수량 : " + userData.GetProperty<string>("kwmenge") + "납품요청일 : " + userData.GetProperty<string>("vdatu") + "출고센터 : " + userData.GetProperty<string>("rc") + "전달사항 : " + userData.GetProperty<string>("inform");
+                                            dlg.cardText = optionComment;
+                                        }
+                                        else
+                                        {
+                                            Activity reply_ment = activity.CreateReply();
+                                            reply_ment.Recipient = activity.From;
+                                            reply_ment.Type = "message";
+                                            reply_ment.Text = "일치하는 주문내역이 없어요. 거래처와 주문일자를 다시 말씀해주세요.";
+
+                                            var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
+                                            response = Request.CreateResponse(HttpStatusCode.OK);
+                                            return response;
+                                        }
+
+                                        
                                     }
 
                                     if (activity.ChannelId.Equals("facebook") && string.IsNullOrEmpty(dlg.cardTitle) && dlg.dlgType.Equals(TEXTDLG))

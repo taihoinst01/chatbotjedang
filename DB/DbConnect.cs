@@ -1494,48 +1494,65 @@ namespace PortChatBot.DB
             return result;
         }
 
-        //public List<OrderList> SelectOrderList(string cust, String vadtu)
-        //{
-        //    SqlDataReader rdr = null;
-        //    List<OrderList> orderList = new List<OrderList>();
+        public List<OrderList> SelectOrderList(string cust, String vadtu)
+        {
+            SqlDataReader rdr = null;
+            List<OrderList> orderList = new List<OrderList>();
 
-        //    using (SqlConnection conn = new SqlConnection(connStr))
-        //    {
-        //        conn.Open();
-        //        SqlCommand cmd = new SqlCommand();
-        //        cmd.Connection = conn;
-        //        cmd.CommandText =   "   SELECT	A.KUNNR, A.KUNEWE, A.VDATU, A.VDATU AS ERDAT,  A.INFORM, A.VBELN, B.KWMENGE, B.VRKME AS LSMENG, B.VRKME ";
-        //        cmd.CommandText += "    FROM ORT_ORDER A, ORT_ORDERDETAIL B, VOS_ORDER C ";
-        //        cmd.CommandText += "    WHERE   A.VBELN = B.VBELN ";
-        //        cmd.CommandText += "    AND B.VBELN = C.VBELN ";
-        //        cmd.CommandText += "    AND A.KNAME1 = '' ";
-        //        cmd.CommandText += "    AND A.VDATU = '' ";
-
-
-        //        cmd.Parameters.AddWithValue("@dlgID", "");
-
-        //        rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-        //        while (rdr.Read())
-        //        {
-        //            string cardTitle = rdr["CARD_TITLE"] as string;
-        //            string cardSubTitle = rdr["CARD_SUBTITLE"] as string;
-        //            string cardText = rdr["CARD_TEXT"] as string;
-        //            string imgUrl = rdr["IMG_URL"] as string;
-        //            string btn1Type = rdr["BTN_1_TYPE"] as string;
-        //            string btn1Title = rdr["BTN_1_TITLE"] as string;
-        //            string btn1Context = rdr["BTN_1_CONTEXT"] as string;
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "     SELECT	 ";
+                cmd.CommandText += "         TOP 1   ";
+                cmd.CommandText += "         (SELECT KNAME1 FROM BAM_CUST WHERE KUNNR = A.KUNNR) + '(' + A.KUNNR + ')' AS CUST, ";
+                cmd.CommandText += "         (SELECT TOP 1 KNAME1 FROM BAM_FIXARRIVAL WHERE KUNNR = A.KUNEWE) +'(' + A.KUNEWE + ')' AS FIXARRIVAL, ";
+                cmd.CommandText += "         (SELECT MAKTX + '(' + MATNR + ')'   FROM BAM_PRODUCT WHERE REPLACE(MAKTX, ' ', '') LIKE '%' + C.MAKTX + '%' ) AS PRODUCT, ";
+                cmd.CommandText += "         CONVERT(VARCHAR(1), B.KWMENGE) +' ' + B.VRKME AS KWMENGE, ";
+                //cmd.CommandText += "         CONVERT(VARCHAR(10),LEFT(A.VDATU,4)+'.'+ SUBSTRING(A.VDATU,5,2)+'.'+RIGHT(A.VDATU,2)) AS VDATU, ";
+                cmd.CommandText += "         CONVERT(CHAR(10), CONVERT(DATE, A.VDATU), 102) AS VDATU, ";                
+                cmd.CommandText += "         '인천 1' AS RC, ";
+                cmd.CommandText += "         A.INFORM ";
+                cmd.CommandText += "     FROM    ORT_ORDER A, ORT_ORDERDETAIL B, VOS_ORDER C ";
+                cmd.CommandText += "     WHERE   A.VBELN = B.VBELN ";
+                cmd.CommandText += "     AND     B.VBELN = C.VBELN ";
+                cmd.CommandText += "     AND     A.KNAME1 LIKE '%"+cust+"%' ";
+                cmd.CommandText += "     AND     A.VDATU = ( ";
+                cmd.CommandText += "                        SELECT REPLACE('2018' + STUFF( ";
+                cmd.CommandText += "                            (SELECT '.', RIGHT('0' + REPLACE(REPLACE(VAL1, '월', ''), '일', ''), 2) FROM SPLIT2(REPLACE('"+ vadtu + "', '월', ' '), ' ') FOR XML PATH('')) ";
+                cmd.CommandText += "                            ,1,1,''),'.','') ) ";
 
 
-        //            OrderList order = new OrderList();
-        //            order.cust = cardDlgId;
+                //cmd.Parameters.AddWithValue("@dlgID", "");
+                Debug.WriteLine("query : " + cmd.CommandText);
+                rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
+                while (rdr.Read())
+                {
+                    string custValue = rdr["CUST"] as string;
+                    string fixarrivalValue = rdr["FIXARRIVAL"] as string;
+                    string productValue = rdr["PRODUCT"] as string;
+                    string kwmengeValue = rdr["KWMENGE"] as string;
+                    string vadtuValue = rdr["VDATU"] as string;
+                    string rcValue = rdr["RC"] as string;
+                    string informValue = rdr["INFORM"] as string;
 
-        //            orderList.Add(order);
-        //        }
-        //    }
-        //    return orderList;
-        //}
+                    OrderList order = new OrderList();
+
+                    order.cust = custValue;
+                    order.fixarrival = fixarrivalValue;
+                    order.product = productValue;
+                    order.kwmenge = kwmengeValue;
+                    order.rc = rcValue;
+                    order.vdatu = vadtuValue;
+                    order.inform = informValue;
+
+                    orderList.Add(order);
+                }
+            }
+            return orderList;
+        }
 
 
     }
