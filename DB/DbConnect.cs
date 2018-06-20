@@ -1409,10 +1409,10 @@ namespace PortChatBot.DB
                 cmd.CommandText += " 	( ";
                 if (string.IsNullOrEmpty(cust))
                 {
-                    cmd.CommandText += " 		SELECT TOP 1 KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(REPLACE(KNAME1,' ',''),'(주)','') LIKE '' ";
+                    cmd.CommandText += " 		SELECT TOP 1 KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '' ";
                 } else
                 {
-                    cmd.CommandText += " 		SELECT TOP 1 KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(REPLACE(KNAME1,' ',''),'(주)','') LIKE '%" + cust.Replace("(주)","") + "%' ";
+                    cmd.CommandText += " 		SELECT TOP 1 KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + cust.Replace("(주)","") + "%' ";
                 }
                 
                 cmd.CommandText += " 	) AS CUST, ";
@@ -1755,6 +1755,59 @@ namespace PortChatBot.DB
                 }
             }
             return clientList;
+        }
+
+        public List<PastOrderList> SelectPastList(String cust, String fixarrival, String product, String emp_no)
+        {
+            SqlDataReader rdr = null;
+            List<PastOrderList> pastOrderList = new List<PastOrderList>();
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                cmd.CommandText = "     SELECT TOP 1 CONVERT(VARCHAR(100),VBELN_SEQ) AS VBELN_SEQ, ";
+                cmd.CommandText += "        A.KNAME1 AS CUST, A.KUNNR AS CUST_NR, ";
+                cmd.CommandText += "        A.KNAME2 AS FIXARRIVAL, A.KUNN2 AS FIXARRIVAL_NR, ";
+                cmd.CommandText += "        A.MAKTX AS PRODUCT, A.MATNR AS PRODUCT_NR, ";
+                cmd.CommandText += "        CONVERT(VARCHAR(4), A.KWMENGE)  + A.VRKME AS KWMENGE, ";
+                cmd.CommandText += "        CONVERT(CHAR(10), CONVERT(DATE, A.VDATU), 102) AS VDATU, ";
+                cmd.CommandText += "        '인천 1' AS RC, ";
+                cmd.CommandText += "        A.INFORM ";
+                cmd.CommandText += "    FROM    VOS_ORDER A, BAM_PRODUCT B ";
+                cmd.CommandText += "    WHERE   A.MATNR = B.MATNR";
+                cmd.CommandText += "    AND     REPLACE(REPLACE(REPLACE(REPLACE(A.KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + cust + "%' ";
+                cmd.CommandText += "    AND     A.EMP_NO = @emp_no ";
+                cmd.CommandText += "    AND     B.MAKTXC LIKE '%" + product.Replace(" ", "") + "%' ";
+
+                cmd.Parameters.AddWithValue("@emp_no", emp_no);
+
+                Debug.WriteLine("query : " + cmd.CommandText);
+                rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (rdr.Read())
+                {
+
+                       string custValue = rdr["CUST"] as string;
+                    string fixarrivalValue = rdr["FIXARRIVAL"] as string;
+                    string productValue = rdr["PRODUCT"] as string;
+                    string kwmengeValue = rdr["KWMENGE"] as string;
+                    string vadtuValue = rdr["VADTU"] as string;
+
+                    PastOrderList pastorderlist = new PastOrderList();
+
+                    pastorderlist.cust = custValue;
+                    pastorderlist.fixarrival = fixarrivalValue;
+                    pastorderlist.product = productValue;
+                    pastorderlist.kwmenge = kwmengeValue;
+                    pastorderlist.vdatu = vadtuValue;
+
+                    pastOrderList.Add(pastorderlist);
+                }
+            }
+            return pastOrderList;
         }
     }
 }

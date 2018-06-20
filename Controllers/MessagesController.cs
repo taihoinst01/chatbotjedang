@@ -765,14 +765,27 @@ namespace PortChatBot
                                             vdatu = vdatuResult[1]+"월" + vdatuResult[2]+"일";
                                         }
                                         //동일하게, 같은, 똑같고, 변동없고
-                                        if (kunnr.Contains("동일하게") || kunnr.Contains("같은") || kunnr.Contains("똑같고") || kunnr.Contains("변동없고"))
+                                        if (kwmenge.Contains("동일하게") || kunnr.Contains("같은") || kunnr.Contains("똑같고") || kunnr.Contains("변동없고"))
                                         {
                                             kunnr = cust;
-                                        }
+                                        }                                        
 
-                                        //if (selectYn != "Y")
-                                        //{
-                                            List<OrderHistory> orderDlgList = new List<OrderHistory>();
+                                        List<OrderHistory> orderDlgList = new List<OrderHistory>();
+                                        List<PastOrderList> pastOrderList = new List<PastOrderList>();
+
+                                        if (matnr.Contains("기존") || kwmenge.Contains("동일하게") || kwmenge.Contains("같은") || kwmenge.Contains("똑같고") || kwmenge.Contains("변동없고"))
+                                        {
+
+                                            pastOrderList = db.SelectPastList(cust.Replace(" ", ""), kunnr.Replace(" ", ""), matnr, userData.GetProperty<string>("emp_no"));
+
+                                            userData.SetProperty<string>("cust", pastOrderList[0].cust);
+                                            userData.SetProperty<string>("kunnr", pastOrderList[0].fixarrival);
+                                            userData.SetProperty<string>("matnr", pastOrderList[0].product);
+                                            userData.SetProperty<string>("kwmenge", pastOrderList[0].kwmenge);
+                                            userData.SetProperty<string>("vdatu", pastOrderList[0].vdatu);
+                                        }
+                                        else
+                                        { 
                                             orderDlgList = db.SelectOrderHistory(cust.Replace(" ", ""), kunnr.Replace(" ", ""), matnr, kwmenge, vdatu);
 
                                             userData.SetProperty<string>("cust", orderDlgList[0].cust);
@@ -780,30 +793,15 @@ namespace PortChatBot
                                             userData.SetProperty<string>("matnr", orderDlgList[0].product);
                                             userData.SetProperty<string>("kwmenge", orderDlgList[0].kwmenge);
                                             userData.SetProperty<string>("vdatu", orderDlgList[0].vdatu);
+                                        }
+                                        optionComment = "거래처 : " + orderDlgList[0].cust + "인도처 : " + orderDlgList[0].fixarrival + "자재 : " + orderDlgList[0].product + "수량 : " + orderDlgList[0].kwmenge + "납품일 : " + orderDlgList[0].vdatu;
 
-                                            optionComment = "거래처 : " + orderDlgList[0].cust + "인도처 : " + orderDlgList[0].fixarrival + "자재 : " + orderDlgList[0].product + "수량 : " + orderDlgList[0].kwmenge + "납품일 : " + orderDlgList[0].vdatu;
+                                        if (!string.IsNullOrEmpty(inform))
+                                        {
+                                            optionComment = optionComment + "전달내용 : " + inform;
+                                            userData.SetProperty<string>("inform", inform);
+                                        }
 
-                                            if (!string.IsNullOrEmpty(inform))
-                                            {
-                                                optionComment = optionComment + "전달내용 : " + inform;
-                                                userData.SetProperty<string>("inform", inform);
-                                            }
-                                        //}
-                                        //else
-                                        //{
-
-                                        //}
-                                            
-
-                                        //strComment[1] = userData.GetProperty<string>("dept_nm");
-                                        //strComment[2] = userData.GetProperty<string>("user_nm");
-                                        //strComment[3] = userData.GetProperty<string>("emp_no");
-                                        //DButil.HistoryLog("*** strComment[0] : " + strComment[0] + " | strComment[1] : " + strComment[1] + " | strComment[2] : " + strComment[2]);
-                                        //B2B영업1팀 SA(11112222) 님.어떤 업무를 도와드릴까요 ?;
-                                        //optionComment = optionComment.Replace("#Dept_nm", strComment[1]);
-                                        //optionComment = optionComment.Replace("#User_nm", strComment[2]);
-                                        //optionComment = optionComment.Replace("#Emp_no", strComment[3]);
-                                        
 
                                         dlg.cardText = optionComment;
 
