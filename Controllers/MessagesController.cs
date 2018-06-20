@@ -911,12 +911,17 @@ namespace PortChatBot
                                                 if (orderList.Count> 1)
                                                 {
                                                     //인도처: 해태제과(주) 청주공장(119712) 주문 자재 및 수량 : 올리고당 HF25kg(104489) / 200 CAN
-                                                    optionComment = (i + 1) + "인도처 : " + userData.GetProperty<string>("kunnr") + "주문 자재 수량: " + userData.GetProperty<string>("matnr") + "/" + userData.GetProperty<string>("kwmenge");
+                                                    optionComment = (i + 1) + "인도처 : " + cust + "주문 자재 수량: " + kunnr + "/" + kwmenge;
 
                                                     reply_ment.Recipient = activity.From;
                                                     reply_ment.Type = "message";
-                                                    reply_ment.Text = optionComment;
-                                                    var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
+                                                    //reply_ment.Text = optionComment;
+                                                    
+
+                                                    var attachment = GetHeroCard(optionComment, vbeln_seq, "주문번호");
+                                                    reply_ment.Attachments.Add(attachment);
+                                                    
+
                                                 } else
                                                 {
                                                     optionComment = "거래처 : " + cust +"("+ orderList[i].cust_nr+ ")" 
@@ -935,6 +940,11 @@ namespace PortChatBot
                                                 
                                                 selectYn = "Y";
                                             }
+                                            if (reply_ment.Attachments.Count != 0)
+                                            {
+                                                var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
+                                            }
+                                            
                                         }
                                         else
                                         {
@@ -1332,6 +1342,18 @@ namespace PortChatBot
             }
         }
 
-        
+        private static Attachment GetHeroCard(String ment, String seq, String str)
+        {
+            var heroCard = new HeroCard
+            {
+               
+                Text = ment,
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.ImBack, "확인", value: str + " " + seq) }
+            };
+
+            return heroCard.ToAttachment();
+        }
+
+
     }
 }

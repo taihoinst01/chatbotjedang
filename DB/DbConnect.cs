@@ -1412,7 +1412,7 @@ namespace PortChatBot.DB
                     cmd.CommandText += " 		SELECT TOP 1 KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '' ";
                 } else
                 {
-                    cmd.CommandText += " 		SELECT TOP 1 KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + cust.Replace("(주)","") + "%' ";
+                    cmd.CommandText += " 		SELECT TOP 1 KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + cust.Replace("(주)","").Replace("식품", "").Replace("주식회사", "") + "%' ";
                 }
                 
                 cmd.CommandText += " 	) AS CUST, ";
@@ -1604,7 +1604,7 @@ namespace PortChatBot.DB
                 cmd.CommandText += "        '인천 1' AS RC, ";
                 cmd.CommandText += "        INFORM ";
                 cmd.CommandText += "    FROM    VOS_ORDER ";
-                cmd.CommandText += "    WHERE   REPLACE(KNAME1,'(주)','') LIKE '%"+ cust + "%' ";
+                cmd.CommandText += "    WHERE   REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + cust.Replace("(주)", "").Replace("식품", "").Replace("주식회사", "") + "%' ";
                 cmd.CommandText += "    AND     EMP_NO = @emp_no ";
                 cmd.CommandText += "    AND     VDATU = ( ";
                 cmd.CommandText += "                    SELECT REPLACE('2018' + STUFF( ";
@@ -1778,7 +1778,7 @@ namespace PortChatBot.DB
                 cmd.CommandText += "        A.INFORM ";
                 cmd.CommandText += "    FROM    VOS_ORDER A, BAM_PRODUCT B ";
                 cmd.CommandText += "    WHERE   A.MATNR = B.MATNR";
-                cmd.CommandText += "    AND     REPLACE(REPLACE(REPLACE(REPLACE(A.KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + cust + "%' ";
+                cmd.CommandText += "    AND     REPLACE(REPLACE(REPLACE(REPLACE(A.KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + cust.Replace("(주)", "").Replace("식품", "").Replace("주식회사", "") + "%' ";
                 cmd.CommandText += "    AND     A.EMP_NO = @emp_no ";
                 cmd.CommandText += "    AND     B.MAKTXC LIKE '%" + product.Replace(" ", "") + "%' ";
 
