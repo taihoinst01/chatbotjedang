@@ -223,7 +223,7 @@ namespace PortChatBot.DB
                             while (rdr2.Read())
                             {
                                 dlg.cardTitle = rdr2["CARD_TITLE"] as string;
-                                dlg.cardText = "$"+rdr2["CARD_TEXT"] as string;
+                                dlg.cardText = rdr2["CARD_TEXT"] as string;
                             }
                             rdr2.Close();
                         }
@@ -241,7 +241,7 @@ namespace PortChatBot.DB
                                 CardList dlgCard = new CardList();
                                 dlgCard.cardTitle = rdr2["CARD_TITLE"] as string;
                                 dlgCard.cardSubTitle = rdr2["CARD_SUBTITLE"] as string;
-                                dlgCard.cardText = "$"+rdr2["CARD_TEXT"] as string;
+                                dlgCard.cardText = rdr2["CARD_TEXT"] as string;
                                 dlgCard.imgUrl = rdr2["IMG_URL"] as string;
                                 dlgCard.btn1Type = rdr2["BTN_1_TYPE"] as string;
                                 dlgCard.btn1Title = rdr2["BTN_1_TITLE"] as string;
