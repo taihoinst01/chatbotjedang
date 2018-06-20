@@ -1674,6 +1674,87 @@ namespace PortChatBot.DB
             }
             return result;
         }
+        
+        public List<ClientList> SelectClientList(String emp_no)
+        {
+            SqlDataReader rdr = null;
+            List<ClientList> clientList = new List<ClientList>();
 
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                cmd.CommandText = "     SELECT TOP 5 ";
+                cmd.CommandText += "        KUNNR, KNAME1 ";
+                cmd.CommandText += "    FROM    BAM_CUST ";
+                cmd.CommandText += "    WHERE	PERNR = @emp_no ";
+                cmd.CommandText += "    GROUP	BY KUNNR, KNAME1 ";
+
+                cmd.Parameters.AddWithValue("@emp_no", emp_no);
+
+                Debug.WriteLine("query : " + cmd.CommandText);
+                rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (rdr.Read())
+                {
+
+                    //string vbelnSeqValue = rdr["VBELN_SEQ"] as string;
+                    string kunnrValue = rdr["KUNNR"] as string;
+                    string kname1Value = rdr["KNAME1"] as string;
+
+                    ClientList clientlist = new ClientList();
+
+                    //clientlist.vbeln_seq = vbelnSeqValue;
+                    clientlist.kunnr = kunnrValue;
+                    clientlist.kname1 = kname1Value;
+
+                    clientList.Add(clientlist);
+                }
+            }
+            return clientList;
+        }
+        
+        public List<ClientList> SelectFixarrivalList(String emp_no)
+        {
+            SqlDataReader rdr = null;
+            List<ClientList> clientList = new List<ClientList>();
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                cmd.CommandText = "     SELECT TOP 5 ";
+                cmd.CommandText += "        KUNNR, KNAME1 ";
+                cmd.CommandText += "    FROM    BAM_FIXARRIVAL ";
+                //cmd.CommandText += "    WHERE	PERNR = @emp_no ";
+                cmd.CommandText += "    GROUP	BY KUNNR, KNAME1 ";
+
+                cmd.Parameters.AddWithValue("@emp_no", emp_no);
+
+                Debug.WriteLine("query : " + cmd.CommandText);
+                rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (rdr.Read())
+                {
+
+                    //string vbelnSeqValue = rdr["VBELN_SEQ"] as string;
+                    string kunnrValue = rdr["KUNNR"] as string;
+                    string kname1Value = rdr["KNAME1"] as string;
+
+                    ClientList clientlist = new ClientList();
+
+                    //clientlist.vbeln_seq = vbelnSeqValue;
+                    clientlist.kunnr = kunnrValue;
+                    clientlist.kname1 = kname1Value;
+
+                    clientList.Add(clientlist);
+                }
+            }
+            return clientList;
+        }
     }
 }

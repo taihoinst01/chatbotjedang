@@ -953,6 +953,72 @@ namespace PortChatBot
                                         
                                     }
 
+                                    //거래처검색
+                                    if (dlg.cardTitle.Equals("거래처검색")) //  주문내역 dialog 일시..
+                                    {
+                                        List<ClientList> clientList = db.SelectClientList(userData.GetProperty<string>("emp_no"));
+                                        Activity reply_ment = activity.CreateReply();
+                                        string optionComment = "";
+                                        string kname1 = "";
+                                        if (clientList.Count != 0)
+                                        {
+                                            for (int i = 0; i < clientList.Count; i++)
+                                            {
+                                                kunnr = clientList[i].kunnr;
+                                                kname1 = clientList[i].kname1;
+
+                                                optionComment += (i + 1) + ". " + kname1 + "("+ kunnr + ")";
+
+                                            }
+
+                                            dlg.cardText = optionComment;
+                                        }
+                                        else
+                                        {
+                                            //Activity reply_ment = activity.CreateReply();
+                                            reply_ment.Recipient = activity.From;
+                                            reply_ment.Type = "message";
+                                            reply_ment.Text = "거래처를 검색하지 못했어요. 거래처 코드나 이름을 말씀해주세요.";
+
+                                            var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
+                                            response = Request.CreateResponse(HttpStatusCode.OK);
+                                            return response;
+                                        }
+                                    }
+
+                                    //인도처검색
+                                    if (dlg.cardTitle.Equals("인도처검색")) //  주문내역 dialog 일시..
+                                    {
+                                        List<ClientList> clientList = db.SelectFixarrivalList(userData.GetProperty<string>("emp_no"));
+                                        Activity reply_ment = activity.CreateReply();
+                                        string optionComment = "";
+                                        string kname1 = "";
+                                        if (clientList.Count != 0)
+                                        {
+                                            for (int i = 0; i < clientList.Count; i++)
+                                            {
+                                                kunnr = clientList[i].kunnr;
+                                                kname1 = clientList[i].kname1;
+
+                                                optionComment += (i + 1) + ". " + kname1 + "(" + kunnr + ")";
+
+                                            }
+
+                                            dlg.cardText = optionComment;
+                                        }
+                                        else
+                                        {
+                                            //Activity reply_ment = activity.CreateReply();
+                                            reply_ment.Recipient = activity.From;
+                                            reply_ment.Type = "message";
+                                            reply_ment.Text = "거래처를 검색하지 못했어요. 거래처 코드나 이름을 말씀해주세요.";
+
+                                            var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
+                                            response = Request.CreateResponse(HttpStatusCode.OK);
+                                            return response;
+                                        }
+                                    }
+
                                     if (activity.ChannelId.Equals("facebook") && string.IsNullOrEmpty(dlg.cardTitle) && dlg.dlgType.Equals(TEXTDLG))
                                     {
                                         commonReply.Recipient = activity.From;
