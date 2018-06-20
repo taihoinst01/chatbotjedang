@@ -306,7 +306,7 @@ namespace PortChatBot
                 {
                     Debug.WriteLine("* activity.Type == ActivityTypes.Message ");
                     channelID = activity.ChannelId;
-                    string orgMent = activity.Text;
+                    string orgMent = activity.Text.TrimStart(' ');
                     apiFlag = "COMMON";
 
                     //대화 시작 시간
@@ -975,15 +975,25 @@ namespace PortChatBot
                                                 kunnr = clientList[i].kunnr;
                                                 kname1 = clientList[i].kname1;
 
-                                                optionComment += (i + 1) + ". " + kname1 + "("+ kunnr + ")";
+                                                //인도처: 해태제과(주) 청주공장(119712) 주문 자재 및 수량 : 올리고당 HF25kg(104489) / 200 CAN
+                                                optionComment = (i + 1) + ". " + kname1 + "(" + kunnr + ")";
 
+                                                reply_ment.Recipient = activity.From;
+                                                reply_ment.Type = "message";
+                                                //reply_ment.Text = optionComment;
+
+                                                //선택하신 거래처는 “해태제과(주)(111111)”입니다.
+                                               var attachment = GetHeroCard(optionComment, kname1 + "(" + kunnr + ")", "선택하신 거래처는");
+                                                reply_ment.Attachments.Add(attachment);
+
+                                                selectYn = "Y";
                                             }
 
-                                            dlg.cardText = optionComment;
+                                            var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
+
                                         }
                                         else
                                         {
-                                            //Activity reply_ment = activity.CreateReply();
                                             reply_ment.Recipient = activity.From;
                                             reply_ment.Type = "message";
                                             reply_ment.Text = "거래처를 검색하지 못했어요. 거래처 코드나 이름을 말씀해주세요.";
@@ -992,6 +1002,7 @@ namespace PortChatBot
                                             response = Request.CreateResponse(HttpStatusCode.OK);
                                             return response;
                                         }
+                                        
                                     }
 
                                     //인도처검색
@@ -1024,6 +1035,45 @@ namespace PortChatBot
                                             var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
                                             response = Request.CreateResponse(HttpStatusCode.OK);
                                             return response;
+                                        }
+                                    }
+
+                                    //주문번호정보
+                                    if (dlg.cardTitle.Equals("주문번호정보"))
+                                    {
+                                        List<OrderList> orderList = db.SearchOrderList("");
+                                        Activity reply_ment = activity.CreateReply();
+                                        string optionComment = "";
+                                        //예외처리
+                                        if (orderList.Count != 0)
+                                        {
+                                            for (int i = 0; i < orderList.Count; i++)
+                                            {
+                                                cust = orderList[i].cust;
+                                                vdatu = orderList[i].vdatu;
+                                                kwmenge = orderList[i].kwmenge;
+                                                kunnr = orderList[i].fixarrival;
+                                                matnr = orderList[i].product;
+                                                inform = orderList[i].inform;
+                                                vbeln_seq = orderList[i].vbeln_seq;
+                                                rc = orderList[i].rc;
+
+
+                                                optionComment = "거래처 : " + cust + "(" + orderList[i].cust_nr + ")"
+                                                                + "인도처 : " + kunnr + "(" + orderList[i].fixarrival_nr + ")"
+                                                                + "자재 : " + matnr + "(" + orderList[i].product_nr + ")"
+                                                                + "수량 : " + kwmenge
+                                                                + "납품요청일 : " + vdatu
+                                                                + "출고센터 : " + rc;
+                                                if (!string.IsNullOrEmpty(inform))
+                                                {
+                                                    optionComment = optionComment + "전달내용 : " + inform;
+                                                    userData.SetProperty<string>("inform", inform);
+                                                }
+                                                dlg.cardText = optionComment;
+
+                                                selectYn = "Y";
+                                            }
                                         }
                                     }
 
@@ -1342,13 +1392,26 @@ namespace PortChatBot
             }
         }
 
-        private static Attachment GetHeroCard(String ment, String seq, String str)
+        private static Attachment GetHeroCard(String ment, String str1, String str2)
         {
+            string str3 = "";
+            string strFull = "";
+
+            if (str2.Contains("거래처"))
+            {
+                strFull = str2 + str1 + "입니다.";
+                str3 = str1;
+            }
+            else
+            {
+                strFull = str2 + " " + str1;
+                str3 = str2 + " " + str1;
+            }
             var heroCard = new HeroCard
             {
                
                 Text = ment,
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.ImBack, "확인", value: str + " " + seq) }
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.ImBack, strFull, value: str3) }
             };
 
             return heroCard.ToAttachment();

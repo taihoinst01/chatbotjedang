@@ -1790,7 +1790,7 @@ namespace PortChatBot.DB
                 while (rdr.Read())
                 {
 
-                       string custValue = rdr["CUST"] as string;
+                    string custValue = rdr["CUST"] as string;
                     string fixarrivalValue = rdr["FIXARRIVAL"] as string;
                     string productValue = rdr["PRODUCT"] as string;
                     string kwmengeValue = rdr["KWMENGE"] as string;
@@ -1808,6 +1808,69 @@ namespace PortChatBot.DB
                 }
             }
             return pastOrderList;
+        }
+
+        public List<OrderList> SearchOrderList(string vbeln_seq)
+        {
+            SqlDataReader rdr = null;
+            List<OrderList> orderList = new List<OrderList>();
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                cmd.CommandText = "     SELECT CONVERT(VARCHAR(100),VBELN_SEQ) AS VBELN_SEQ, ";
+                cmd.CommandText += "        KNAME1 AS CUST, KUNNR AS CUST_NR, ";
+                cmd.CommandText += "        KNAME2 AS FIXARRIVAL, KUNN2 AS FIXARRIVAL_NR, ";
+                cmd.CommandText += "        MAKTX AS PRODUCT, MATNR AS PRODUCT_NR, ";
+                cmd.CommandText += "        CONVERT(VARCHAR(4), KWMENGE)  +VRKME AS KWMENGE, ";
+                cmd.CommandText += "        CONVERT(CHAR(10), CONVERT(DATE, VDATU), 102) AS VDATU, ";
+                cmd.CommandText += "        '인천 1' AS RC, ";
+                cmd.CommandText += "        INFORM ";
+                cmd.CommandText += "    FROM    VOS_ORDER ";
+                cmd.CommandText += "    WHERE   VBELN_SEQ = @vbeln_seq ";
+                cmd.CommandText += "    AND     EMP_NO = @emp_no ";
+
+                cmd.Parameters.AddWithValue("@vbeln_seq", vbeln_seq);
+
+                Debug.WriteLine("query : " + cmd.CommandText);
+                rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (rdr.Read())
+                {
+
+                    string vbelnSeqValue = rdr["VBELN_SEQ"] as string;
+                    string custValue = rdr["CUST"] as string;
+                    string custNrValue = rdr["CUST_NR"] as string;
+                    string fixarrivalValue = rdr["FIXARRIVAL"] as string;
+                    string fixarrivalNrValue = rdr["FIXARRIVAL_NR"] as string;
+                    string productValue = rdr["PRODUCT"] as string;
+                    string productNrValue = rdr["PRODUCT_NR"] as string;
+                    string kwmengeValue = rdr["KWMENGE"] as string;
+                    string vadtuValue = rdr["VDATU"] as string;
+                    string rcValue = rdr["RC"] as string;
+                    string informValue = rdr["INFORM"] as string;
+
+                    OrderList order = new OrderList();
+
+                    order.vbeln_seq = vbelnSeqValue;
+                    order.cust = custValue;
+                    order.cust_nr = custNrValue;
+                    order.fixarrival = fixarrivalValue;
+                    order.fixarrival_nr = fixarrivalNrValue;
+                    order.product = productValue;
+                    order.product_nr = productNrValue;
+                    order.kwmenge = kwmengeValue;
+                    order.rc = rcValue;
+                    order.vdatu = vadtuValue;
+                    order.inform = informValue;
+
+                    orderList.Add(order);
+                }
+            }
+            return orderList;
         }
     }
 }
