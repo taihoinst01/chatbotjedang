@@ -873,6 +873,11 @@ namespace PortChatBot
                                         }
                                         else
                                         {
+
+                                            if (string.IsNullOrEmpty(orderNm))
+                                            {
+                                                orderNm = "";
+                                            }
                                             orderDlgList = db.SelectOrderHistory(cust.Replace(" ", ""), kunnr.Replace(" ", ""), matnr, kwmenge, vdatu, orderNm);
 
                                             userData.SetProperty<string>("cust", orderDlgList[0].cust);
