@@ -1716,7 +1716,7 @@ namespace PortChatBot.DB
             return clientList;
         }
         
-        public List<ClientList> SelectFixarrivalList(String emp_no)
+        public List<ClientList> SelectFixarrivalList()
         {
             SqlDataReader rdr = null;
             List<ClientList> clientList = new List<ClientList>();
@@ -1733,7 +1733,7 @@ namespace PortChatBot.DB
                 //cmd.CommandText += "    WHERE	PERNR = @emp_no ";
                 cmd.CommandText += "    GROUP	BY KUNNR, KNAME1 ";
 
-                cmd.Parameters.AddWithValue("@emp_no", emp_no);
+                //cmd.Parameters.AddWithValue("@emp_no", emp_no);
 
                 Debug.WriteLine("query : " + cmd.CommandText);
                 rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
