@@ -797,10 +797,16 @@ namespace PortChatBot
                                             matnr = userData.GetProperty<string>("matnr");
                                         }
                                         DButil.HistoryLog("=444444");
-                                        if (vdatu.Contains("."))
+                                        if(!string.IsNullOrEmpty(vdatu)) { 
+                                            if (vdatu.Contains("."))
+                                            {
+                                                string[] vdatuResult = vdatu.Split('.');
+                                                vdatu = vdatuResult[1]+"월" + vdatuResult[2]+"일";
+                                            }
+                                        }
+                                        else
                                         {
-                                            string[] vdatuResult = vdatu.Split('.');
-                                            vdatu = vdatuResult[1]+"월" + vdatuResult[2]+"일";
+                                            vdatu = "";
                                         }
                                         //동일하게, 같은, 똑같고, 변동없고
                                         if (kwmenge.Contains("동일하게") || kunnr.Contains("동일하게")  || kunnr.Contains("같은") || kunnr.Contains("똑같고") || kunnr.Contains("변동없고"))
