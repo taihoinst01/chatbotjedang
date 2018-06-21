@@ -670,17 +670,6 @@ namespace PortChatBot
                                                 optionComment = optionComment.Replace("#User_nm", strComment[2]);
                                                 optionComment = optionComment.Replace("#Emp_no", strComment[3]);
                                                 tempcard.cardText = optionComment;
-
-                                                Activity reply_ment = activity.CreateReply();
-
-                                                reply_ment.Recipient = activity.From;
-                                                reply_ment.Type = "message";
-                                                reply_ment.Text = "테스트테스트테스트테스트테스트";
-
-                                                var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
-                                                response = Request.CreateResponse(HttpStatusCode.OK);
-                                                return response;
-
                                             }
 
                                             tempAttachment = dbutil.getAttachmentFromDialog(tempcard, activity);
