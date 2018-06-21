@@ -731,7 +731,26 @@ namespace PortChatBot
                                                 }
                                             }
                                         //}
-                                        
+                                        //Debug.WriteLine("cust.Substring(cust.Length - 8)==" + cust.Substring(cust.Length - 8));
+                                        //Debug.WriteLine("cust.Substring(cust.Length - 1)==" + cust.Substring(cust.Length - 1));
+                                        //Debug.WriteLine("cust.Substring(cust.Length - 8).Substring(0,1)==" + cust.Substring(cust.Length - 8).Substring(0,1));
+                                        //if ((cust.Substring(cust.Length - 8).Substring(0, 1)) == "(" && (cust.Substring(cust.Length - 1)) == ")")
+                                        if (!string.IsNullOrEmpty(cust))
+                                        {
+                                            if ((cust.Substring(cust.Length - 1)) == ")")
+                                            {                                             
+                                                cust = cust.Substring(0, cust.Length - (cust.Length - 11));
+                                            }
+                                        }
+
+                                        if (!string.IsNullOrEmpty(kunnr)) 
+                                        {
+                                            if ((kunnr.Substring(kunnr.Length - 1)) == ")")
+                                            {
+                                                kunnr = kunnr.Substring(0, kunnr.Length - (kunnr.Length - 11));
+                                            }
+                                            
+                                        }
 
                                         if (string.IsNullOrEmpty(cust))
                                         {
@@ -979,12 +998,13 @@ namespace PortChatBot
                                                 reply_ment.Recipient = activity.From;
                                                 reply_ment.Type = "message";
 
-                                                var attachment = GetHeroCard(optionComment, kname1 + "(" + kunnr + ")", "거래처는");
+                                                var attachment = GetHeroCard(optionComment, kname1 + "(" + kunnr + ")", "거래처는 ");
                                                 reply_ment.Attachments.Add(attachment);
 
                                                 selectYn = "Y";
                                             }
-
+                                            kunnr = "";
+                                            kname1 = "";
                                             var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
 
                                         }
@@ -1020,12 +1040,13 @@ namespace PortChatBot
                                                 reply_ment.Recipient = activity.From;
                                                 reply_ment.Type = "message";
 
-                                                var attachment = GetHeroCard(optionComment, kname1 + "(" + kunnr + ")", "인도처는");
+                                                var attachment = GetHeroCard(optionComment, kname1 + "(" + kunnr + ")", "인도처는 ");
                                                 reply_ment.Attachments.Add(attachment);
 
                                                 selectYn = "Y";
                                             }
-
+                                            kunnr = "";
+                                            kname1 = "";
                                             var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
 
                                         }
@@ -1402,9 +1423,10 @@ namespace PortChatBot
             string str3 = "";
             string strFull = "";
 
-            if (str2.Contains("거래처"))
+            //ment : 
+            if (str2.Contains("거래처") || str2.Contains("인도처"))
             {
-                strFull = str2 + str1 + "입니다.";
+                strFull = str2 + str1 + " 추가해줘.";
                 str3 = str1;
             }
             else
@@ -1416,7 +1438,7 @@ namespace PortChatBot
             {
                
                 Text = ment,
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.ImBack, strFull, value: str3) }
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.ImBack, str3, value: strFull) }
             };
 
             return heroCard.ToAttachment();
