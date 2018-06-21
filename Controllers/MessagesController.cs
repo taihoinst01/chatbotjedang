@@ -809,11 +809,12 @@ namespace PortChatBot
                                             vdatu = "";
                                         }
                                         //동일하게, 같은, 똑같고, 변동없고
+                                        DButil.HistoryLog("=555555");
                                         if (kwmenge.Contains("동일하게") || kunnr.Contains("동일하게")  || kunnr.Contains("같은") || kunnr.Contains("똑같고") || kunnr.Contains("변동없고"))
                                         {
                                             kunnr = cust;
                                         }
-                                        DButil.HistoryLog("=555555");
+                                        DButil.HistoryLog("=666666");
                                         List<OrderHistory> orderDlgList = new List<OrderHistory>();
                                         List<PastOrderList> pastOrderList = new List<PastOrderList>();
 
