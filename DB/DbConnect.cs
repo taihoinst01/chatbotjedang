@@ -1393,7 +1393,7 @@ namespace PortChatBot.DB
 
         }
 
-        public List<OrderHistory> SelectOrderHistory(String cust, String fixarrival, String product, String kwmenge, String vadtu)
+        public List<OrderHistory> SelectOrderHistory(String cust, String fixarrival, String product, String kwmenge, String vadtu, String orderNm)
         {
             SqlDataReader rdr = null;
 
@@ -1404,59 +1404,77 @@ namespace PortChatBot.DB
                 conn.Open();
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = conn;
-
-                cmd.CommandText += " SELECT ";
-                cmd.CommandText += " 	( ";
-                if (string.IsNullOrEmpty(cust))
+                if (!string.IsNullOrEmpty(orderNm))
                 {
-                    cmd.CommandText += " 		SELECT TOP 1 KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '' ";
+                    cmd.CommandText += " SELECT TOP 1 ";
+                    cmd.CommandText += "        KNAME1 +'(' + KUNNR + ')' AS CUST, ";
+                    cmd.CommandText += "        KNAME2 +'(' + KUNN2 + ')'  AS FIXARRIVAL, ";
+                    cmd.CommandText += "        MAKTX +'(' + MATNR + ')'  AS PRODUCT, ";
+                    cmd.CommandText += "        CONVERT(VARCHAR(4), KWMENGE)  + VRKME AS KWMENGE, ";
+                    cmd.CommandText += "        VDATU, ";
+                    cmd.CommandText += "        '인천 1' AS RC, ";
+                    cmd.CommandText += "        INFORM ";
+                    cmd.CommandText += "    FROM    VOS_ORDER ";
+                    cmd.CommandText += "    WHERE   VBELN = @vbeln ";
+
+                    cmd.Parameters.AddWithValue("@vbeln", orderNm);
                 } else
                 {
-                    cmd.CommandText += " 		SELECT TOP 1 KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + cust.Replace("(주)","").Replace("식품", "").Replace("주식회사", "") + "%' ";
-                }
-                
-                cmd.CommandText += " 	) AS CUST, ";
-                cmd.CommandText += " 	( ";
-                if (string.IsNullOrEmpty(fixarrival))
-                {
-                    cmd.CommandText += " 		SELECT TOP 1 KNAME1+'(' + KUNN2 + ')' FROM BAM_FIXARRIVAL WHERE REPLACE(REPLACE(KNAME1,' ',''),'(주)','') LIKE '' ";
-                }
-                else
-                {
-                    cmd.CommandText += " 		SELECT TOP 1 KNAME1+'(' + KUNN2 + ')' FROM BAM_FIXARRIVAL WHERE REPLACE(REPLACE(KNAME1,' ',''),'(주)','') LIKE '%" + fixarrival.Replace("(주)", "") + "%' ";
-                }
-                
-                cmd.CommandText += " 	) AS FIXARRIVAL, ";
-                cmd.CommandText += " 	( ";
-                if (string.IsNullOrEmpty(product))
-                {
-                    cmd.CommandText += " 		SELECT MAKTX+'('+MATNR+')'   FROM BAM_PRODUCT WHERE REPLACE(MAKTXC,' ','') LIKE '' ";
-                }
-                else
-                {
-                    cmd.CommandText += " 		SELECT MAKTX+'('+MATNR+')'   FROM BAM_PRODUCT WHERE REPLACE(MAKTXC,' ','') LIKE '%" + product.Replace(" ","") + "%' ";
-                }
-                cmd.CommandText += " 	) AS PRODUCT, ";
-                cmd.CommandText += " 	@kwmenge AS KWMENGE, ";
-                cmd.CommandText += " 	( ";
-                if (string.IsNullOrEmpty(vadtu))
-                {
-                    cmd.CommandText += " 		SELECT  '' ";
-                }
-                else
-                {
-                    cmd.CommandText += " 		SELECT  '2018.'+STUFF( ";
-                    cmd.CommandText += "(SELECT '.', RIGHT('0' + REPLACE(REPLACE(VAL1, '월', ''), '일', ''), 2) FROM SPLIT2(REPLACE(@vadtu,'월',' '), ' ') FOR XML PATH('')) ";
-                    cmd.CommandText += "		,1,1,'') ";
-                }
-                
-                cmd.CommandText += " 	) AS VADTU ";
+                    cmd.CommandText += " SELECT ";
+                    cmd.CommandText += " 	( ";
+                    if (string.IsNullOrEmpty(cust))
+                    {
+                        cmd.CommandText += " 		SELECT TOP 1 KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '' ";
+                    }
+                    else
+                    {
+                        cmd.CommandText += " 		SELECT TOP 1 KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + cust.Replace("(주)", "").Replace("식품", "").Replace("주식회사", "") + "%' ";
+                    }
 
-                cmd.Parameters.AddWithValue("@cust", cust);
-                //cmd.Parameters.AddWithValue("@fixarrival", fixarrival);
-                //cmd.Parameters.AddWithValue("@product", product);
-                cmd.Parameters.AddWithValue("@kwmenge", kwmenge);
-                cmd.Parameters.AddWithValue("@vadtu", vadtu);
+                    cmd.CommandText += " 	) AS CUST, ";
+                    cmd.CommandText += " 	( ";
+                    if (string.IsNullOrEmpty(fixarrival))
+                    {
+                        cmd.CommandText += " 		SELECT TOP 1 KNAME1+'(' + KUNN2 + ')' FROM BAM_FIXARRIVAL WHERE REPLACE(REPLACE(KNAME1,' ',''),'(주)','') LIKE '' ";
+                    }
+                    else
+                    {
+                        cmd.CommandText += " 		SELECT TOP 1 KNAME1+'(' + KUNN2 + ')' FROM BAM_FIXARRIVAL WHERE REPLACE(REPLACE(KNAME1,' ',''),'(주)','') LIKE '%" + fixarrival.Replace("(주)", "") + "%' ";
+                    }
+
+                    cmd.CommandText += " 	) AS FIXARRIVAL, ";
+                    cmd.CommandText += " 	( ";
+                    if (string.IsNullOrEmpty(product))
+                    {
+                        cmd.CommandText += " 		SELECT MAKTX+'('+MATNR+')'   FROM BAM_PRODUCT WHERE REPLACE(MAKTXC,' ','') LIKE '' ";
+                    }
+                    else
+                    {
+                        cmd.CommandText += " 		SELECT MAKTX+'('+MATNR+')'   FROM BAM_PRODUCT WHERE REPLACE(MAKTXC,' ','') LIKE '%" + product.Replace(" ", "") + "%' ";
+                    }
+                    cmd.CommandText += " 	) AS PRODUCT, ";
+                    cmd.CommandText += " 	@kwmenge AS KWMENGE, ";
+                    cmd.CommandText += " 	( ";
+                    if (string.IsNullOrEmpty(vadtu))
+                    {
+                        cmd.CommandText += " 		SELECT  '' ";
+                    }
+                    else
+                    {
+                        cmd.CommandText += " 		SELECT  '2018.'+STUFF( ";
+                        cmd.CommandText += "(SELECT '.', RIGHT('0' + REPLACE(REPLACE(VAL1, '월', ''), '일', ''), 2) FROM SPLIT2(REPLACE(@vadtu,'월',' '), ' ') FOR XML PATH('')) ";
+                        cmd.CommandText += "		,1,1,'') ";
+                    }
+
+                    cmd.CommandText += " 	) AS VDATU ";
+
+                    cmd.Parameters.AddWithValue("@cust", cust);
+                    //cmd.Parameters.AddWithValue("@fixarrival", fixarrival);
+                    //cmd.Parameters.AddWithValue("@product", product);
+                    cmd.Parameters.AddWithValue("@kwmenge", kwmenge);
+                    cmd.Parameters.AddWithValue("@vadtu", vadtu);
+                }
+                
 
                 Debug.WriteLine("query : " + cmd.CommandText);
 
@@ -1468,7 +1486,7 @@ namespace PortChatBot.DB
                     string fixarrivalValue = rdr["FIXARRIVAL"] as string;
                     string productValue = rdr["PRODUCT"] as string;
                     string kwmengeValue = rdr["KWMENGE"] as string;
-                    string vadtuValue = rdr["VADTU"] as string;
+                    string vadtuValue = rdr["VDATU"] as string;
 
                     OrderHistory dlg = new OrderHistory();
                     dlg.cust = custValue;
@@ -1496,10 +1514,14 @@ namespace PortChatBot.DB
                 conn.Open();
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = conn;
+
+
+
                 cmd.CommandText += " INSERT INTO VOS_ORDER ";
-                cmd.CommandText += " (VBELN_SEQ, KUNNR, KNAME1, KUNN2, KNAME2, VDATU, INFORM, MATNR, MAKTX, KWMENGE, VRKME, EMP_NO) ";
+                cmd.CommandText += " (VBELN, VBELN_SEQ, KUNNR, KNAME1, KUNN2, KNAME2, VDATU, INFORM, MATNR, MAKTX, KWMENGE, VRKME, EMP_NO) ";
                 cmd.CommandText += " VALUES ";
-                cmd.CommandText += " (  (SELECT MAX(VBELN_SEQ)+1 FROM VOS_ORDER) ";
+                cmd.CommandText += " (  (SELECT MAX(VBELN)+1 FROM VOS_ORDER) ";
+                cmd.CommandText += "    , '1' ";
                 cmd.CommandText += "    , REPLACE(RIGHT(@cust, CHARINDEX('(', REVERSE(@cust))-1),')','') ";
                 cmd.CommandText += "    , REPLACE(@cust,'('+RIGHT(@cust, CHARINDEX('(', REVERSE(@cust))-1),'') ";
                 cmd.CommandText += "    , REPLACE(RIGHT(@fixarrival, CHARINDEX('(', REVERSE(@fixarrival))-1),')','') ";
@@ -1595,7 +1617,7 @@ namespace PortChatBot.DB
                 //cmd.CommandText += "                            (SELECT '.', RIGHT('0' + REPLACE(REPLACE(VAL1, '월', ''), '일', ''), 2) FROM SPLIT2(REPLACE('"+ vadtu + "', '월', ' '), ' ') FOR XML PATH('')) ";
                 //cmd.CommandText += "                            ,1,1,''),'.','') ) ";
 
-                cmd.CommandText = "     SELECT CONVERT(VARCHAR(100),VBELN_SEQ) AS VBELN_SEQ, ";
+                cmd.CommandText = "     SELECT CONVERT(VARCHAR(100),VBELN) AS VBELN, CONVERT(VARCHAR(100),VBELN_SEQ) AS VBELN_SEQ, ";
                 cmd.CommandText += "        KNAME1 AS CUST, KUNNR AS CUST_NR, ";
                 cmd.CommandText += "        KNAME2 AS FIXARRIVAL, KUNN2 AS FIXARRIVAL_NR, ";
                 cmd.CommandText += "        MAKTX AS PRODUCT, MATNR AS PRODUCT_NR, ";
@@ -1621,7 +1643,7 @@ namespace PortChatBot.DB
 
                 while (rdr.Read())
                 {
-                    
+                    string vbelnValue = rdr["VBELN"] as string;
                     string vbelnSeqValue = rdr["VBELN_SEQ"] as string;
                     string custValue = rdr["CUST"] as string;
                     string custNrValue = rdr["CUST_NR"] as string;
@@ -1636,6 +1658,7 @@ namespace PortChatBot.DB
 
                     OrderList order = new OrderList();
 
+                    order.vbeln = vbelnValue;
                     order.vbeln_seq = vbelnSeqValue;
                     order.cust = custValue;
                     order.cust_nr = custNrValue;
@@ -1757,7 +1780,7 @@ namespace PortChatBot.DB
             return clientList;
         }
 
-        public List<PastOrderList> SelectPastList(String cust, String fixarrival, String product, String emp_no)
+        public List<PastOrderList> SelectPastList(String cust, String fixarrival, String product, String emp_no, String vdatu)
         {
             SqlDataReader rdr = null;
             List<PastOrderList> pastOrderList = new List<PastOrderList>();
@@ -1768,12 +1791,14 @@ namespace PortChatBot.DB
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = conn;
 
-                cmd.CommandText = "     SELECT TOP 1 CONVERT(VARCHAR(100),VBELN_SEQ) AS VBELN_SEQ, ";
-                cmd.CommandText += "        A.KNAME1 AS CUST, A.KUNNR AS CUST_NR, ";
-                cmd.CommandText += "        A.KNAME2 AS FIXARRIVAL, A.KUNN2 AS FIXARRIVAL_NR, ";
-                cmd.CommandText += "        A.MAKTX AS PRODUCT, A.MATNR AS PRODUCT_NR, ";
+                cmd.CommandText = "     SELECT CONVERT(VARCHAR(100),VBELN_SEQ) AS VBELN_SEQ, ";
+                cmd.CommandText += "        A.KNAME1 +'(' + KUNNR + ')' AS CUST, ";
+                cmd.CommandText += "        A.KNAME2 +'(' + A.KUNN2 + ')'  AS FIXARRIVAL, ";
+                cmd.CommandText += "        A.MAKTX +'(' + A.MATNR + ')'  AS PRODUCT, ";
                 cmd.CommandText += "        CONVERT(VARCHAR(4), A.KWMENGE)  + A.VRKME AS KWMENGE, ";
-                cmd.CommandText += "        CONVERT(CHAR(10), CONVERT(DATE, A.VDATU), 102) AS VDATU, ";
+                cmd.CommandText += "        (SELECT  '2018.'+STUFF( ";
+                cmd.CommandText += "            (SELECT '.', RIGHT('0' + REPLACE(REPLACE(VAL1, '월', ''), '일', ''), 2) FROM SPLIT2(REPLACE(@vdatu, '월', ' '), ' ') FOR XML PATH('')) ";
+                cmd.CommandText += "            ,1,1,'')) AS VDATU, ";
                 cmd.CommandText += "        '인천 1' AS RC, ";
                 cmd.CommandText += "        A.INFORM ";
                 cmd.CommandText += "    FROM    VOS_ORDER A, BAM_PRODUCT B ";
@@ -1783,7 +1808,8 @@ namespace PortChatBot.DB
                 cmd.CommandText += "    AND     B.MAKTXC LIKE '%" + product.Replace(" ", "") + "%' ";
 
                 cmd.Parameters.AddWithValue("@emp_no", emp_no);
-
+                cmd.Parameters.AddWithValue("@vdatu", vdatu);
+                
                 Debug.WriteLine("query : " + cmd.CommandText);
                 rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
@@ -1794,7 +1820,7 @@ namespace PortChatBot.DB
                     string fixarrivalValue = rdr["FIXARRIVAL"] as string;
                     string productValue = rdr["PRODUCT"] as string;
                     string kwmengeValue = rdr["KWMENGE"] as string;
-                    string vadtuValue = rdr["VADTU"] as string;
+                    string vadtuValue = rdr["VDATU"] as string;
 
                     PastOrderList pastorderlist = new PastOrderList();
 
@@ -1810,7 +1836,7 @@ namespace PortChatBot.DB
             return pastOrderList;
         }
 
-        public List<OrderList> SearchOrderList(string vbeln_seq)
+        public List<OrderList> SearchOrderList(string vbeln)
         {
             SqlDataReader rdr = null;
             List<OrderList> orderList = new List<OrderList>();
@@ -1821,7 +1847,7 @@ namespace PortChatBot.DB
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = conn;
 
-                cmd.CommandText = "     SELECT CONVERT(VARCHAR(100),VBELN_SEQ) AS VBELN_SEQ, ";
+                cmd.CommandText = "     SELECT CONVERT(VARCHAR(100),VBELN) AS VBELN, CONVERT(VARCHAR(100),VBELN_SEQ) AS VBELN_SEQ, ";
                 cmd.CommandText += "        KNAME1 AS CUST, KUNNR AS CUST_NR, ";
                 cmd.CommandText += "        KNAME2 AS FIXARRIVAL, KUNN2 AS FIXARRIVAL_NR, ";
                 cmd.CommandText += "        MAKTX AS PRODUCT, MATNR AS PRODUCT_NR, ";
@@ -1830,17 +1856,17 @@ namespace PortChatBot.DB
                 cmd.CommandText += "        '인천 1' AS RC, ";
                 cmd.CommandText += "        INFORM ";
                 cmd.CommandText += "    FROM    VOS_ORDER ";
-                cmd.CommandText += "    WHERE   VBELN_SEQ = @vbeln_seq ";
+                cmd.CommandText += "    WHERE   VBELN = @vbeln ";
                 cmd.CommandText += "    AND     EMP_NO = @emp_no ";
 
-                cmd.Parameters.AddWithValue("@vbeln_seq", vbeln_seq);
+                cmd.Parameters.AddWithValue("@vbeln", vbeln);
 
                 Debug.WriteLine("query : " + cmd.CommandText);
                 rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
                 while (rdr.Read())
                 {
-
+                    string vbelnValue = rdr["VBELN"] as string;
                     string vbelnSeqValue = rdr["VBELN_SEQ"] as string;
                     string custValue = rdr["CUST"] as string;
                     string custNrValue = rdr["CUST_NR"] as string;
@@ -1855,6 +1881,7 @@ namespace PortChatBot.DB
 
                     OrderList order = new OrderList();
 
+                    order.vbeln = vbelnValue;
                     order.vbeln_seq = vbelnSeqValue;
                     order.cust = custValue;
                     order.cust_nr = custNrValue;

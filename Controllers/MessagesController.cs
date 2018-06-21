@@ -79,8 +79,11 @@ namespace PortChatBot
         public static string vdatu = "";
         public static string inform = "";
         public static string selectYn = "";
+        public static string vbeln = "";
         public static string vbeln_seq = "";
-        public static string rc = ""; 
+        public static string rc = "";
+        public static string orderNm = "";
+        public static string pastList = "";
 
         public static CacheList cacheList = new CacheList();
         public static QueryIntentList queryIntentList = new QueryIntentList();
@@ -368,7 +371,7 @@ namespace PortChatBot
                             }
                             else if (cacheList.luisIntent.Contains("quot"))
                             {
-                                apiFlag = "QUOT";
+                                apiFlag = "QUOT"; 
                             }
                             else if (cacheList.luisIntent.Contains("recommend "))
                             {
@@ -696,45 +699,61 @@ namespace PortChatBot
                                         string optionComment = dlg.cardText;
 
                                         //거래처는 해태제과, 인도처는 해태제과 아산공장으로 자재는  갈색설탕 15kg짜리, 수량은 7파레트, 납품일은 6월 1일로  주문넣어줘
-                                        //cust,kunnr,matnr,kwmenge,vdatu
+
                                         Debug.WriteLine("MessagesController.luisEntitiesVlaue : " + MessagesController.luisEntitiesValue);
 
                                         //if (selectYn != "Y")
                                         //{
-                                            string[] luisEntitiesValueSplit = MessagesController.luisEntitiesValue.Split(',');
+                                        string[] luisEntitiesValueSplit = MessagesController.luisEntitiesValue.Split(',');
 
-                                            for (int i = 0; i < luisEntitiesValueSplit.Count(); i++)
-                                            {
-                                                if (luisEntitiesValueSplit[i].Contains("거래처내용="))
-                                                {
-                                                    cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "");
-                                                }
-                                                else if (luisEntitiesValueSplit[i].Contains("납품일자="))
-                                                {
-                                                    vdatu = luisEntitiesValueSplit[i].Replace("납품일자=", "");
-                                                }
-                                                else if (luisEntitiesValueSplit[i].Contains("수량내용="))
-                                                {
-                                                    kwmenge = luisEntitiesValueSplit[i].Replace("수량내용=", "");
-                                                }
-                                                else if (luisEntitiesValueSplit[i].Contains("인도처내용="))
-                                                {
-                                                    kunnr = luisEntitiesValueSplit[i].Replace("인도처내용=", "");
-                                                }
-                                                else if (luisEntitiesValueSplit[i].Contains("자재내용="))
-                                                {
-                                                    matnr = luisEntitiesValueSplit[i].Replace("자재내용=", "");
-                                                }
-                                                else if (luisEntitiesValueSplit[i].Contains("전달사항내용="))
-                                                {
-                                                    inform = luisEntitiesValueSplit[i].Replace("전달사항내용=", "");
-                                                }
-                                            }
-                                        //}
-                                        //Debug.WriteLine("cust.Substring(cust.Length - 8)==" + cust.Substring(cust.Length - 8));
-                                        //Debug.WriteLine("cust.Substring(cust.Length - 1)==" + cust.Substring(cust.Length - 1));
-                                        //Debug.WriteLine("cust.Substring(cust.Length - 8).Substring(0,1)==" + cust.Substring(cust.Length - 8).Substring(0,1));
-                                        //if ((cust.Substring(cust.Length - 8).Substring(0, 1)) == "(" && (cust.Substring(cust.Length - 1)) == ")")
+                                        for (int i = 0; i < luisEntitiesValueSplit.Count(); i++)
+                                        {
+                                        if (luisEntitiesValueSplit[i].Contains("거래처내용="))
+                                        {
+                                            cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "");
+                                        }
+                                        else if (luisEntitiesValueSplit[i].Contains("납품일자="))
+                                        {
+                                            vdatu = luisEntitiesValueSplit[i].Replace("납품일자=", "");
+                                        }
+                                        else if (luisEntitiesValueSplit[i].Contains("수량내용="))
+                                        {
+                                            kwmenge = luisEntitiesValueSplit[i].Replace("수량내용=", "");
+                                        }
+                                        else if (luisEntitiesValueSplit[i].Contains("인도처내용="))
+                                        {
+                                            kunnr = luisEntitiesValueSplit[i].Replace("인도처내용=", "");
+                                        }
+                                        else if (luisEntitiesValueSplit[i].Contains("자재내용="))
+                                        {
+                                            matnr = luisEntitiesValueSplit[i].Replace("자재내용=", "");
+                                        }
+                                        else if (luisEntitiesValueSplit[i].Contains("전달사항내용="))
+                                        {
+                                            inform = luisEntitiesValueSplit[i].Replace("전달사항내용=", "");
+                                        }
+                                        else if (luisEntitiesValueSplit[i].Contains("주문번호내용=")) 
+                                            orderNm = luisEntitiesValueSplit[i].Replace("주문번호내용=", "");
+                                        }
+
+                                        if (vdatu.Contains("오늘"))
+                                        {
+                                            vdatu = DateTime.Now.ToString("yyyy.MM.dd");
+                                        }
+                                        else if (vdatu.Contains("내일"))
+                                        {
+                                            vdatu = DateTime.Now.AddDays(1).ToString("yyyy.MM.dd");
+                                        }
+                                        else if (vdatu.Contains("어제"))
+                                        {
+                                            vdatu = DateTime.Now.AddDays(-1).ToString("yyyy.MM.dd");
+                                        }
+                                        else if (vdatu.Contains("다음주"))
+                                        {
+                                            vdatu = DateTime.Now.AddDays(7).ToString("yyyy.MM.dd");
+                                        }
+
+
                                         if (!string.IsNullOrEmpty(cust))
                                         {
                                             if ((cust.Substring(cust.Length - 1)) == ")")
@@ -783,7 +802,7 @@ namespace PortChatBot
                                             vdatu = vdatuResult[1]+"월" + vdatuResult[2]+"일";
                                         }
                                         //동일하게, 같은, 똑같고, 변동없고
-                                        if (kwmenge.Contains("동일하게") || kunnr.Contains("같은") || kunnr.Contains("똑같고") || kunnr.Contains("변동없고"))
+                                        if (kwmenge.Contains("동일하게") || kunnr.Contains("동일하게")  || kunnr.Contains("같은") || kunnr.Contains("똑같고") || kunnr.Contains("변동없고"))
                                         {
                                             kunnr = cust;
                                         }                                        
@@ -793,26 +812,78 @@ namespace PortChatBot
 
                                         if (matnr.Contains("기존") || kwmenge.Contains("동일하게") || kwmenge.Contains("같은") || kwmenge.Contains("똑같고") || kwmenge.Contains("변동없고"))
                                         {
-
-                                            pastOrderList = db.SelectPastList(cust.Replace(" ", ""), kunnr.Replace(" ", ""), matnr, userData.GetProperty<string>("emp_no"));
+                                            pastList = "Y";
+                                            pastOrderList = db.SelectPastList(cust.Replace(" ", ""), kunnr.Replace(" ", ""), matnr.Replace("기존", "").Replace(" ", ""), userData.GetProperty<string>("emp_no"), vdatu);
 
                                             userData.SetProperty<string>("cust", pastOrderList[0].cust);
                                             userData.SetProperty<string>("kunnr", pastOrderList[0].fixarrival);
                                             userData.SetProperty<string>("matnr", pastOrderList[0].product);
                                             userData.SetProperty<string>("kwmenge", pastOrderList[0].kwmenge);
                                             userData.SetProperty<string>("vdatu", pastOrderList[0].vdatu);
+
+                                            
+                                            Activity reply_ment = activity.CreateReply();
+                                            if (pastOrderList.Count != 0)
+                                            {
+                                                for (int i = 0; i < pastOrderList.Count; i++)
+                                                {
+                                                    cust = pastOrderList[i].cust;
+                                                    vdatu = pastOrderList[i].vdatu;
+                                                    kwmenge = pastOrderList[i].kwmenge;
+                                                    kunnr = pastOrderList[i].fixarrival;
+                                                    matnr = pastOrderList[i].product;
+                                                    inform = pastOrderList[i].inform;
+                                                    vbeln_seq = pastOrderList[i].vbeln_seq;
+
+                                                    if (pastOrderList.Count > 1)
+                                                    {
+                                                        //인도처: 해태제과(주) 청주공장(119712) 주문 자재 및 수량 : 올리고당 HF25kg(104489) / 200 CAN
+                                                        optionComment = (i + 1) + " 주문일 : " + vdatu + "/" + matnr + "/" + kwmenge;
+
+                                                        reply_ment.Recipient = activity.From;
+                                                        reply_ment.Type = "message";
+                                                        //reply_ment.Text = optionComment;
+
+
+                                                        var attachment = GetHeroCard(optionComment, vbeln_seq, "자재");
+                                                        reply_ment.Attachments.Add(attachment);
+
+                                                    }
+                                                    else
+                                                    {
+                                                        optionComment = "거래처 : " + pastOrderList[0].cust + "인도처 : " + pastOrderList[0].fixarrival + "자재 : " + pastOrderList[0].product + "수량 : " + pastOrderList[0].kwmenge + "납품일 : " + pastOrderList[0].vdatu;
+                                                        if (!string.IsNullOrEmpty(inform))
+                                                        {
+                                                            optionComment = optionComment + "전달내용 : " + inform;
+                                                            userData.SetProperty<string>("inform", inform);
+                                                        }
+                                                        dlg.cardText = optionComment;
+                                                    }
+
+                                                    selectYn = "Y";
+
+                                                }
+
+                                                if (reply_ment.Attachments.Count != 0)
+                                                {
+                                                    var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
+                                                }
+
+                                            }
                                         }
                                         else
-                                        { 
-                                            orderDlgList = db.SelectOrderHistory(cust.Replace(" ", ""), kunnr.Replace(" ", ""), matnr, kwmenge, vdatu);
+                                        {
+                                            orderDlgList = db.SelectOrderHistory(cust.Replace(" ", ""), kunnr.Replace(" ", ""), matnr, kwmenge, vdatu, orderNm);
 
                                             userData.SetProperty<string>("cust", orderDlgList[0].cust);
                                             userData.SetProperty<string>("kunnr", orderDlgList[0].fixarrival);
                                             userData.SetProperty<string>("matnr", orderDlgList[0].product);
                                             userData.SetProperty<string>("kwmenge", orderDlgList[0].kwmenge);
                                             userData.SetProperty<string>("vdatu", orderDlgList[0].vdatu);
+
+                                            optionComment = "거래처 : " + orderDlgList[0].cust + "인도처 : " + orderDlgList[0].fixarrival + "자재 : " + orderDlgList[0].product + "수량 : " + orderDlgList[0].kwmenge + "납품일 : " + orderDlgList[0].vdatu;
                                         }
-                                        optionComment = "거래처 : " + orderDlgList[0].cust + "인도처 : " + orderDlgList[0].fixarrival + "자재 : " + orderDlgList[0].product + "수량 : " + orderDlgList[0].kwmenge + "납품일 : " + orderDlgList[0].vdatu;
+                                        
 
                                         if (!string.IsNullOrEmpty(inform))
                                         {
@@ -923,20 +994,21 @@ namespace PortChatBot
                                                 kunnr       = orderList[i].fixarrival;
                                                 matnr       = orderList[i].product;
                                                 inform      = orderList[i].inform;
+                                                vbeln       = orderList[i].vbeln;
                                                 vbeln_seq   = orderList[i].vbeln_seq;
                                                 rc          = orderList[i].rc;
 
                                                 if (orderList.Count> 1)
                                                 {
                                                     //인도처: 해태제과(주) 청주공장(119712) 주문 자재 및 수량 : 올리고당 HF25kg(104489) / 200 CAN
-                                                    optionComment = (i + 1) + "인도처 : " + cust + "주문 자재 수량: " + kunnr + "/" + kwmenge;
+                                                    optionComment = (i + 1) + "인도처 : " + cust + "주문 자재 수량: " + matnr + "/" + kwmenge;
 
                                                     reply_ment.Recipient = activity.From;
                                                     reply_ment.Type = "message";
                                                     //reply_ment.Text = optionComment;
                                                     
 
-                                                    var attachment = GetHeroCard(optionComment, vbeln_seq, "주문번호");
+                                                    var attachment = GetHeroCard(optionComment, vbeln, "주문번호");
                                                     reply_ment.Attachments.Add(attachment);
                                                     
 
@@ -1065,7 +1137,7 @@ namespace PortChatBot
                                     //주문번호정보
                                     if (dlg.cardTitle.Equals("주문번호정보"))
                                     {
-                                        List<OrderList> orderList = db.SearchOrderList("");
+                                        List<OrderList> orderList = db.SearchOrderList(orderNm);
                                         Activity reply_ment = activity.CreateReply();
                                         string optionComment = "";
                                         //예외처리
@@ -1073,19 +1145,29 @@ namespace PortChatBot
                                         {
                                             for (int i = 0; i < orderList.Count; i++)
                                             {
-                                                cust = orderList[i].cust;
-                                                vdatu = orderList[i].vdatu;
-                                                kwmenge = orderList[i].kwmenge;
-                                                kunnr = orderList[i].fixarrival;
-                                                matnr = orderList[i].product;
-                                                inform = orderList[i].inform;
-                                                vbeln_seq = orderList[i].vbeln_seq;
-                                                rc = orderList[i].rc;
-
+                                                cust        = orderList[i].cust;
+                                                vdatu       = orderList[i].vdatu;
+                                                kwmenge     = orderList[i].kwmenge;
+                                                kunnr       = orderList[i].fixarrival;
+                                                matnr       = orderList[i].product;
+                                                inform      = orderList[i].inform;
+                                                vbeln       = orderList[i].vbeln;
+                                                vbeln_seq   = orderList[i].vbeln_seq;
+                                                rc          = orderList[i].rc;
+                                                if (i > 0)
+                                                {
+                                                    if (orderList[i - 1].cust == orderList[i].cust)
+                                                    {
+                                                        matnr += matnr + "(" + orderList[i].product_nr + ")";
+                                                    }
+                                                } else
+                                                {
+                                                    matnr += matnr + "(" + orderList[i].product_nr + ")";
+                                                }
 
                                                 optionComment = "거래처 : " + cust + "(" + orderList[i].cust_nr + ")"
                                                                 + "인도처 : " + kunnr + "(" + orderList[i].fixarrival_nr + ")"
-                                                                + "자재 : " + matnr + "(" + orderList[i].product_nr + ")"
+                                                                + "자재 : " + matnr 
                                                                 + "수량 : " + kwmenge
                                                                 + "납품요청일 : " + vdatu
                                                                 + "출고센터 : " + rc;
@@ -1110,10 +1192,27 @@ namespace PortChatBot
                                     }
                                     else
                                     {
-                                        if(!dlg.cardTitle.Equals("거래처검색") && !dlg.cardTitle.Equals("인도처검색")) { 
-                                            tempAttachment = dbutil.getAttachmentFromDialog(dlg, activity);
-                                            commonReply.Attachments.Add(tempAttachment);
+                                        //if(!dlg.cardTitle.Equals("거래처검색") && !dlg.cardTitle.Equals("인도처검색")) { 
+                                        //    tempAttachment = dbutil.getAttachmentFromDialog(dlg, activity);
+                                        //    commonReply.Attachments.Add(tempAttachment);
+                                        //}
+                                        if (!pastList.Equals("Y"))
+                                        {
+                                            if (!dlg.cardTitle.Equals("거래처검색") && !dlg.cardTitle.Equals("인도처검색"))
+                                            {
+                                                tempAttachment = dbutil.getAttachmentFromDialog(dlg, activity);
+                                                commonReply.Attachments.Add(tempAttachment);
+                                                //pastList = "N";
+                                            }
+                                            
+                                        } else
+                                        {
+                                            reply1.Attachments.Clear();
+                                            pastList = "N";
                                         }
+                                            
+
+                                        
                                     }
 
                                 }

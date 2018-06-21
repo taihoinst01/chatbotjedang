@@ -126,7 +126,7 @@ namespace PortChatBot.DB
                         {
                             for (int i = 0; i < luisEntityCount; i++)
                             {
-                                if((string)Luis["entities"][i]["type"]=="거래처내용" || (string)Luis["entities"][i]["type"] == "납품일자" || (string)Luis["entities"][i]["type"] == "수량내용" || (string)Luis["entities"][i]["type"] == "인도처내용" || (string)Luis["entities"][i]["type"] == "자재내용" || (string)Luis["entities"][i]["type"] == "전달사항내용" || (string)Luis["entities"][i]["type"] == "주문수정납품일" || (string)Luis["entities"][i]["type"] == "주문번호내용")
+                                if((string)Luis["entities"][i]["type"]=="거래처내용" || (string)Luis["entities"][i]["type"] == "납품일자" || (string)Luis["entities"][i]["type"] == "수량내용" || (string)Luis["entities"][i]["type"] == "인도처내용" || (string)Luis["entities"][i]["type"] == "자재내용" || (string)Luis["entities"][i]["type"] == "전달사항내용" || (string)Luis["entities"][i]["type"] == "주문수정납품일" || (string)Luis["entities"][i]["type"] == "주문번호내용" || (string)Luis["entities"][i]["type"] == "주문조회거래처납품일" || (string)Luis["entities"][i]["type"] == "거래처코드")
                                 {                                    
                                     luisEntitiesValue = luisEntitiesValue + Luis["entities"][i]["type"] + "=" + Luis["entities"][i]["entity"] + ",";
                                 }
@@ -184,7 +184,7 @@ namespace PortChatBot.DB
 
             query = Uri.EscapeDataString(query);
 
-            string url = string.Format("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/{0}?subscription-key={1}&timezoneOffset=0&verbose=true&q={2}", luis_app_id, luis_subscription, query);
+            string url = string.Format("https://eastasia.api.cognitive.microsoft.com/luis/v2.0/apps/{0}?subscription-key={1}&timezoneOffset=0&verbose=true&q={2}", luis_app_id, luis_subscription, query);
             //string url = string.Format("https://southeastasia.api.cognitive.microsoft.com/luis/v2.0/apps/{0}?subscription-key={1}&timezoneOffset=0&verbose=true&q={2}", luis_app_id, luis_subscription, query);
 
             Debug.WriteLine("LUIS URL : " + url);
@@ -215,7 +215,7 @@ namespace PortChatBot.DB
                         for (currentRetry = 0; currentRetry < retryCount; currentRetry++)
                         {
                             //테스용 url 설정
-                            string url_re = string.Format("https://southeastasia.api.cognitive.microsoft.com/luis/v2.0/apps/{0}?subscription-key={1}&timezoneOffset=0&verbose=true&q={2}", luis_app_id, luis_subscription, query);
+                            string url_re = string.Format("https://eastasia.api.cognitive.microsoft.com/luis/v2.0/apps/{0}?subscription-key={1}&timezoneOffset=0&verbose=true&q={2}", luis_app_id, luis_subscription, query);
                             HttpResponseMessage msg_re = await client.GetAsync(url_re, cts.Token);
 
                             if (msg_re.IsSuccessStatusCode)

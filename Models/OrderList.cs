@@ -7,6 +7,7 @@ namespace PortChatBot.Models
 {
     public class OrderList
     {
+        public string vbeln;
         public string vbeln_seq;
         public string cust;
         public string cust_nr;
