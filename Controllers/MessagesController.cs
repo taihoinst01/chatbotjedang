@@ -1089,8 +1089,10 @@ namespace PortChatBot
                                     }
                                     else
                                     {
-                                        tempAttachment = dbutil.getAttachmentFromDialog(dlg, activity);
-                                        commonReply.Attachments.Add(tempAttachment);
+                                        if(!dlg.cardTitle.Equals("거래처검색") && !dlg.cardTitle.Equals("인도처검색")) { 
+                                            tempAttachment = dbutil.getAttachmentFromDialog(dlg, activity);
+                                            commonReply.Attachments.Add(tempAttachment);
+                                        }
                                     }
 
                                 }
