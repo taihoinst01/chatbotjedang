@@ -693,13 +693,14 @@ namespace PortChatBot
                                     //  주문접수
                                     if (dlg.cardTitle.Equals("주문확인")|| dlg.cardTitle.Equals("주문수정거래처")) //  주문내역 dialog 일시..
                                     {
+                                        DButil.HistoryLog("=00000");
                                         DButil.HistoryLog("*** activity.Conversation.Id : " + activity.Conversation.Id + " | dlg.cardText : " + dlg.cardText + " | fullentity : " + fullentity);
 
                                         string[] strComment = new string[5];
                                         string optionComment = dlg.cardText;
 
                                         //거래처는 해태제과, 인도처는 해태제과 아산공장으로 자재는  갈색설탕 15kg짜리, 수량은 7파레트, 납품일은 6월 1일로  주문넣어줘
-
+                                        DButil.HistoryLog("=11111");
                                         Debug.WriteLine("MessagesController.luisEntitiesVlaue : " + MessagesController.luisEntitiesValue);
 
                                         //if (selectYn != "Y")
@@ -753,7 +754,7 @@ namespace PortChatBot
                                             vdatu = DateTime.Now.AddDays(7).ToString("yyyy.MM.dd");
                                         }
 
-
+                                        DButil.HistoryLog("=22222");
                                         if (!string.IsNullOrEmpty(cust))
                                         {
                                             if ((cust.Substring(cust.Length - 1)) == ")")
@@ -770,7 +771,7 @@ namespace PortChatBot
                                             }
                                             
                                         }
-
+                                        DButil.HistoryLog("=333333");
                                         if (string.IsNullOrEmpty(cust))
                                         {
                                             cust = userData.GetProperty<string>("cust");
@@ -813,8 +814,9 @@ namespace PortChatBot
                                         if (matnr.Contains("기존") || kwmenge.Contains("동일하게") || kwmenge.Contains("같은") || kwmenge.Contains("똑같고") || kwmenge.Contains("변동없고"))
                                         {
                                             pastList = "Y";
+                                            DButil.HistoryLog(" SelectPastList 11111");
                                             pastOrderList = db.SelectPastList(cust.Replace(" ", ""), kunnr.Replace(" ", ""), matnr.Replace("기존", "").Replace(" ", ""), userData.GetProperty<string>("emp_no"), vdatu);
-
+                                            DButil.HistoryLog(" SelectPastList 22222");
                                             userData.SetProperty<string>("cust", pastOrderList[0].cust);
                                             userData.SetProperty<string>("kunnr", pastOrderList[0].fixarrival);
                                             userData.SetProperty<string>("matnr", pastOrderList[0].product);
@@ -878,8 +880,9 @@ namespace PortChatBot
                                             {
                                                 orderNm = "";
                                             }
+                                            DButil.HistoryLog(" 주문확인 1111");
                                             orderDlgList = db.SelectOrderHistory(cust.Replace(" ", ""), kunnr.Replace(" ", ""), matnr, kwmenge, vdatu, orderNm);
-
+                                            DButil.HistoryLog(" 주문확인 2222");
                                             userData.SetProperty<string>("cust", orderDlgList[0].cust);
                                             userData.SetProperty<string>("kunnr", orderDlgList[0].fixarrival);
                                             userData.SetProperty<string>("matnr", orderDlgList[0].product);
@@ -925,12 +928,16 @@ namespace PortChatBot
 
                                         if (selectYn == "Y")
                                         {
+                                            DButil.HistoryLog(" selectYn 11111");
                                             int dbResult1 = db.updateOrder(vbeln_seq, userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), informV);
+                                            DButil.HistoryLog(" selectYn 22222");
                                         }
 
                                         else
                                         {
+                                            DButil.HistoryLog(" 주문완료 11111");
                                             int dbResult1 = db.insertOrder(userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), informV, userData.GetProperty<string>("emp_no"));
+                                            DButil.HistoryLog(" 주문완료 2222");
                                         }                                        
 
                                         userData.SetProperty<string>("cust", "");
