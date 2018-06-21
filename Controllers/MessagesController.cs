@@ -796,7 +796,7 @@ namespace PortChatBot
                                         {
                                             matnr = userData.GetProperty<string>("matnr");
                                         }
-
+                                        DButil.HistoryLog("=444444");
                                         if (vdatu.Contains("."))
                                         {
                                             string[] vdatuResult = vdatu.Split('.');
@@ -806,8 +806,8 @@ namespace PortChatBot
                                         if (kwmenge.Contains("동일하게") || kunnr.Contains("동일하게")  || kunnr.Contains("같은") || kunnr.Contains("똑같고") || kunnr.Contains("변동없고"))
                                         {
                                             kunnr = cust;
-                                        }                                        
-
+                                        }
+                                        DButil.HistoryLog("=555555");
                                         List<OrderHistory> orderDlgList = new List<OrderHistory>();
                                         List<PastOrderList> pastOrderList = new List<PastOrderList>();
 
