@@ -1358,6 +1358,20 @@ namespace PortChatBot
                     Debug.Print(e.StackTrace);
                     int sorryMessageCheck = db.SelectUserQueryErrorMessageCheck(activity.Conversation.Id, MessagesController.chatBotID);
 
+
+                    cust = "";
+                    kunnr = "";
+                    matnr = "";
+                    kwmenge = "";
+                    vdatu = "";
+                    inform = "";
+                    selectYn = "";
+                    vbeln = "";
+                    vbeln_seq = "";
+                    rc = "";
+                    orderNm = "";
+                    pastList = "";
+
                     ++MessagesController.sorryMessageCnt;
 
                     Activity sorryReply = activity.CreateReply();
