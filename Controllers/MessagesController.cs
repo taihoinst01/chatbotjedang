@@ -915,7 +915,7 @@ namespace PortChatBot
                                             userData.SetProperty<string>("kwmenge", orderDlgList[0].kwmenge);
                                             userData.SetProperty<string>("vdatu", orderDlgList[0].vdatu);
 
-                                            optionComment = "거래처 : " + orderDlgList[0].cust + "인도처 : " + orderDlgList[0].fixarrival + "자재 : " + orderDlgList[0].product + "수량 : " + orderDlgList[0].kwmenge + "납품일 : " + orderDlgList[0].vdatu;
+                                            optionComment = "거래처 : " + orderDlgList[0].cust + "\r\n" + "인도처 : " + orderDlgList[0].fixarrival + "자재 : " + orderDlgList[0].product + "수량 : " + orderDlgList[0].kwmenge + "납품일 : " + orderDlgList[0].vdatu;
                                         }
                                         
 
