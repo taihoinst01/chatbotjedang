@@ -1095,26 +1095,27 @@ namespace PortChatBot
                                         List<ClientList> clientList = db.SelectClientList(userData.GetProperty<string>("emp_no"));
                                         Activity reply_ment = activity.CreateReply();
                                         string optionComment = "";
-                                        string kname1 = "";
+                                        string clientKunnr = "";
+                                        string clientKkname1 = "";
                                         if (clientList.Count != 0)
                                         {
                                             for (int i = 0; i < clientList.Count; i++)
                                             {
-                                                kunnr = clientList[i].kunnr;
-                                                kname1 = clientList[i].kname1;
+                                                clientKunnr     = clientList[i].kunnr;
+                                                clientKkname1   = clientList[i].kname1;
 
-                                                optionComment = (i + 1) + ". " + kname1 + "(" + kunnr + ")";
+                                                optionComment = (i + 1) + ". " + clientKkname1 + "(" + clientKunnr + ")";
 
                                                 reply_ment.Recipient = activity.From;
                                                 reply_ment.Type = "message";
 
-                                                var attachment = GetHeroCard(optionComment, kname1 + "(" + kunnr + ")", "거래처는 ");
+                                                var attachment = GetHeroCard(optionComment, clientKkname1 + "(" + clientKunnr + ")", "거래처는 ");
                                                 reply_ment.Attachments.Add(attachment);
 
                                                 selectYn = "Y";
                                             }
-                                            kunnr = "";
-                                            kname1 = "";
+                                            //kunnr = "";
+                                            //kname1 = "";
                                             var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
 
                                         }
@@ -1137,26 +1138,27 @@ namespace PortChatBot
                                         List<ClientList> clientList = db.SelectFixarrivalList();
                                         Activity reply_ment = activity.CreateReply();
                                         string optionComment = "";
-                                        string kname1 = "";
+                                        string fixarrivalknnr = "";
+                                        string fixarrivalkname1 = "";
                                         if (clientList.Count != 0)
                                         {
                                             for (int i = 0; i < clientList.Count; i++)
                                             {
-                                                kunnr = clientList[i].kunnr;
-                                                kname1 = clientList[i].kname1;
+                                                fixarrivalknnr      = clientList[i].kunnr;
+                                                fixarrivalkname1    = clientList[i].kname1;
 
-                                                optionComment = (i + 1) + ". " + kname1 + "(" + kunnr + ")";
+                                                optionComment = (i + 1) + ". " + fixarrivalkname1 + "(" + fixarrivalknnr + ")";
 
                                                 reply_ment.Recipient = activity.From;
                                                 reply_ment.Type = "message";
 
-                                                var attachment = GetHeroCard(optionComment, kname1 + "(" + kunnr + ")", "인도처는 ");
+                                                var attachment = GetHeroCard(optionComment, fixarrivalkname1 + "(" + fixarrivalknnr + ")", "인도처는 ");
                                                 reply_ment.Attachments.Add(attachment);
 
                                                 selectYn = "Y";
                                             }
-                                            kunnr = "";
-                                            kname1 = "";
+                                            //kunnr = "";
+                                            //kname1 = "";
                                             var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
 
                                         }
