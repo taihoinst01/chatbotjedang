@@ -1439,7 +1439,7 @@ namespace PortChatBot.DB
                     }
                     else
                     {
-                        cmd.CommandText += " 		SELECT TOP 1 KNAME1+'(' + KUNN2 + ')' FROM BAM_FIXARRIVAL WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + fixarrival.Replace("(주)", "") + "%' ";
+                        cmd.CommandText += " 		SELECT TOP 1 KNAME1+'(' + KUNN2 + ')' FROM BAM_FIXARRIVAL WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + fixarrival.Replace("(주)", "").Replace("식품", "").Replace("주식회사", "") + "%' ";
                     }
 
                     cmd.CommandText += " 	) AS FIXARRIVAL, ";
