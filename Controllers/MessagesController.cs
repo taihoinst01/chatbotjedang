@@ -882,7 +882,7 @@ namespace PortChatBot
                                                         optionComment = "거래처 : " + pastOrderList[0].cust + "\r\n" + "인도처 : " + pastOrderList[0].fixarrival + "\r\n" + "자재 : " + pastOrderList[0].product + "\r\n" + "수량 : " + pastOrderList[0].kwmenge + "\r\n" + "납품일 : " + pastOrderList[0].vdatu;
                                                         if (!string.IsNullOrEmpty(inform))
                                                         {
-                                                            optionComment = optionComment + "전달내용 : " + inform;
+                                                            optionComment = optionComment + "\r\n" + "전달내용 : " + inform;
                                                             userData.SetProperty<string>("inform", inform);
                                                         }
                                                         dlg.cardText = optionComment;
@@ -921,7 +921,7 @@ namespace PortChatBot
 
                                         if (!string.IsNullOrEmpty(inform))
                                         {
-                                            optionComment = optionComment + "전달내용 : " + inform;
+                                            optionComment = optionComment + "\r\n" + "전달내용 : " + inform;
                                             userData.SetProperty<string>("inform", inform);
                                         }
 
@@ -1060,7 +1060,7 @@ namespace PortChatBot
                                                                     + "\r\n" + "출고센터 : " + rc;
                                                     if (!string.IsNullOrEmpty(inform))
                                                     {
-                                                        optionComment = optionComment + "전달내용 : " + inform;
+                                                        optionComment = optionComment + "\r\n" + "전달내용 : " + inform;
                                                         userData.SetProperty<string>("inform", inform);
                                                     }
                                                     dlg.cardText = optionComment;
@@ -1213,7 +1213,7 @@ namespace PortChatBot
                                                                 + "\r\n" + "출고센터 : " + rc;
                                                 if (!string.IsNullOrEmpty(inform))
                                                 {
-                                                    optionComment = optionComment + "전달내용 : " + inform;
+                                                    optionComment = optionComment + "\r\n" + "전달내용 : " + inform;
                                                     userData.SetProperty<string>("inform", inform);
                                                 }
                                                 dlg.cardText = optionComment;
