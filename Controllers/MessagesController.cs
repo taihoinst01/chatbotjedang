@@ -879,7 +879,7 @@ namespace PortChatBot
                                                     }
                                                     else
                                                     {
-                                                        optionComment = "거래처 : " + pastOrderList[0].cust + "인도처 : " + pastOrderList[0].fixarrival + "자재 : " + pastOrderList[0].product + "수량 : " + pastOrderList[0].kwmenge + "납품일 : " + pastOrderList[0].vdatu;
+                                                        optionComment = "거래처 : " + pastOrderList[0].cust + "\r\n" + "인도처 : " + pastOrderList[0].fixarrival + "\r\n" + "자재 : " + pastOrderList[0].product + "\r\n" + "수량 : " + pastOrderList[0].kwmenge + "\r\n" + "납품일 : " + pastOrderList[0].vdatu;
                                                         if (!string.IsNullOrEmpty(inform))
                                                         {
                                                             optionComment = optionComment + "전달내용 : " + inform;
@@ -915,7 +915,7 @@ namespace PortChatBot
                                             userData.SetProperty<string>("kwmenge", orderDlgList[0].kwmenge);
                                             userData.SetProperty<string>("vdatu", orderDlgList[0].vdatu);
 
-                                            optionComment = "거래처 : " + orderDlgList[0].cust + "\r\n" + "인도처 : " + orderDlgList[0].fixarrival + "자재 : " + orderDlgList[0].product + "수량 : " + orderDlgList[0].kwmenge + "납품일 : " + orderDlgList[0].vdatu;
+                                            optionComment = "거래처 : " + orderDlgList[0].cust + "\r\n" + "인도처 : " + orderDlgList[0].fixarrival + "\r\n" + "자재 : " + orderDlgList[0].product + "\r\n" + "수량 : " + orderDlgList[0].kwmenge + "\r\n" + "납품일 : " + orderDlgList[0].vdatu;
                                         }
                                         
 
@@ -937,7 +937,7 @@ namespace PortChatBot
 
                                         string optionComment = dlg.cardText;
 
-                                        optionComment = "거래처 : " + userData.GetProperty<string>("cust") + "인도처 : " + userData.GetProperty<string>("kunnr") + "자재 : " + userData.GetProperty<string>("matnr") + "수량 : " + userData.GetProperty<string>("kwmenge") + "납품일 : " + userData.GetProperty<string>("vdatu");
+                                        optionComment = "거래처 : " + userData.GetProperty<string>("cust") + "\r\n" + "인도처 : " + userData.GetProperty<string>("kunnr") + "\r\n" + "자재 : " + userData.GetProperty<string>("matnr") + "\r\n" + "수량 : " + userData.GetProperty<string>("kwmenge") + "\r\n" + "납품일 : " + userData.GetProperty<string>("vdatu");
                                         dlg.cardText = optionComment;
 
                                     }
@@ -1053,11 +1053,11 @@ namespace PortChatBot
                                                 } else
                                                 {
                                                     optionComment = "거래처 : " + cust +"("+ orderList[i].cust_nr+ ")" 
-                                                                    + "인도처 : " + kunnr + "(" + orderList[i].fixarrival_nr + ")"
-                                                                    + "자재 : " + matnr + "(" + orderList[i].product_nr + ")"
-                                                                    + "수량 : " + kwmenge
-                                                                    + "납품요청일 : " + vdatu
-                                                                    + "출고센터 : " + rc;
+                                                                    + "\r\n" + "인도처 : " + kunnr + "(" + orderList[i].fixarrival_nr + ")"
+                                                                    + "\r\n" + "자재 : " + matnr + "(" + orderList[i].product_nr + ")"
+                                                                    + "\r\n" + "수량 : " + kwmenge
+                                                                    + "\r\n" + "납품요청일 : " + vdatu
+                                                                    + "\r\n" + "출고센터 : " + rc;
                                                     if (!string.IsNullOrEmpty(inform))
                                                     {
                                                         optionComment = optionComment + "전달내용 : " + inform;
@@ -1204,11 +1204,11 @@ namespace PortChatBot
                                                 }
 
                                                 optionComment = "거래처 : " + cust + "(" + orderList[i].cust_nr + ")"
-                                                                + "인도처 : " + kunnr + "(" + orderList[i].fixarrival_nr + ")"
-                                                                + "자재 : " + matnr 
-                                                                + "수량 : " + kwmenge
-                                                                + "납품요청일 : " + vdatu
-                                                                + "출고센터 : " + rc;
+                                                                + "\r\n" + "인도처 : " + kunnr + "(" + orderList[i].fixarrival_nr + ")"
+                                                                + "\r\n" + "자재 : " + matnr 
+                                                                + "\r\n" + "수량 : " + kwmenge
+                                                                + "\r\n" + "납품요청일 : " + vdatu
+                                                                + "\r\n" + "출고센터 : " + rc;
                                                 if (!string.IsNullOrEmpty(inform))
                                                 {
                                                     optionComment = optionComment + "전달내용 : " + inform;
