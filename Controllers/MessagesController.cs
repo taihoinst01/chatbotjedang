@@ -907,8 +907,20 @@ namespace PortChatBot
                                                 orderNm = "";
                                             }
                                             DButil.HistoryLog(" 주문확인 1111");
+                                            DButil.HistoryLog(" cust " + cust);
+                                            DButil.HistoryLog(" kunnr " + kunnr);
+                                            DButil.HistoryLog(" matnr " + matnr);
+                                            DButil.HistoryLog(" kwmenge " + kwmenge);
+                                            DButil.HistoryLog(" kwmenge " + vdatu);
+                                            DButil.HistoryLog(" orderNm " + orderNm);
                                             orderDlgList = db.SelectOrderHistory(cust.Replace(" ", ""), kunnr.Replace(" ", ""), matnr, kwmenge, vdatu, orderNm);
                                             DButil.HistoryLog(" 주문확인 2222");
+                                            DButil.HistoryLog(" 주문확인 1111");
+                                            DButil.HistoryLog(" orderDlgList[0].cust " + orderDlgList[0].cust);
+                                            DButil.HistoryLog(" orderDlgList[0].fixarrival " + orderDlgList[0].fixarrival);
+                                            DButil.HistoryLog(" orderDlgList[0].product " + orderDlgList[0].product);
+                                            DButil.HistoryLog(" orderDlgList[0].kwmenge " + orderDlgList[0].kwmenge);
+                                            DButil.HistoryLog(" orderDlgList[0].vdatu " + orderDlgList[0].vdatu);
                                             userData.SetProperty<string>("cust", orderDlgList[0].cust);
                                             userData.SetProperty<string>("kunnr", orderDlgList[0].fixarrival);
                                             userData.SetProperty<string>("matnr", orderDlgList[0].product);
