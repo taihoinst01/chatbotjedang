@@ -18,6 +18,7 @@ namespace PortChatBot.DB
         //DbConnect db = new DbConnect();
         //재시도 횟수 설정
         private static int retryCount = 3;
+        public static string newLine = $"";
 
         public String GetMultiLUIS(string query)
         {
@@ -304,7 +305,7 @@ namespace PortChatBot.DB
                     HeroCard plCard = new HeroCard()
                     {
                         Title = dlg.cardTitle,
-                        Text = dlg.cardText
+                        Text = newLine + dlg.cardText
                     };
                     returnAttachment = plCard.ToAttachment();
                 }
@@ -418,7 +419,7 @@ namespace PortChatBot.DB
                     plCard = new UserHeroCard()
                     {
                         Title = "선택해 주세요",
-                        Text = dlg.cardText,
+                        Text = newLine + dlg.cardText,
                         Images = cardImages,
                         Buttons = cardButtons,
                         Card_division = cardDiv,
@@ -443,7 +444,7 @@ namespace PortChatBot.DB
                     plCard = new UserHeroCard()
                     {
                         Title = dlg.cardTitle,
-                        Text = dlg.cardText,
+                        Text = newLine + dlg.cardText,
                         Images = cardImages,
                         Buttons = cardButtons,
                         Card_division = cardDiv,
@@ -593,7 +594,7 @@ namespace PortChatBot.DB
                         plCard = new UserHeroCard()
                         {
                             Title = "선택해 주세요",
-                            Text = card.cardText,
+                            Text = newLine + card.cardText,
                             Images = cardImages,
                             Buttons = cardButtons,
                             Card_division = cardDiv,
@@ -607,7 +608,7 @@ namespace PortChatBot.DB
                         plCard = new UserHeroCard()
                         {
                             Title = card.cardTitle,
-                            Text = card.cardText,
+                            Text = newLine + card.cardText,
                             Images = cardImages,
                             Buttons = cardButtons,
                             Card_division = cardDiv,
@@ -640,7 +641,7 @@ namespace PortChatBot.DB
             {
                 Title = title,
                 Subtitle = subtitle,
-                Text = text,
+                Text = newLine + text,
                 Images = new List<CardImage>() { cardImage },
                 Buttons = buttons,
             };
@@ -653,7 +654,7 @@ namespace PortChatBot.DB
             {
                 Title = title,
                 Subtitle = subtitle,
-                Text = text,
+                Text = newLine + text,
                 Images = new List<CardImage>() { cardImage },
                 Buttons = buttons,
                 Card_division = cardDivision,
@@ -670,7 +671,7 @@ namespace PortChatBot.DB
             {
                 Title = title,
                 Subtitle = subtitle,
-                Text = text,
+                Text = newLine + text,
                 Images = new List<CardImage>() { cardImage },
                 Buttons = buttons,
                 Latitude = latitude,

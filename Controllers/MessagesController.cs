@@ -85,6 +85,8 @@ namespace PortChatBot
         public static string orderNm = "";
         public static string pastList = "";
 
+        
+
         public static CacheList cacheList = new CacheList();
         public static QueryIntentList queryIntentList = new QueryIntentList();
         //페이스북 페이지용
