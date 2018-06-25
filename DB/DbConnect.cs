@@ -1689,7 +1689,7 @@ namespace PortChatBot.DB
             return orderList;
         }
 
-        public int deleteOrder(String vbeln_Seq)
+        public int deleteOrder(String vbeln)
         {
             int result;
 
@@ -1699,9 +1699,9 @@ namespace PortChatBot.DB
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = conn;
                 cmd.CommandText += " DELETE FROM VOS_ORDER ";
-                cmd.CommandText += "    WHERE VBELN_SEQ = @vbeln_Seq   ";
+                cmd.CommandText += "    WHERE VBELN = @vbeln   ";
 
-                cmd.Parameters.AddWithValue("@vbeln_Seq", vbeln_Seq);
+                cmd.Parameters.AddWithValue("@vbeln", vbeln);
 
                 Debug.WriteLine("query : " + cmd.CommandText);
                 result = cmd.ExecuteNonQuery();
