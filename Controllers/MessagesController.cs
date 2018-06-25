@@ -152,7 +152,7 @@ namespace PortChatBot
             StateClient stateClient = activity.GetStateClient();
             BotData userData = await stateClient.BotState.GetUserDataAsync(activity.ChannelId, activity.From.Id);
 
-
+            DButil.HistoryLog("db connect !!1 ");
             if (activity.Type == ActivityTypes.ConversationUpdate && activity.MembersAdded.Any(m => m.Id == activity.Recipient.Id))
             {
                 startTime = DateTime.Now;
