@@ -674,6 +674,7 @@ namespace PortChatBot
                                                 optionComment = optionComment.Replace("#Dept_nm", strComment[1]);
                                                 optionComment = optionComment.Replace("#User_nm", strComment[2]);
                                                 optionComment = optionComment.Replace("#Emp_no", strComment[3]);
+                                                optionComment = optionComment.Replace(".", ".\r\n");
                                                 tempcard.cardText = optionComment;
                                             }
 
