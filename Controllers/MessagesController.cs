@@ -998,7 +998,7 @@ namespace PortChatBot
                                     //주문완료
                                     if (dlg.cardTitle.Equals("주문삭제")) //  주문내역 dialog 일시..
                                     {
-                                        int dbResult1 = db.deleteOrder(vbeln_seq);
+                                        int dbResult1 = db.deleteOrder(vbeln);
 
                                         userData.SetProperty<string>("cust", "");
                                         userData.SetProperty<string>("kunnr", "");
