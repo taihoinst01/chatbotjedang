@@ -712,9 +712,16 @@ namespace PortChatBot
 
                                         for (int i = 0; i < luisEntitiesValueSplit.Count(); i++)
                                         {
-                                        if (luisEntitiesValueSplit[i].Contains("거래처내용="))
+                                        if (luisEntitiesValueSplit[i].Contains("거래처내용=") || luisEntitiesValueSplit[i].Contains("거래처코드내용="))
                                         {
-                                            cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "");
+                                                if (luisEntitiesValueSplit[i].Contains("거래처코드내용=")){
+                                                    cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "");
+                                                }
+                                                else
+                                                {
+                                                    cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "");
+                                                }
+                                            
                                         }
                                         else if (luisEntitiesValueSplit[i].Contains("납품일자="))
                                         {
@@ -724,13 +731,29 @@ namespace PortChatBot
                                         {
                                             kwmenge = luisEntitiesValueSplit[i].Replace("수량내용=", "");
                                         }
-                                        else if (luisEntitiesValueSplit[i].Contains("인도처내용="))
+                                        else if (luisEntitiesValueSplit[i].Contains("인도처내용=") || luisEntitiesValueSplit[i].Contains("인도처코드내용="))
                                         {
-                                            kunnr = luisEntitiesValueSplit[i].Replace("인도처내용=", "");
+                                            if (luisEntitiesValueSplit[i].Contains("인도처코드내용="))
+                                            {
+                                                kunnr = luisEntitiesValueSplit[i].Replace("인도처코드내용=", "");
+                                            }
+                                            else
+                                            {
+                                                kunnr = luisEntitiesValueSplit[i].Replace("인도처내용=", "");
+                                            }
+                                                
                                         }
-                                        else if (luisEntitiesValueSplit[i].Contains("자재내용="))
+                                        else if (luisEntitiesValueSplit[i].Contains("자재내용=") || luisEntitiesValueSplit[i].Contains("자재코드내용="))
                                         {
-                                            matnr = luisEntitiesValueSplit[i].Replace("자재내용=", "");
+                                            
+                                            if (luisEntitiesValueSplit[i].Contains("자재코드내용="))
+                                            {
+                                                matnr = luisEntitiesValueSplit[i].Replace("자재코드내용=", "");
+                                            }
+                                            else
+                                            {
+                                                matnr = luisEntitiesValueSplit[i].Replace("자재내용=", "");
+                                            }
                                         }
                                         else if (luisEntitiesValueSplit[i].Contains("전달사항내용="))
                                         {
@@ -1023,8 +1046,15 @@ namespace PortChatBot
                                         for (int i = 0; i < luisEntitiesValueSplit.Count(); i++)
                                         {
                                             if (luisEntitiesValueSplit[i].Contains("거래처내용="))
-                                            {
+                                            {                                                
                                                 cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "");
+                                                int n = 0;
+                                                var isNumeric = int.TryParse(Right(cust, 6), out n);
+                                                
+                                                if (isNumeric)
+                                                {
+                                                    cust = cust.Substring(0,cust.Length-6);
+                                                }
                                             }
                                             else if (luisEntitiesValueSplit[i].Contains("납품일자="))
                                             {
@@ -1616,6 +1646,11 @@ namespace PortChatBot
             return Regex.Replace(html_str, @"[<][a-z|A-Z|/](.|)*?[>]", "");
         }
 
+        public string Right(string value, int length)
+        {
+            if (String.IsNullOrEmpty(value)) return string.Empty;
 
+            return value.Length <= length ? value : value.Substring(value.Length - length);
+        }
     }
 }
