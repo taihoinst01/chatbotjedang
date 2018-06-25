@@ -704,6 +704,7 @@ namespace PortChatBot
                                         //거래처는 해태제과, 인도처는 해태제과 아산공장으로 자재는  갈색설탕 15kg짜리, 수량은 7파레트, 납품일은 6월 1일로  주문넣어줘
                                         DButil.HistoryLog("=11111");
                                         Debug.WriteLine("MessagesController.luisEntitiesVlaue : " + MessagesController.luisEntitiesValue);
+                                        DButil.HistoryLog("MessagesController.luisEntitiesVlaue : " + MessagesController.luisEntitiesValue);
 
                                         //if (selectYn != "Y")
                                         //{
@@ -738,7 +739,7 @@ namespace PortChatBot
                                         else if (luisEntitiesValueSplit[i].Contains("주문번호내용=")) 
                                             orderNm = luisEntitiesValueSplit[i].Replace("주문번호내용=", "");
                                         }
-
+                                        DButil.HistoryLog("matnr1 : " + matnr); 
                                         if (vdatu.Contains("오늘"))
                                         {
                                             vdatu = DateTime.Now.ToString("yyyy.MM.dd");
@@ -793,11 +794,12 @@ namespace PortChatBot
                                         {
                                             kunnr = userData.GetProperty<string>("kunnr");
                                         }
-
+                                        DButil.HistoryLog("matnr2 : " + matnr);
                                         if (string.IsNullOrEmpty(matnr))
                                         {
                                             matnr = userData.GetProperty<string>("matnr");
                                         }
+                                        DButil.HistoryLog("matnr3 : " + matnr);
                                         DButil.HistoryLog("=444444");
                                         if(!string.IsNullOrEmpty(vdatu)) { 
                                             if (vdatu.Contains("."))

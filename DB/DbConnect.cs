@@ -1450,7 +1450,7 @@ namespace PortChatBot.DB
                     }
                     else
                     {
-                        cmd.CommandText += " 		SELECT MAKTX+'('+MATNR+')'   FROM BAM_PRODUCT WHERE REPLACE(MAKTXC,' ','') LIKE '%" + product.Replace(" ", "") + "%' ";
+                        cmd.CommandText += " 		SELECT MAKTX+'('+MATNR+')'   FROM BAM_PRODUCT WHERE REPLACE(MAKTXC,' ','') LIKE '%" + product.Replace(" ", "").Replace("/상온", "") + "%' ";
                     }
                     cmd.CommandText += " 	) AS PRODUCT, ";
                     cmd.CommandText += " 	@kwmenge AS KWMENGE, ";
