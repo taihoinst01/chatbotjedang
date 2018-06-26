@@ -1097,12 +1097,11 @@ namespace PortChatBot
 
                                                 } else
                                                 {
-                                                    optionComment = "거래처 : " + cust +"("+ orderList[i].cust_nr+ ")" 
+                                                    optionComment = "거래처 : " + cust + "(" + orderList[i].cust_nr + ")"
                                                                     + "\r\n" + "인도처 : " + kunnr + "(" + orderList[i].fixarrival_nr + ")"
                                                                     + "\r\n" + "자재 : " + matnr + "(" + orderList[i].product_nr + ")"
                                                                     + "\r\n" + "수량 : " + kwmenge
-                                                                    + "\r\n" + "납품요청일 : " + vdatu
-                                                                    + "\r\n" + "출고센터 : " + rc;
+                                                                    + "\r\n" + "납품요청일 : " + vdatu;
                                                     if (!string.IsNullOrEmpty(inform))
                                                     {
                                                         optionComment = optionComment + "\r\n" + "전달내용 : " + inform;
@@ -1252,10 +1251,9 @@ namespace PortChatBot
 
                                                 optionComment = "거래처 : " + cust + "(" + orderList[i].cust_nr + ")"
                                                                 + "\r\n" + "인도처 : " + kunnr + "(" + orderList[i].fixarrival_nr + ")"
-                                                                + "\r\n" + "자재 : " + matnr 
+                                                                + "\r\n" + "자재 : " + matnr
                                                                 + "\r\n" + "수량 : " + kwmenge
-                                                                + "\r\n" + "납품요청일 : " + vdatu
-                                                                + "\r\n" + "출고센터 : " + rc;
+                                                                + "\r\n" + "납품요청일 : " + vdatu;
                                                 if (!string.IsNullOrEmpty(inform))
                                                 {
                                                     optionComment = optionComment + "\r\n" + "전달내용 : " + inform;
