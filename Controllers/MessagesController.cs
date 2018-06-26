@@ -715,7 +715,6 @@ namespace PortChatBot
                                                 vdatu = "";
                                                 inform = "";
                                             }
-
                                             tempAttachment = dbutil.getAttachmentFromDialog(tempcard, activity);
                                         }
 
