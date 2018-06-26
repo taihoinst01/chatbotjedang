@@ -84,7 +84,6 @@ namespace PortChatBot
         public static string rc = "";
         public static string orderNm = "";
         public static string pastList = "";
-
         
         public static CacheList cacheList = new CacheList();
         public static QueryIntentList queryIntentList = new QueryIntentList();
