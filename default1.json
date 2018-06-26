@@ -1,0 +1,211 @@
+﻿{
+  "query": "거래처는 해태제과식품 천안2공장, 인도처는 크라운제과대전공장으로 자재는 백설남해굴소스10kg 짜리, 수량은 11파레트, 납품일은 다음주로 주문넣어줘",
+  "topScoringIntent": {
+    "intent": "주문확인",
+    "score": 0.99923116
+  },
+  "intents": [
+    {
+      "intent": "주문확인",
+      "score": 0.99923116
+    },
+    {
+      "intent": "주문수정인도처",
+      "score": 0.0177916847
+    },
+    {
+      "intent": "주문수정거래처",
+      "score": 0.009913454
+    },
+    {
+      "intent": "주문수정자재수량",
+      "score": 0.007215517
+    },
+    {
+      "intent": "주문조회거래처납품일",
+      "score": 0.005269569
+    },
+    {
+      "intent": "인도처정보",
+      "score": 0.00301293656
+    },
+    {
+      "intent": "주문확인2",
+      "score": 0.00220635254
+    },
+    {
+      "intent": "전달사항입력",
+      "score": 0.00213716645
+    },
+    {
+      "intent": "주문수정자재",
+      "score": 0.00189218624
+    },
+    {
+      "intent": "주문수정납품일",
+      "score": 0.00117381162
+    },
+    {
+      "intent": "자재추가",
+      "score": 0.000802095747
+    },
+    {
+      "intent": "거래처정보",
+      "score": 0.000474682922
+    },
+    {
+      "intent": "인도처추가",
+      "score": 0.0002890705
+    },
+    {
+      "intent": "주문수정수량",
+      "score": 0.000188037549
+    },
+    {
+      "intent": "OrderCancel",
+      "score": 0.000173170163
+    },
+    {
+      "intent": "자재검색",
+      "score": 7.300877E-05
+    },
+    {
+      "intent": "주문접수",
+      "score": 3.673416E-05
+    },
+    {
+      "intent": "거래처검색",
+      "score": 3.3218148E-05
+    },
+    {
+      "intent": "주문조회",
+      "score": 2.92567656E-05
+    },
+    {
+      "intent": "주문삭제",
+      "score": 1.88206286E-05
+    },
+    {
+      "intent": "None",
+      "score": 1.40500852E-05
+    },
+    {
+      "intent": "주문번호정보",
+      "score": 8.910054E-06
+    },
+    {
+      "intent": "주문수정",
+      "score": 5.0755325E-06
+    },
+    {
+      "intent": "인도처검색",
+      "score": 2.5090244E-06
+    },
+    {
+      "intent": "주문완료",
+      "score": 1.21935977E-06
+    }
+  ],
+  "entities": [
+    {
+      "entity": "거 래 처",
+      "type": "거래처",
+      "startIndex": 0,
+      "endIndex": 2,
+      "score": 0.9938513
+    },
+    {
+      "entity": "해 태 제 과 식 품 천 안 2 공 장",
+      "type": "거래처내용",
+      "startIndex": 5,
+      "endIndex": 16,
+      "score": 0.9970994
+    },
+    {
+      "entity": "납 품 일",
+      "type": "납품일",
+      "startIndex": 67,
+      "endIndex": 69,
+      "score": 0.9946732
+    },
+    {
+      "entity": "다 음 주",
+      "type": "납품일자",
+      "startIndex": 72,
+      "endIndex": 74,
+      "score": 0.9730344
+    },
+    {
+      "entity": "수 량",
+      "type": "수량",
+      "startIndex": 56,
+      "endIndex": 57,
+      "score": 0.998388
+    },
+    {
+      "entity": "11 파 레 트",
+      "type": "수량내용",
+      "startIndex": 60,
+      "endIndex": 64,
+      "score": 0.9893341
+    },
+    {
+      "entity": "파 레 트",
+      "type": "수량단위",
+      "startIndex": 62,
+      "endIndex": 64,
+      "score": 0.9851208
+    },
+    {
+      "entity": "11",
+      "type": "숫자",
+      "startIndex": 60,
+      "endIndex": 61,
+      "score": 0.9951959
+    },
+    {
+      "entity": "인 도 처",
+      "type": "인도처",
+      "startIndex": 19,
+      "endIndex": 21,
+      "score": 0.996561
+    },
+    {
+      "entity": "크 라 운 제 과 대 전 공 장",
+      "type": "인도처내용",
+      "startIndex": 24,
+      "endIndex": 32,
+      "score": 0.9793968
+    },
+    {
+      "entity": "자 재",
+      "type": "자재",
+      "startIndex": 36,
+      "endIndex": 37,
+      "score": 0.997369051
+    },
+    {
+      "entity": "백 설 남 해 굴 소 스 10kg",
+      "type": "자재내용",
+      "startIndex": 40,
+      "endIndex": 50,
+      "score": 0.9621515
+    }
+  ],
+  "compositeEntities": [
+    {
+      "parentType": "수량내용",
+      "value": "11 파 레 트",
+      "children": [
+        {
+          "type": "숫자",
+          "value": "11"
+        },
+        {
+          "type": "수량단위",
+          "value": "파 레 트"
+        }
+      ]
+    }
+  ]
+}
