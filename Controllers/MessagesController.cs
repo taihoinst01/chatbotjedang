@@ -678,6 +678,44 @@ namespace PortChatBot
                                                 tempcard.cardText = optionComment;
                                             }
 
+                                            if (tempcard.cardTitle.Equals("주문완료")) //  주문내역 dialog 일시..
+                                            {
+                                                string informV = userData.GetProperty<string>("inform");
+
+                                                if (string.IsNullOrEmpty(inform))
+                                                {
+                                                    informV = "";
+                                                }
+
+                                                if (selectYn == "Y")
+                                                {
+                                                    DButil.HistoryLog(" selectYn 11111");
+                                                    int dbResult1 = db.updateOrder(vbeln_seq, userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), informV);
+                                                    DButil.HistoryLog(" selectYn 22222");
+                                                }
+
+                                                else
+                                                {
+                                                    DButil.HistoryLog(" 주문완료 11111");
+                                                    int dbResult1 = db.insertOrder(userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), informV, userData.GetProperty<string>("emp_no"));
+                                                    DButil.HistoryLog(" 주문완료 2222");
+                                                }
+
+                                                userData.SetProperty<string>("cust", "");
+                                                userData.SetProperty<string>("kunnr", "");
+                                                userData.SetProperty<string>("matnr", "");
+                                                userData.SetProperty<string>("kwmenge", "");
+                                                userData.SetProperty<string>("vdatu", "");
+                                                userData.SetProperty<string>("inform", "");
+                                                userData.SetProperty<string>("rc", "");
+                                                cust = "";
+                                                kunnr = "";
+                                                matnr = "";
+                                                kwmenge = "";
+                                                vdatu = "";
+                                                inform = "";
+                                            }
+
                                             tempAttachment = dbutil.getAttachmentFromDialog(tempcard, activity);
                                         }
 
