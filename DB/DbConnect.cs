@@ -1539,7 +1539,7 @@ namespace PortChatBot.DB
                 cmd.CommandText += "    , REPLACE(@product,'('+RIGHT(@product, CHARINDEX('(', REVERSE(@product))-1),'') ";
                 cmd.CommandText += "    , @kwmenge ";
                 cmd.CommandText += "    , (SELECT ENTITY FROM BAM_MEASURE WHERE ENTITY_VALUE = @uint) ";
-                cmd.CommandText += "    , @emp_no, GETDATE()) ";
+                cmd.CommandText += "    , @emp_no, CONVERT(VARCHAR(8),GETDATE(),112)) ";
 
                 cmd.Parameters.AddWithValue("@cust", cust);
                 cmd.Parameters.AddWithValue("@fixarrival", fixarrival);
