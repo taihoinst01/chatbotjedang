@@ -1590,14 +1590,14 @@ namespace PortChatBot.DB
                 cmd.Connection = conn;
                 cmd.CommandText += " UPDATE	VOS_ORDER ";
                 cmd.CommandText += " SET ";
-                cmd.CommandText += "        KUNNR = REPLACE(RIGHT(@cust, CHARINDEX('(', REVERSE(@cust)) - 1), ')', ''), ";
-                cmd.CommandText += "        KNAME1 = REPLACE(@cust, '(' + RIGHT(@cust, CHARINDEX('(', REVERSE(@cust)) - 1), ''), ";
-                cmd.CommandText += "        KUNN2 = REPLACE(RIGHT(@fixarrival, CHARINDEX('(', REVERSE(@fixarrival)) - 1), ')', ''), ";
-                cmd.CommandText += "        KNAME2 = REPLACE(@fixarrival, '(' + RIGHT(@fixarrival, CHARINDEX('(', REVERSE(@fixarrival)) - 1), ''), ";
+                cmd.CommandText += "        KUNNR = (SELECT KUNNR FROM BAM_CUST WHERE KNAME1 = @cust), ";
+                cmd.CommandText += "        KNAME1 = @cust,  ";
+                cmd.CommandText += "        KUNN2 = (SELECT KUNNR FROM BAM_FIXARRIVAL WHERE KNAME1 = @fixarrival), ";
+                cmd.CommandText += "        KNAME2 = @fixarrival,  ";
                 cmd.CommandText += "        VDATU = REPLACE(@vadtu, '.', ''), ";
                 cmd.CommandText += "        INFORM = @inform, ";
-                cmd.CommandText += "        MATNR = REPLACE(RIGHT(@product, CHARINDEX('(', REVERSE(@product)) - 1), ')', ''), ";
-                cmd.CommandText += "        MAKTX = REPLACE(@product, '(' + RIGHT(@product, CHARINDEX('(', REVERSE(@product)) - 1), ''), ";
+                cmd.CommandText += "        MATNR = (SELECT MATNR FROM BAM_PRODUCT WHERE MAKTX = @product), ";
+                cmd.CommandText += "        MAKTX = @product, ";
                 cmd.CommandText += "        KWMENGE = @kwmenge, ";
                 cmd.CommandText += "        VRKME = (SELECT ENTITY FROM BAM_MEASURE WHERE ENTITY_VALUE = @uint) ";
                 

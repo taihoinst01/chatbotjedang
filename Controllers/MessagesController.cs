@@ -1132,9 +1132,9 @@ namespace PortChatBot
 
                                                 } else
                                                 {
-                                                    optionComment = "거래처 : " + cust + "(" + orderList[i].cust_nr + ")"
-                                                                    + "\r\n" + "인도처 : " + kunnr + "(" + orderList[i].fixarrival_nr + ")"
-                                                                    + "\r\n" + "자재 : " + matnr + "(" + orderList[i].product_nr + ")"
+                                                    optionComment = "거래처 : " + cust 
+                                                                    + "\r\n" + "인도처 : " + kunnr 
+                                                                    + "\r\n" + "자재 : " + matnr 
                                                                     + "\r\n" + "수량 : " + kwmenge
                                                                     + "\r\n" + "납품요청일 : " + vdatu;
                                                     if (!string.IsNullOrEmpty(inform))
