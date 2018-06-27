@@ -1412,9 +1412,9 @@ namespace PortChatBot.DB
                 if (!string.IsNullOrEmpty(orderNm))
                 {
                     cmd.CommandText += " SELECT TOP 1 ";
-                    cmd.CommandText += "        KNAME1 +'(' + KUNNR + ')' AS CUST, ";
-                    cmd.CommandText += "        KNAME2 +'(' + KUNN2 + ')'  AS FIXARRIVAL, ";
-                    cmd.CommandText += "        MAKTX +'(' + MATNR + ')'  AS PRODUCT, ";
+                    cmd.CommandText += "        KNAME1  AS CUST, ";
+                    cmd.CommandText += "        KNAME2   AS FIXARRIVAL, ";
+                    cmd.CommandText += "        MAKTX   AS PRODUCT, ";
                     cmd.CommandText += "        CONVERT(VARCHAR(4), KWMENGE)  + VRKME AS KWMENGE, ";
                     cmd.CommandText += "        VDATU, ";
                     cmd.CommandText += "        '인천 1' AS RC, ";
@@ -1429,33 +1429,33 @@ namespace PortChatBot.DB
                     cmd.CommandText += " 	( ";
                     if (string.IsNullOrEmpty(cust))
                     {
-                        cmd.CommandText += " 		SELECT TOP 1 KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '' ";
+                        cmd.CommandText += " 		SELECT TOP 1 KNAME1  FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '' ";
                     }
                     else
                     {
-                        cmd.CommandText += " 		SELECT TOP 1 KNAME1+'('+KUNNR+')' FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + cust.Replace("(주)", "").Replace("식품", "").Replace("주식회사", "") + "%' OR  KUNNR = '" + cust + "'";
+                        cmd.CommandText += " 		SELECT TOP 1 KNAME1 FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + cust.Replace("(주)", "").Replace("식품", "").Replace("주식회사", "") + "%' OR  KUNNR = '" + cust + "'";
                     }
 
                     cmd.CommandText += " 	) AS CUST, ";
                     cmd.CommandText += " 	( ";
                     if (string.IsNullOrEmpty(fixarrival))
                     {
-                        cmd.CommandText += " 		SELECT TOP 1 KNAME1+'(' + KUNN2 + ')' FROM BAM_FIXARRIVAL WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '' ";
+                        cmd.CommandText += " 		SELECT TOP 1 KNAME1 ' FROM BAM_FIXARRIVAL WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '' ";
                     }
                     else
                     {
-                        cmd.CommandText += " 		SELECT TOP 1 KNAME1+'(' + KUNN2 + ')' FROM BAM_FIXARRIVAL WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + fixarrival.Replace("(주)", "").Replace("식품", "").Replace("주식회사", "") + "%' OR KUNN2 = '" + fixarrival + "'";
+                        cmd.CommandText += " 		SELECT TOP 1 KNAME1  FROM BAM_FIXARRIVAL WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + fixarrival.Replace("(주)", "").Replace("식품", "").Replace("주식회사", "") + "%' OR KUNN2 = '" + fixarrival + "'";
                     }
 
                     cmd.CommandText += " 	) AS FIXARRIVAL, ";
                     cmd.CommandText += " 	( ";
                     if (string.IsNullOrEmpty(product))
                     {
-                        cmd.CommandText += " 		SELECT MAKTX+'('+MATNR+')'   FROM BAM_PRODUCT WHERE REPLACE(MAKTXC,' ','') LIKE '' ";
+                        cmd.CommandText += " 		SELECT MAKTX    FROM BAM_PRODUCT WHERE REPLACE(MAKTXC,' ','') LIKE '' ";
                     }
                     else
                     {
-                        cmd.CommandText += " 		SELECT MAKTX+'('+MATNR+')'   FROM BAM_PRODUCT WHERE REPLACE(MAKTXC,' ','') LIKE '%" + product.Replace(" ", "").Replace("/상온", "") + "%' ";
+                        cmd.CommandText += " 		SELECT MAKTX   FROM BAM_PRODUCT WHERE REPLACE(MAKTXC,' ','') LIKE '%" + product.Replace(" ", "").Replace("/상온", "") + "%' ";
                         cmd.CommandText += " 		                                    OR REPLACE(MAKTXC,' ','') LIKE '%" + product.Replace(" ", "")+ "%' OR MATNR = '" + product + "' ";
                     }
                     cmd.CommandText += " 	) AS PRODUCT, ";
@@ -1804,9 +1804,9 @@ namespace PortChatBot.DB
                 cmd.Connection = conn;
 
                 cmd.CommandText = "     SELECT CONVERT(VARCHAR(100),VBELN_SEQ) AS VBELN_SEQ, ";
-                cmd.CommandText += "        A.KNAME1 +'(' + KUNNR + ')' AS CUST, ";
-                cmd.CommandText += "        A.KNAME2 +'(' + A.KUNN2 + ')'  AS FIXARRIVAL, ";
-                cmd.CommandText += "        A.MAKTX +'(' + A.MATNR + ')'  AS PRODUCT, ";
+                cmd.CommandText += "        A.KNAME1 AS CUST, ";
+                cmd.CommandText += "        A.KNAME2   AS FIXARRIVAL, ";
+                cmd.CommandText += "        A.MAKTX   AS PRODUCT, ";
                 cmd.CommandText += "        CONVERT(VARCHAR(4), A.KWMENGE)  + A.VRKME AS KWMENGE, ";
                 cmd.CommandText += "        (SELECT  '2018.'+STUFF( ";
                 cmd.CommandText += "            (SELECT '.', RIGHT('0' + REPLACE(REPLACE(VAL1, '월', ''), '일', ''), 2) FROM SPLIT2(REPLACE(@vdatu, '월', ' '), ' ') FOR XML PATH('')) ";
