@@ -871,6 +871,7 @@ namespace PortChatBot
                                         {
                                             vdatu = "";
                                         }
+
                                         //동일하게, 같은, 똑같고, 변동없고
                                         DButil.HistoryLog("=555555");
                                         if (string.IsNullOrEmpty(kwmenge))
