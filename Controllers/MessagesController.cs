@@ -975,6 +975,7 @@ namespace PortChatBot
                                             DButil.HistoryLog(" kwmenge " + kwmenge);
                                             DButil.HistoryLog(" kwmenge " + vdatu);
                                             DButil.HistoryLog(" orderNm " + orderNm);
+                                            DButil.HistoryLog(" inform " + inform);
                                             orderDlgList = db.SelectOrderHistory(cust.Replace(" ", ""), kunnr.Replace(" ", ""), matnr, kwmenge, vdatu, orderNm);
                                             DButil.HistoryLog(" 주문확인 2222");
                                             DButil.HistoryLog(" 주문확인 1111");
