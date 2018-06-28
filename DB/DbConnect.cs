@@ -1400,6 +1400,7 @@ namespace PortChatBot.DB
             string str = "";
             int nTmp;
 
+            DButil.HistoryLog(" SelectOrderHistory1 ");
             if (!string.IsNullOrEmpty(kwmenge)) { 
                 string strTarget = kwmenge;
                 string strTmp = Regex.Replace(strTarget, @"\D", "");
@@ -1412,6 +1413,7 @@ namespace PortChatBot.DB
                 nTmp = 0;
                 str = "";
             }
+            DButil.HistoryLog(" SelectOrderHistory2 ");
             List<OrderHistory> orderHistory = new List<OrderHistory>();
 
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -1503,6 +1505,7 @@ namespace PortChatBot.DB
                 
 
                 Debug.WriteLine("query : " + cmd.CommandText);
+                DButil.HistoryLog("query : " + cmd.CommandText);
 
                 rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
