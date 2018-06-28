@@ -1679,6 +1679,7 @@ namespace PortChatBot.DB
                 cmd.CommandText += "        INFORM ";
                 cmd.CommandText += "    FROM    VOS_ORDER ";
                 cmd.CommandText += "    WHERE   REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '%" + cust.Replace("(주)", "").Replace("식품", "").Replace("주식회사", "") + "%' ";
+                cmd.CommandText += "    OR      KUNNR LIKE '%" + cust + "%' ";
                 cmd.CommandText += "    AND     EMP_NO = @emp_no ";
                 cmd.CommandText += "    AND     VDATU = ( ";
                 cmd.CommandText += "                    SELECT REPLACE('2018' + STUFF( ";

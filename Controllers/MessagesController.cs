@@ -1116,16 +1116,29 @@ namespace PortChatBot
 
                                         for (int i = 0; i < luisEntitiesValueSplit.Count(); i++)
                                         {
-                                            if (luisEntitiesValueSplit[i].Contains("거래처내용="))
-                                            {                                                
-                                                cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "");
-                                                int n = 0;
-                                                var isNumeric = int.TryParse(Right(cust, 6), out n);
+                                            //if (luisEntitiesValueSplit[i].Contains("거래처내용="))
+                                            //{                                                
+                                            //    cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "").Replace("거래처코드", "").Replace("는", "").Replace("은", "");
+                                            //    int n = 0;
+                                            //    var isNumeric = int.TryParse(Right(cust, 6), out n);
                                                 
-                                                if (isNumeric)
+                                            //    if (isNumeric)
+                                            //    {
+                                            //        cust = cust.Substring(0,cust.Length-6);
+                                            //    }
+                                            //}
+
+                                            if (luisEntitiesValueSplit[i].Contains("거래처내용=") || luisEntitiesValueSplit[i].Contains("거래처코드내용="))
+                                            {
+                                                if (luisEntitiesValueSplit[i].Contains("거래처코드내용="))
                                                 {
-                                                    cust = cust.Substring(0,cust.Length-6);
+                                                    cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "").Replace("거래처코드", "").Replace("는", "").Replace("은", "");
                                                 }
+                                                else
+                                                {
+                                                    cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "").Replace("코드","");
+                                                }
+
                                             }
                                             else if (luisEntitiesValueSplit[i].Contains("납품일자="))
                                             {
