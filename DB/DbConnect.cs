@@ -1469,6 +1469,7 @@ namespace PortChatBot.DB
                     {
                         cmd.CommandText += " 		SELECT MAKTX   FROM BAM_PRODUCT WHERE REPLACE(MAKTXC,' ','') LIKE '%" + product.Replace(" ", "").Replace("/상온", "") + "%' ";
                         cmd.CommandText += " 		                                    OR REPLACE(MAKTXC,' ','') LIKE '%" + product.Replace(" ", "")+ "%' OR MATNR = '" + product + "' ";
+                        cmd.CommandText += " 		                                    OR REPLACE(MAKTX,' ','') = '" + product.Replace(" ", "") + "' ";
                     }
                     cmd.CommandText += " 	) AS PRODUCT, ";
                     if (string.IsNullOrEmpty(kwmenge))
