@@ -1596,7 +1596,7 @@ namespace PortChatBot.DB
             return result;
         }
 
-        public int updateOrder(String vbeln_Seq, String cust, String fixarrival, String product, String kwmenge, String vadtu, String inform)
+        public int updateOrder(String vbeln, String cust, String fixarrival, String product, String kwmenge, String vadtu, String inform)
         {
             int result;
             string strTarget = kwmenge;
@@ -1623,7 +1623,7 @@ namespace PortChatBot.DB
                 cmd.CommandText += "        KWMENGE = @kwmenge, ";
                 cmd.CommandText += "        VRKME = (SELECT ENTITY FROM BAM_MEASURE WHERE ENTITY_VALUE = @uint) ";
                 
-                cmd.CommandText += " WHERE  VBELN_SEQ = @vbeln_Seq ";
+                cmd.CommandText += " WHERE  VBELN = @vbeln ";
 
                 cmd.Parameters.AddWithValue("@cust", cust);
                 cmd.Parameters.AddWithValue("@fixarrival", fixarrival);
@@ -1632,7 +1632,7 @@ namespace PortChatBot.DB
                 cmd.Parameters.AddWithValue("@uint", str);
                 cmd.Parameters.AddWithValue("@vadtu", vadtu);
                 cmd.Parameters.AddWithValue("@inform", inform);
-                cmd.Parameters.AddWithValue("@vbeln_Seq", vbeln_Seq);
+                cmd.Parameters.AddWithValue("@vbeln", vbeln);
 
                 Debug.WriteLine("query : " + cmd.CommandText);
                 result = cmd.ExecuteNonQuery();

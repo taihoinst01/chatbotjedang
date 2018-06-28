@@ -688,7 +688,7 @@ namespace PortChatBot
                                                 if (selectYn == "Y")
                                                 {
                                                     DButil.HistoryLog(" selectYn 11111");
-                                                    int dbResult1 = db.updateOrder(vbeln_seq, userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), informV);
+                                                    int dbResult1 = db.updateOrder(vbeln, userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), informV);
                                                     DButil.HistoryLog(" selectYn 22222");
                                                 }
 
@@ -779,7 +779,7 @@ namespace PortChatBot
                                             if (luisEntitiesValueSplit[i].Contains("거래처내용=") || luisEntitiesValueSplit[i].Contains("거래처코드내용="))
                                             {
                                                     if (luisEntitiesValueSplit[i].Contains("거래처코드내용=")){
-                                                        cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "").Replace("거래처코드","");
+                                                        cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "").Replace("거래처코드","").Replace("는", "").Replace("은", "");
                                                     }
                                                     else
                                                     {
@@ -799,7 +799,7 @@ namespace PortChatBot
                                         {
                                             if (luisEntitiesValueSplit[i].Contains("인도처코드내용="))
                                             {
-                                                kunnr = luisEntitiesValueSplit[i].Replace("인도처코드내용=", "").Replace("인도처코드", "");
+                                                kunnr = luisEntitiesValueSplit[i].Replace("인도처코드내용=", "").Replace("인도처코드", "").Replace("는", "").Replace("은", "");
                                                 }
                                             else
                                             {
@@ -812,7 +812,7 @@ namespace PortChatBot
                                             
                                             if (luisEntitiesValueSplit[i].Contains("자재코드내용="))
                                             {
-                                                matnr = luisEntitiesValueSplit[i].Replace("자재코드내용=", "").Replace("자재코드", "");
+                                                matnr = luisEntitiesValueSplit[i].Replace("자재코드내용=", "").Replace("자재코드", "").Replace("는", "").Replace("은", "");
                                                 }
                                             else
                                             {
@@ -1080,12 +1080,13 @@ namespace PortChatBot
                                         userData.SetProperty<string>("vdatu", "");
                                         userData.SetProperty<string>("inform", "");
                                         userData.SetProperty<string>("rc", "");
-                                        cust = "";
-                                        kunnr = "";
-                                        matnr = "";
-                                        kwmenge = "";
-                                        vdatu = "";
-                                        inform = "";
+                                        cust        = "";
+                                        kunnr       = "";
+                                        matnr       = "";
+                                        kwmenge     = "";
+                                        vdatu       = "";
+                                        inform      = "";
+                                        selectYn    = "";
                                     }
 
                                     //주문완료
