@@ -748,17 +748,17 @@ namespace PortChatBot
 
                                         for (int i = 0; i < luisEntitiesValueSplit.Count(); i++)
                                         {
-                                        if (luisEntitiesValueSplit[i].Contains("거래처내용=") || luisEntitiesValueSplit[i].Contains("거래처코드내용="))
-                                        {
-                                                if (luisEntitiesValueSplit[i].Contains("거래처코드내용=")){
-                                                    cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "");
-                                                }
-                                                else
-                                                {
-                                                    cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "");
-                                                }
+                                            if (luisEntitiesValueSplit[i].Contains("거래처내용=") || luisEntitiesValueSplit[i].Contains("거래처코드내용="))
+                                            {
+                                                    if (luisEntitiesValueSplit[i].Contains("거래처코드내용=")){
+                                                        cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "");
+                                                    }
+                                                    else
+                                                    {
+                                                        cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "");
+                                                    }
                                             
-                                        }
+                                            }
                                         else if (luisEntitiesValueSplit[i].Contains("납품일자="))
                                         {
                                             vdatu = luisEntitiesValueSplit[i].Replace("납품일자=", "");

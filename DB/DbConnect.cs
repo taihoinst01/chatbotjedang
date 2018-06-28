@@ -1543,7 +1543,7 @@ namespace PortChatBot.DB
 
 
                 cmd.CommandText += " INSERT INTO VOS_ORDER ";
-                cmd.CommandText += " (VBELN, VBELN_SEQ, KUNNR, KNAME1, KUNN2, KNAME2, VDATU, INFORM, MATNR, MAKTX, KWMENGE, VRKME, EMP_NO) ";
+                cmd.CommandText += " (VBELN, VBELN_SEQ, KUNNR, KNAME1, KUNN2, KNAME2, VDATU, INFORM, MATNR, MAKTX, KWMENGE, VRKME, EMP_NO, REGDATE, API_FLAG) ";
                 cmd.CommandText += " VALUES ";
                 cmd.CommandText += " (  (SELECT MAX(VBELN)+1 FROM VOS_ORDER) ";
                 cmd.CommandText += "    , '1' ";
@@ -1557,7 +1557,7 @@ namespace PortChatBot.DB
                 cmd.CommandText += "    , @product ";
                 cmd.CommandText += "    , @kwmenge ";
                 cmd.CommandText += "    , (SELECT ENTITY FROM BAM_MEASURE WHERE ENTITY_VALUE = @uint) ";
-                cmd.CommandText += "    , @emp_no) ";
+                cmd.CommandText += "    , @emp_no, CONVERT(VARCHAR(8),GETDATE(),112), '0') ";
 
                 cmd.Parameters.AddWithValue("@cust", cust);
                 cmd.Parameters.AddWithValue("@fixarrival", fixarrival);
