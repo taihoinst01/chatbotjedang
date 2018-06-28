@@ -909,6 +909,10 @@ namespace PortChatBot
                                             DButil.HistoryLog("=in1");
                                         }
                                         DButil.HistoryLog("=1");
+                                        if (string.IsNullOrEmpty(cust))
+                                        {
+                                            cust = "";
+                                        }
                                         if (string.IsNullOrEmpty(kunnr))
                                         {
                                             kunnr = "";
