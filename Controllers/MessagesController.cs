@@ -713,8 +713,11 @@ namespace PortChatBot
                                                 vdatu = "";
                                                 inform = "";
                                             }
+                                            
                                             tempAttachment = dbutil.getAttachmentFromDialog(tempcard, activity);
                                         }
+
+
 
                                         if (tempAttachment != null)
                                         {
@@ -727,6 +730,31 @@ namespace PortChatBot
                                     //DButil.HistoryLog("* facebook dlg.dlgId : " + dlg.dlgId);
                                     DButil.HistoryLog("* activity.ChannelId : " + activity.ChannelId);
                                     DButil.HistoryLog("* dlg.dlgId : "+ dlg.dlgId + " | dlg.cardTitle : " + dlg.cardTitle + " | dlg.cardText : " + dlg.cardText);
+
+                                    if (dlg.cardTitle.Equals("주문접수")) //  주문내역 dialog 일시..
+                                    {
+                                        string informV = userData.GetProperty<string>("inform");
+
+                                        if (string.IsNullOrEmpty(inform))
+                                        {
+                                            informV = "";
+                                        }
+
+                                        userData.SetProperty<string>("cust", "");
+                                        userData.SetProperty<string>("kunnr", "");
+                                        userData.SetProperty<string>("matnr", "");
+                                        userData.SetProperty<string>("kwmenge", "");
+                                        userData.SetProperty<string>("vdatu", "");
+                                        userData.SetProperty<string>("inform", "");
+                                        userData.SetProperty<string>("rc", "");
+
+                                        cust = "";
+                                        kunnr = "";
+                                        matnr = "";
+                                        kwmenge = "";
+                                        vdatu = "";
+                                        inform = "";
+                                    }
 
                                     //  주문접수
                                     if (dlg.cardTitle.Equals("주문확인")|| dlg.cardTitle.Equals("주문수정거래처")) //  주문내역 dialog 일시..
@@ -751,7 +779,7 @@ namespace PortChatBot
                                             if (luisEntitiesValueSplit[i].Contains("거래처내용=") || luisEntitiesValueSplit[i].Contains("거래처코드내용="))
                                             {
                                                     if (luisEntitiesValueSplit[i].Contains("거래처코드내용=")){
-                                                        cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "");
+                                                        cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "").Replace("거래처코드","");
                                                     }
                                                     else
                                                     {
@@ -771,8 +799,8 @@ namespace PortChatBot
                                         {
                                             if (luisEntitiesValueSplit[i].Contains("인도처코드내용="))
                                             {
-                                                kunnr = luisEntitiesValueSplit[i].Replace("인도처코드내용=", "");
-                                            }
+                                                kunnr = luisEntitiesValueSplit[i].Replace("인도처코드내용=", "").Replace("인도처코드", "");
+                                                }
                                             else
                                             {
                                                 kunnr = luisEntitiesValueSplit[i].Replace("인도처내용=", "");
@@ -784,8 +812,8 @@ namespace PortChatBot
                                             
                                             if (luisEntitiesValueSplit[i].Contains("자재코드내용="))
                                             {
-                                                matnr = luisEntitiesValueSplit[i].Replace("자재코드내용=", "");
-                                            }
+                                                matnr = luisEntitiesValueSplit[i].Replace("자재코드내용=", "").Replace("자재코드", "");
+                                                }
                                             else
                                             {
                                                 matnr = luisEntitiesValueSplit[i].Replace("자재내용=", "");
@@ -1030,7 +1058,7 @@ namespace PortChatBot
                                         if (selectYn == "Y")
                                         {
                                             DButil.HistoryLog(" selectYn 11111");
-                                            int dbResult1 = db.updateOrder(vbeln_seq, userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), informV);
+                                            int dbResult1 = db.updateOrder(vbeln, userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), informV);
                                             DButil.HistoryLog(" selectYn 22222");
                                         }
 

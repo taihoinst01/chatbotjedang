@@ -1397,11 +1397,21 @@ namespace PortChatBot.DB
         {
             SqlDataReader rdr = null;
 
-            string strTarget = kwmenge;
-            string strTmp = Regex.Replace(strTarget, @"\D", "");
-            string str = Regex.Replace(strTarget, @"[\d-]", string.Empty);
-            int nTmp = int.Parse(strTmp);
+            string str = "";
+            int nTmp;
 
+            if (!string.IsNullOrEmpty(kwmenge)) { 
+                string strTarget = kwmenge;
+                string strTmp = Regex.Replace(strTarget, @"\D", "");
+                str = Regex.Replace(strTarget, @"[\d-]", string.Empty);
+                nTmp = int.Parse(strTmp);
+            }
+            else
+            {
+                kwmenge = "";
+                nTmp = 0;
+                str = "";
+            }
             List<OrderHistory> orderHistory = new List<OrderHistory>();
 
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -1429,7 +1439,7 @@ namespace PortChatBot.DB
                     cmd.CommandText += " 	( ";
                     if (string.IsNullOrEmpty(cust))
                     {
-                        cmd.CommandText += " 		SELECT TOP 1 KNAME1  FROM BAM_CUST WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '' ";
+                        cmd.CommandText += " 		SELECT '' AS KNAME1  ";
                     }
                     else
                     {
@@ -1440,7 +1450,7 @@ namespace PortChatBot.DB
                     cmd.CommandText += " 	( ";
                     if (string.IsNullOrEmpty(fixarrival))
                     {
-                        cmd.CommandText += " 		SELECT TOP 1 KNAME1 ' FROM BAM_FIXARRIVAL WHERE REPLACE(REPLACE(REPLACE(REPLACE(KNAME1,' ',''),'(주)',''),'식품',''),'주식회사','') LIKE '' ";
+                        cmd.CommandText += " 		SELECT '' AS KNAME1  ";
                     }
                     else
                     {
@@ -1451,7 +1461,7 @@ namespace PortChatBot.DB
                     cmd.CommandText += " 	( ";
                     if (string.IsNullOrEmpty(product))
                     {
-                        cmd.CommandText += " 		SELECT MAKTX    FROM BAM_PRODUCT WHERE REPLACE(MAKTXC,' ','') LIKE '' ";
+                        cmd.CommandText += " 		SELECT '' AS MAKTX ";
                     }
                     else
                     {
@@ -1459,7 +1469,15 @@ namespace PortChatBot.DB
                         cmd.CommandText += " 		                                    OR REPLACE(MAKTXC,' ','') LIKE '%" + product.Replace(" ", "")+ "%' OR MATNR = '" + product + "' ";
                     }
                     cmd.CommandText += " 	) AS PRODUCT, ";
-                    cmd.CommandText += " 	CONVERT(VARCHAR(4),@kwmenge)+(SELECT ENTITY FROM BAM_MEASURE WHERE ENTITY_VALUE = @uint) AS KWMENGE, ";
+                    if (string.IsNullOrEmpty(kwmenge))
+                    {
+                        cmd.CommandText += " 	'' AS KWMENGE, ";
+                    }
+                    else
+                    {
+                        cmd.CommandText += " 	CONVERT(VARCHAR(4),@kwmenge)+(SELECT ENTITY FROM BAM_MEASURE WHERE ENTITY_VALUE = @uint) AS KWMENGE, ";
+                    }
+                    
                     cmd.CommandText += " 	( ";
                     if (string.IsNullOrEmpty(vadtu))
                     {
@@ -1477,6 +1495,7 @@ namespace PortChatBot.DB
                     cmd.Parameters.AddWithValue("@cust", cust);
                     //cmd.Parameters.AddWithValue("@fixarrival", fixarrival);
                     //cmd.Parameters.AddWithValue("@product", product);
+
                     cmd.Parameters.AddWithValue("@kwmenge", nTmp);
                     cmd.Parameters.AddWithValue("@uint", str);
                     cmd.Parameters.AddWithValue("@vadtu", vadtu);
