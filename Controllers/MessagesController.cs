@@ -691,7 +691,6 @@ namespace PortChatBot
                                                     int dbResult1 = db.updateOrder(vbeln, userData.GetProperty<string>("cust"), userData.GetProperty<string>("kunnr"), userData.GetProperty<string>("matnr"), userData.GetProperty<string>("kwmenge"), userData.GetProperty<string>("vdatu"), informV);
                                                     DButil.HistoryLog(" selectYn 22222");
                                                 }
-
                                                 else
                                                 {
                                                     DButil.HistoryLog(" 주문완료 11111");
