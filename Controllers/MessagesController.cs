@@ -757,12 +757,13 @@ namespace PortChatBot
                                         userData.SetProperty<string>("inform", "");
                                         userData.SetProperty<string>("rc", "");
 
-                                        cust = "";
-                                        kunnr = "";
-                                        matnr = "";
-                                        kwmenge = "";
-                                        vdatu = "";
-                                        inform = "";
+                                        cust        = "";
+                                        kunnr       = "";
+                                        matnr       = "";
+                                        kwmenge     = "";
+                                        vdatu       = "";
+                                        inform      = "";
+                                        ttsCnt      = 0;
                                     }
 
                                     //  주문접수
@@ -1032,18 +1033,37 @@ namespace PortChatBot
                                             userData.SetProperty<string>("vdatu", orderDlgList[0].vdatu);
 
                                             optionComment = "거래처 : " + orderDlgList[0].cust + "\r\n" + "인도처 : " + orderDlgList[0].fixarrival + "\r\n" + "자재 : " + orderDlgList[0].product + "\r\n" + "수량 : " + orderDlgList[0].kwmenge + "\r\n" + "납품일 : " + orderDlgList[0].vdatu;
+                                            ttsCnt = 0;
+                                            //if (!string.IsNullOrEmpty(orderDlgList[0].cust))
+                                            //{
+                                            //    ttsCnt += 1;
+                                            //}
+                                            //if (!string.IsNullOrEmpty(orderDlgList[0].fixarrival))
+                                            //{
+                                            //    ttsCnt += 1;
+                                            //}
+                                            //if (!string.IsNullOrEmpty(orderDlgList[0].product))
+                                            //{
+                                            //    ttsCnt += 1;
+                                            //}
+                                            //if (!string.IsNullOrEmpty(orderDlgList[0].kwmenge))
+                                            //{
+                                            //    ttsCnt += 1;
+                                            //}
+                                            //if (!string.IsNullOrEmpty(orderDlgList[0].vdatu))
+                                            //{
+                                            //    ttsCnt += 1;
+                                            //}
+
                                             DButil.HistoryLog("ttsCnt1 === " + ttsCnt);
-                                            if (ttsCnt == 0)
+                                            if (luisEntitiesValueSplit.Count() > 2)
                                             {
                                                 DButil.HistoryLog("ttsCnt2 === " + ttsCnt);
                                                 dlg.cardTitle += "_tts";
                                                 DButil.HistoryLog("ttsCnt3 === " + ttsCnt);
                                             }
-                                            DButil.HistoryLog("ttsCnt4 === " + ttsCnt);
-                                            ttsCnt += 1;
-                                            DButil.HistoryLog("ttsCnt5 === " + ttsCnt);
                                         }
-                                        
+
 
                                         if (!string.IsNullOrEmpty(inform))
                                         {
@@ -1220,7 +1240,7 @@ namespace PortChatBot
                                             {
                                                 var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
                                             }
-                                            ttsCnt += 1;
+                                            ttsCnt = 0;
                                             
                                         }
                                         else
