@@ -1032,12 +1032,16 @@ namespace PortChatBot
                                             userData.SetProperty<string>("vdatu", orderDlgList[0].vdatu);
 
                                             optionComment = "거래처 : " + orderDlgList[0].cust + "\r\n" + "인도처 : " + orderDlgList[0].fixarrival + "\r\n" + "자재 : " + orderDlgList[0].product + "\r\n" + "수량 : " + orderDlgList[0].kwmenge + "\r\n" + "납품일 : " + orderDlgList[0].vdatu;
-
+                                            DButil.HistoryLog("ttsCnt1 === " + ttsCnt);
                                             if (ttsCnt == 0)
                                             {
+                                                DButil.HistoryLog("ttsCnt2 === " + ttsCnt);
                                                 dlg.cardTitle += "_tts";
+                                                DButil.HistoryLog("ttsCnt3 === " + ttsCnt);
                                             }
+                                            DButil.HistoryLog("ttsCnt4 === " + ttsCnt);
                                             ttsCnt += 1;
+                                            DButil.HistoryLog("ttsCnt5 === " + ttsCnt);
                                         }
                                         
 
