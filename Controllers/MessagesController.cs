@@ -84,6 +84,9 @@ namespace PortChatBot
         public static string rc = "";
         public static string orderNm = "";
         public static string pastList = "";
+
+        //부분TTS
+        public static int ttsCnt = 0;
         
         public static CacheList cacheList = new CacheList();
         public static QueryIntentList queryIntentList = new QueryIntentList();
@@ -362,7 +365,7 @@ namespace PortChatBot
 
 
                         }
-
+                        
                         if (cacheList != null && cacheList.luisIntent != null)
                         {
                             if (cacheList.luisIntent.Contains("testdrive") || cacheList.luisIntent.Contains("branch"))
@@ -389,6 +392,11 @@ namespace PortChatBot
                         luisIntent = cacheList.luisIntent;
                         luisEntities = cacheList.luisEntities;
                         luisEntitiesValue = cacheList.luisEntitiesValue;
+
+                        if(luisIntent=="주문완료" && luisEntities == "주문완료")
+                        {
+                            ttsCnt = 0;
+                        }
 
 
                         Debug.WriteLine("* cacheList luisId: " + luisId + " | luisIntent : "+ luisIntent+ " | luisEntities : "+ luisEntities);
@@ -711,6 +719,8 @@ namespace PortChatBot
                                                 kwmenge = "";
                                                 vdatu = "";
                                                 inform = "";
+
+                                                ttsCnt = 0;
                                             }
                                             
                                             tempAttachment = dbutil.getAttachmentFromDialog(tempcard, activity);
@@ -1022,6 +1032,12 @@ namespace PortChatBot
                                             userData.SetProperty<string>("vdatu", orderDlgList[0].vdatu);
 
                                             optionComment = "거래처 : " + orderDlgList[0].cust + "\r\n" + "인도처 : " + orderDlgList[0].fixarrival + "\r\n" + "자재 : " + orderDlgList[0].product + "\r\n" + "수량 : " + orderDlgList[0].kwmenge + "\r\n" + "납품일 : " + orderDlgList[0].vdatu;
+
+                                            if (ttsCnt == 0)
+                                            {
+                                                dlg.cardTitle += "_tts";
+                                            }
+                                            ttsCnt += 1;
                                         }
                                         
 
@@ -1143,8 +1159,10 @@ namespace PortChatBot
                                             {
                                                 vdatu = luisEntitiesValueSplit[i].Replace("납품일자=", "");
                                             }
-                                        }
 
+                                            
+                                        }
+                                        dlg.cardTitle += "_tts";
                                         List<OrderList> orderList = db.SelectOrderList(cust, vdatu, userData.GetProperty<string>("emp_no"));
                                         Activity reply_ment = activity.CreateReply();
                                         string optionComment = "";
@@ -1198,6 +1216,7 @@ namespace PortChatBot
                                             {
                                                 var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
                                             }
+                                            ttsCnt += 1;
                                             
                                         }
                                         else
