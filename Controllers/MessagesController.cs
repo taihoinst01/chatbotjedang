@@ -790,7 +790,7 @@ namespace PortChatBot
                                             if (luisEntitiesValueSplit[i].Contains("거래처내용=") || luisEntitiesValueSplit[i].Contains("거래처코드내용="))
                                             {
                                                     if (luisEntitiesValueSplit[i].Contains("거래처코드내용=")){
-                                                        cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "").Replace("거래처코드","").Replace("는", "").Replace("은", "");
+                                                        cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "").Replace("거래처코드","").Replace("는", "").Replace("은", "").Replace("거래처", "");
                                                     }
                                                     else
                                                     {
@@ -798,45 +798,45 @@ namespace PortChatBot
                                                     }
                                             
                                             }
-                                        else if (luisEntitiesValueSplit[i].Contains("납품일자="))
-                                        {
-                                            vdatu = luisEntitiesValueSplit[i].Replace("납품일자=", "");
-                                        }
-                                        else if (luisEntitiesValueSplit[i].Contains("수량내용="))
-                                        {
-                                            kwmenge = luisEntitiesValueSplit[i].Replace("수량내용=", "");
-                                        }
-                                        else if (luisEntitiesValueSplit[i].Contains("인도처내용=") || luisEntitiesValueSplit[i].Contains("인도처코드내용="))
-                                        {
-                                            if (luisEntitiesValueSplit[i].Contains("인도처코드내용="))
+                                            else if (luisEntitiesValueSplit[i].Contains("납품일자="))
                                             {
-                                                kunnr = luisEntitiesValueSplit[i].Replace("인도처코드내용=", "").Replace("인도처코드", "").Replace("는", "").Replace("은", "");
-                                                }
-                                            else
-                                            {
-                                                kunnr = luisEntitiesValueSplit[i].Replace("인도처내용=", "");
+                                                vdatu = luisEntitiesValueSplit[i].Replace("납품일자=", "");
                                             }
+                                            else if (luisEntitiesValueSplit[i].Contains("수량내용="))
+                                            {
+                                                kwmenge = luisEntitiesValueSplit[i].Replace("수량내용=", "");
+                                            }
+                                            else if (luisEntitiesValueSplit[i].Contains("인도처내용=") || luisEntitiesValueSplit[i].Contains("인도처코드내용="))
+                                            {
+                                                if (luisEntitiesValueSplit[i].Contains("인도처코드내용="))
+                                                {
+                                                    kunnr = luisEntitiesValueSplit[i].Replace("인도처코드내용=", "").Replace("인도처코드", "").Replace("는", "").Replace("은", "");
+                                                    }
+                                                else
+                                                {
+                                                    kunnr = luisEntitiesValueSplit[i].Replace("인도처내용=", "");
+                                                }
                                                 
-                                        }
-                                        else if (luisEntitiesValueSplit[i].Contains("자재내용=") || luisEntitiesValueSplit[i].Contains("자재코드내용="))
-                                        {
-                                            
-                                            if (luisEntitiesValueSplit[i].Contains("자재코드내용="))
-                                            {
-                                                matnr = luisEntitiesValueSplit[i].Replace("자재코드내용=", "").Replace("자재코드", "").Replace("는", "").Replace("은", "");
-                                                }
-                                            else
-                                            {
-                                                matnr = luisEntitiesValueSplit[i].Replace("자재내용=", "");
                                             }
-                                        }
-                                        else if (luisEntitiesValueSplit[i].Contains("전달사항내용="))
-                                        {
-                                            inform = luisEntitiesValueSplit[i].Replace("전달사항내용=", "");
-                                        }
-                                        else if (luisEntitiesValueSplit[i].Contains("주문번호내용=")) 
-                                            orderNm = luisEntitiesValueSplit[i].Replace("주문번호내용=", "");
-                                        }
+                                            else if (luisEntitiesValueSplit[i].Contains("자재내용=") || luisEntitiesValueSplit[i].Contains("자재코드내용="))
+                                            {
+                                            
+                                                if (luisEntitiesValueSplit[i].Contains("자재코드내용="))
+                                                {
+                                                    matnr = luisEntitiesValueSplit[i].Replace("자재코드내용=", "").Replace("자재코드", "").Replace("는", "").Replace("은", "");
+                                                    }
+                                                else
+                                                {
+                                                    matnr = luisEntitiesValueSplit[i].Replace("자재내용=", "");
+                                                }
+                                            }
+                                            else if (luisEntitiesValueSplit[i].Contains("전달사항내용="))
+                                            {
+                                                inform = luisEntitiesValueSplit[i].Replace("전달사항내용=", "");
+                                            }
+                                            else if (luisEntitiesValueSplit[i].Contains("주문번호내용=")) 
+                                                orderNm = luisEntitiesValueSplit[i].Replace("주문번호내용=", "");
+                                            }
                                         DButil.HistoryLog("matnr1 : " + matnr); 
                                         if (vdatu.Contains("오늘"))
                                         {
@@ -1057,6 +1057,10 @@ namespace PortChatBot
                                             //}
 
                                             DButil.HistoryLog("ttsCnt1 === " + ttsCnt);
+                                            if(luisEntitiesValueSplit.Count() < 3)
+                                            {
+                                                ttsCnt = 1;
+                                            }
                                             if (luisEntitiesValueSplit.Count() > 2)
                                             {
                                                 DButil.HistoryLog("ttsCnt2 === " + ttsCnt);
@@ -1181,7 +1185,7 @@ namespace PortChatBot
                                             {
                                                 if (luisEntitiesValueSplit[i].Contains("거래처코드내용="))
                                                 {
-                                                    cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "").Replace("거래처코드", "").Replace("는", "").Replace("은", "");
+                                                    cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "").Replace("거래처코드", "").Replace("는", "").Replace("은", "").Replace("거래처", "");
                                                 }
                                                 else
                                                 {
