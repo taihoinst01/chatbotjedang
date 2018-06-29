@@ -664,7 +664,7 @@ namespace PortChatBot
                                         else
                                         {
                                             //  userLoginOk
-                                            if (tempcard.cardTitle.Equals("LoginSuccess_tts")) //  주문내역 dialog 일시..
+                                            if (tempcard.cardTitle.Equals("LoginSuccess")) //  주문내역 dialog 일시..
                                             {
                                                 DButil.HistoryLog("*** activity.Conversation.Id : " + activity.Conversation.Id + " | dlg.cardText : " + dlg.cardText + " | fullentity : " + fullentity);
 
@@ -681,7 +681,6 @@ namespace PortChatBot
                                                 optionComment = optionComment.Replace("#User_nm", strComment[2]);
                                                 optionComment = optionComment.Replace("#Emp_no", strComment[3]);
                                                 optionComment = optionComment.Replace(". ", ".\n\n");
-                                                tempcard.cardTitle += "_tts";
                                                 tempcard.cardText = optionComment;
                                             }
 
