@@ -1033,7 +1033,7 @@ namespace PortChatBot
                                             userData.SetProperty<string>("vdatu", orderDlgList[0].vdatu);
 
                                             optionComment = "거래처 : " + orderDlgList[0].cust + "\r\n" + "인도처 : " + orderDlgList[0].fixarrival + "\r\n" + "자재 : " + orderDlgList[0].product + "\r\n" + "수량 : " + orderDlgList[0].kwmenge + "\r\n" + "납품일 : " + orderDlgList[0].vdatu;
-                                            ttsCnt = 0;
+                                            //ttsCnt = 0;
                                             //if (!string.IsNullOrEmpty(orderDlgList[0].cust))
                                             //{
                                             //    ttsCnt += 1;
@@ -1062,6 +1062,15 @@ namespace PortChatBot
                                                 dlg.cardTitle += "_tts";
                                                 DButil.HistoryLog("ttsCnt3 === " + ttsCnt);
                                             }
+                                            else
+                                            {
+                                                if (ttsCnt == 0)
+                                                {
+                                                    dlg.cardTitle += "_tts";
+                                                }
+                                            }
+
+                                            
                                         }
 
 
@@ -1240,7 +1249,7 @@ namespace PortChatBot
                                             {
                                                 var reply_ment_info = await connector.Conversations.SendToConversationAsync(reply_ment);
                                             }
-                                            ttsCnt = 0;
+                                            ttsCnt = 1;
                                             
                                         }
                                         else
