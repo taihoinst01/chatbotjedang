@@ -739,7 +739,8 @@ namespace PortChatBot
                                     //DButil.HistoryLog("* facebook dlg.dlgId : " + dlg.dlgId);
                                     DButil.HistoryLog("* activity.ChannelId : " + activity.ChannelId);
                                     DButil.HistoryLog("* dlg.dlgId : "+ dlg.dlgId + " | dlg.cardTitle : " + dlg.cardTitle + " | dlg.cardText : " + dlg.cardText);
-
+                                    DButil.HistoryLog("* selectYn : " + selectYn);
+                                    
                                     if (dlg.cardTitle.Equals("주문접수")) //  주문내역 dialog 일시..
                                     {
                                         string informV = userData.GetProperty<string>("inform");
