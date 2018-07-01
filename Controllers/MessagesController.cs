@@ -693,6 +693,12 @@ namespace PortChatBot
                                                     informV = "";
                                                 }
                                                 DButil.HistoryLog("selectYn ==== " + selectYn);
+
+                                                if (string.IsNullOrEmpty(vbeln))
+                                                {
+                                                    selectYn = "";
+                                                }
+
                                                 if (selectYn == "Y")
                                                 {
                                                     DButil.HistoryLog(" selectYn 11111");
