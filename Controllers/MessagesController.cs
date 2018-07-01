@@ -238,7 +238,7 @@ namespace PortChatBot
 
                 Debug.WriteLine("* DB conn : " + activity.Type);
                 DButil.HistoryLog("* DB conn : " + activity.Type);
-
+                selectYn = "";
                 //초기 다이얼로그 호출
                 List<DialogList> dlg = db.SelectInitDialog(activity.ChannelId);
 
