@@ -815,8 +815,8 @@ namespace PortChatBot
                                             {
                                                 if (luisEntitiesValueSplit[i].Contains("인도처코드내용="))
                                                 {
-                                                    kunnr = luisEntitiesValueSplit[i].Replace("인도처코드내용=", "").Replace("인도처코드", "").Replace("는", "").Replace("은", "");
-                                                    }
+                                                    kunnr = luisEntitiesValueSplit[i].Replace("인도처코드내용=", "").Replace("인도처코드", "").Replace("는", "").Replace("은", "").Replace("코드", "");
+                                                }
                                                 else
                                                 {
                                                     kunnr = luisEntitiesValueSplit[i].Replace("인도처내용=", "");
@@ -828,7 +828,7 @@ namespace PortChatBot
                                             
                                                 if (luisEntitiesValueSplit[i].Contains("자재코드내용="))
                                                 {
-                                                    matnr = luisEntitiesValueSplit[i].Replace("자재코드내용=", "").Replace("자재코드", "").Replace("는", "").Replace("은", "");
+                                                    matnr = luisEntitiesValueSplit[i].Replace("자재코드내용=", "").Replace("자재코드", "").Replace("는", "").Replace("은", "").Replace("코드", "");
                                                     }
                                                 else
                                                 {
