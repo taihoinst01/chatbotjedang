@@ -986,6 +986,7 @@ namespace PortChatBot
                                                         var attachment = GetHeroCard(optionComment, vbeln_seq, "자재");
                                                         reply_ment.Attachments.Add(attachment);
 
+
                                                     }
                                                     else
                                                     {
