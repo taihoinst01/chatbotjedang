@@ -727,7 +727,13 @@ namespace PortChatBot
 
                                                 ttsCnt = 0;
                                             }
-                                            
+
+
+                                            //부분TTS
+                                            //if (tempcard.cardTitle.Equals("주문확인")|| tempcard.cardTitle.Equals("조회결과") || tempcard.cardTitle.Equals("주문삭제") || tempcard.cardTitle.Equals("주문수정수량")) //  주문내역 dialog 일시..
+                                            //{
+                                            //    tempcard.cardTitle += "_tts";
+                                            //}
                                             tempAttachment = dbutil.getAttachmentFromDialog(tempcard, activity);
                                         }
 
@@ -792,15 +798,20 @@ namespace PortChatBot
 
                                         for (int i = 0; i < luisEntitiesValueSplit.Count(); i++)
                                         {
-                                            if (luisEntitiesValueSplit[i].Contains("거래처내용=") || luisEntitiesValueSplit[i].Contains("거래처코드내용="))
+                                            if (luisEntitiesValueSplit[i].Contains("거래처내용=") || luisEntitiesValueSplit[i].Contains("거래처코드내용=") || luisEntitiesValueSplit[i].Contains("거래처코드=") )
                                             {
-                                                    if (luisEntitiesValueSplit[i].Contains("거래처코드내용=")){
-                                                        cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "").Replace("거래처코드","").Replace("는", "").Replace("은", "").Replace("거래처", "");
-                                                    }
-                                                    else
-                                                    {
-                                                        cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "");
-                                                    }
+                                                if (luisEntitiesValueSplit[i].Contains("거래처코드내용="))
+                                                {
+                                                    cust = luisEntitiesValueSplit[i].Replace("거래처코드내용=", "").Replace("거래처코드", "").Replace("는", "").Replace("은", "").Replace("거래처", "");
+                                                }
+                                                else if (luisEntitiesValueSplit[i].Contains("거래처코드="))
+                                                {
+                                                    cust = luisEntitiesValueSplit[i].Replace("거래처코드=", "").Replace("거래처코드", "").Replace("는", "").Replace("은", "").Replace("거래처", "");
+                                                }
+                                                else
+                                                {
+                                                    cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "").Replace("거래처코드", "").Replace("코드", "");
+                                                }
                                             
                                             }
                                             else if (luisEntitiesValueSplit[i].Contains("납품일자="))
@@ -1040,28 +1051,7 @@ namespace PortChatBot
                                             userData.SetProperty<string>("vdatu", orderDlgList[0].vdatu);
 
                                             optionComment = "거래처 : " + orderDlgList[0].cust + "\r\n" + "인도처 : " + orderDlgList[0].fixarrival + "\r\n" + "자재 : " + orderDlgList[0].product + "\r\n" + "수량 : " + orderDlgList[0].kwmenge + "\r\n" + "납품일 : " + orderDlgList[0].vdatu;
-                                            //ttsCnt = 0;
-                                            //if (!string.IsNullOrEmpty(orderDlgList[0].cust))
-                                            //{
-                                            //    ttsCnt += 1;
-                                            //}
-                                            //if (!string.IsNullOrEmpty(orderDlgList[0].fixarrival))
-                                            //{
-                                            //    ttsCnt += 1;
-                                            //}
-                                            //if (!string.IsNullOrEmpty(orderDlgList[0].product))
-                                            //{
-                                            //    ttsCnt += 1;
-                                            //}
-                                            //if (!string.IsNullOrEmpty(orderDlgList[0].kwmenge))
-                                            //{
-                                            //    ttsCnt += 1;
-                                            //}
-                                            //if (!string.IsNullOrEmpty(orderDlgList[0].vdatu))
-                                            //{
-                                            //    ttsCnt += 1;
-                                            //}
-
+                                           
                                             DButil.HistoryLog("ttsCnt1 === " + ttsCnt);
                                             if(luisEntitiesValueSplit.Count() < 3)
                                             {
@@ -1080,8 +1070,6 @@ namespace PortChatBot
                                                     dlg.cardTitle += "_tts";
                                                 }
                                             }
-
-                                            
                                         }
 
 
@@ -1175,18 +1163,6 @@ namespace PortChatBot
 
                                         for (int i = 0; i < luisEntitiesValueSplit.Count(); i++)
                                         {
-                                            //if (luisEntitiesValueSplit[i].Contains("거래처내용="))
-                                            //{                                                
-                                            //    cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "").Replace("거래처코드", "").Replace("는", "").Replace("은", "");
-                                            //    int n = 0;
-                                            //    var isNumeric = int.TryParse(Right(cust, 6), out n);
-                                                
-                                            //    if (isNumeric)
-                                            //    {
-                                            //        cust = cust.Substring(0,cust.Length-6);
-                                            //    }
-                                            //}
-
                                             if (luisEntitiesValueSplit[i].Contains("거래처내용=") || luisEntitiesValueSplit[i].Contains("거래처코드내용="))
                                             {
                                                 if (luisEntitiesValueSplit[i].Contains("거래처코드내용="))
@@ -1195,7 +1171,7 @@ namespace PortChatBot
                                                 }
                                                 else
                                                 {
-                                                    cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "").Replace("코드","");
+                                                    cust = luisEntitiesValueSplit[i].Replace("거래처내용=", "").Replace("거래처코드", "").Replace("코드","");
                                                 }
 
                                             }
@@ -1411,6 +1387,12 @@ namespace PortChatBot
                                         }
                                     }
 
+                                    //부분TTS
+                                    //if (dlg.cardTitle.Equals("주문수정"))
+                                    //{
+                                    //    dlg.cardTitle += "_tts";
+                                    //}
+
                                     if (activity.ChannelId.Equals("facebook") && string.IsNullOrEmpty(dlg.cardTitle) && dlg.dlgType.Equals(TEXTDLG))
                                     {
                                         commonReply.Recipient = activity.From;
@@ -1420,10 +1402,6 @@ namespace PortChatBot
                                     }
                                     else
                                     {
-                                        //if(!dlg.cardTitle.Equals("거래처검색") && !dlg.cardTitle.Equals("인도처검색")) { 
-                                        //    tempAttachment = dbutil.getAttachmentFromDialog(dlg, activity);
-                                        //    commonReply.Attachments.Add(tempAttachment);
-                                        //}
                                         if (!pastList.Equals("Y"))
                                         {
                                             if (!dlg.cardTitle.Equals("거래처검색") && !dlg.cardTitle.Equals("인도처검색"))
@@ -1437,11 +1415,10 @@ namespace PortChatBot
                                         {
                                             reply1.Attachments.Clear();
                                             pastList = "N";
-                                        }
-                                            
-
-                                        
+                                        }   
                                     }
+
+                                    
 
                                 }
                                 if (commonReply.Attachments.Count > 0)
