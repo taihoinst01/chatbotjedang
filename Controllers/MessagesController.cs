@@ -731,7 +731,7 @@ namespace PortChatBot
 
 
                                             //부분TTS
-                                            if (tempcard.cardTitle.Equals("주문확인") || tempcard.cardTitle.Equals("조회결과") || tempcard.cardTitle.Equals("주문삭제") || tempcard.cardTitle.Equals("주문수정수량")) //  주문내역 dialog 일시..
+                                            if (tempcard.cardTitle.Equals("주문확인") || tempcard.cardTitle.Equals("조회결과") || tempcard.cardTitle.Equals("주문삭제") || tempcard.cardTitle.Equals("주문수정수량") || tempcard.cardTitle.Equals("주문조회")) //  주문내역 dialog 일시..
                                             {
                                                 tempcard.cardTitle += "_tts";
                                             }
@@ -1390,7 +1390,7 @@ namespace PortChatBot
                                     }
 
                                     //부분TTS
-                                    if (dlg.cardTitle.Equals("주문수정")|| dlg.cardTitle.Equals("주문삭제"))
+                                    if (dlg.cardTitle.Equals("주문수정") || dlg.cardTitle.Equals("주문삭제") || dlg.cardTitle.Equals("주문조회"))
                                     {
                                         dlg.cardTitle += "_tts";
                                     }
