@@ -725,7 +725,7 @@ namespace PortChatBot
                                                 kwmenge = "";
                                                 vdatu = "";
                                                 inform = "";
-
+                                                tempcard.cardTitle += "_tts";
                                                 ttsCnt = 0;
                                             }
 
@@ -1135,6 +1135,7 @@ namespace PortChatBot
                                         vdatu       = "";
                                         inform      = "";
                                         selectYn    = "";
+
                                     }
 
                                     //주문완료
