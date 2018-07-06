@@ -664,7 +664,7 @@ namespace PortChatBot
                                         else
                                         {
                                             //  userLoginOk
-                                            if (tempcard.cardTitle.Equals("LoginSuccess")) //  주문내역 dialog 일시..
+                                            if (tempcard.cardTitle.Contains("LoginSuccess")) //  주문내역 dialog 일시..
                                             {
                                                 DButil.HistoryLog("*** activity.Conversation.Id : " + activity.Conversation.Id + " | dlg.cardText : " + dlg.cardText + " | fullentity : " + fullentity);
 
@@ -681,6 +681,7 @@ namespace PortChatBot
                                                 optionComment = optionComment.Replace("#User_nm", strComment[2]);
                                                 optionComment = optionComment.Replace("#Emp_no", strComment[3]);
                                                 optionComment = optionComment.Replace(". ", ".\n\n");
+                                                tempcard.cardTitle += "_tts";
                                                 tempcard.cardText = optionComment;
                                             }
 
@@ -730,10 +731,10 @@ namespace PortChatBot
 
 
                                             //부분TTS
-                                            //if (tempcard.cardTitle.Equals("주문확인")|| tempcard.cardTitle.Equals("조회결과") || tempcard.cardTitle.Equals("주문삭제") || tempcard.cardTitle.Equals("주문수정수량")) //  주문내역 dialog 일시..
-                                            //{
-                                            //    tempcard.cardTitle += "_tts";
-                                            //}
+                                            if (tempcard.cardTitle.Equals("주문확인") || tempcard.cardTitle.Equals("조회결과") || tempcard.cardTitle.Equals("주문삭제") || tempcard.cardTitle.Equals("주문수정수량")) //  주문내역 dialog 일시..
+                                            {
+                                                tempcard.cardTitle += "_tts";
+                                            }
                                             tempAttachment = dbutil.getAttachmentFromDialog(tempcard, activity);
                                         }
 
@@ -1388,10 +1389,10 @@ namespace PortChatBot
                                     }
 
                                     //부분TTS
-                                    //if (dlg.cardTitle.Equals("주문수정"))
-                                    //{
-                                    //    dlg.cardTitle += "_tts";
-                                    //}
+                                    if (dlg.cardTitle.Equals("주문수정")|| dlg.cardTitle.Equals("주문삭제"))
+                                    {
+                                        dlg.cardTitle += "_tts";
+                                    }
 
                                     if (activity.ChannelId.Equals("facebook") && string.IsNullOrEmpty(dlg.cardTitle) && dlg.dlgType.Equals(TEXTDLG))
                                     {
