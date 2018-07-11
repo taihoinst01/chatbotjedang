@@ -777,6 +777,8 @@ namespace PortChatBot
                                         vdatu       = "";
                                         inform      = "";
                                         ttsCnt      = 0;
+
+                                        dlg.cardTitle += "_tts";
                                     }
 
                                     //  주문접수
